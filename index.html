@@ -16,6 +16,8 @@
   nav.top .brand { color: #fff; font-weight: 700; margin-right: 12px; white-space: nowrap; }
   nav.top button { width: auto; background: transparent; border-color: transparent; color: #e6dcd3; padding: 7px 12px; white-space: nowrap; }
   nav.top button.on { background: var(--accent); color: #fff; }
+  nav.top button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; }
+  .ni { width: 18px; height: 18px; flex: 0 0 auto; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
   .view { display: none; flex: 1 1 auto; min-height: 0; }
   #view-lieu.on { display: grid; grid-template-columns: minmax(260px, 40%) 1fr; grid-template-rows: 100%; }
   #view-lieu.nomap { grid-template-columns: 1fr; }
@@ -196,9 +198,9 @@
 <body>
 <nav class="top">
   <span class="brand">Pierre qui parle</span>
-  <button data-view="lieu">1. <span class="lg">Les roches selon un lieu</span><span class="sm">Lieu</span></button>
-  <button data-view="identifier">2. <span class="lg">Identifier une roche</span><span class="sm">Identifier</span></button>
-  <button data-view="diagrammes">3. <span class="lg">Les roches dans un diagramme</span><span class="sm">Diagrammes</span></button>
+  <button data-view="lieu"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-6.2-6.5-11.2a6.5 6.5 0 0 1 13 0C18.5 14.8 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></svg><span class="lg">Les roches selon un lieu</span><span class="sm">Lieu</span></button>
+  <button data-view="identifier"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/></svg><span class="lg">Identifier une roche</span><span class="sm">Identifier</span></button>
+  <button data-view="diagrammes"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5L21 19.5H3z"/><circle cx="12.5" cy="14" r="1.6" fill="currentColor"/></svg><span class="lg">Les roches dans un diagramme</span><span class="sm">Diagrammes</span></button>
 </nav>
 <section class="view" id="view-lieu">
 <div id="map"></div>
@@ -241,15 +243,15 @@
   <div class="inner" id="diag-menu">
     <h1>Les roches dans un diagramme</h1>
     <p class="sub">Placer une roche dans un diagramme, c'est transformer ce que l'on observe en une information sur son passé.</p>
-    <div class="card"><h2>3.1 Les roches magmatiques</h2>
+    <div class="card"><h2>Les roches magmatiques</h2>
       <ul class="dlist"><li><button class="link" data-diag="qapf">De quoi était fait le magma</button><small>Diagramme de Streckeisen · roches à cristaux visibles</small></li>
         <li><button class="link" data-diag="tas">D'où vient cette lave</button><small>Diagramme TAS · chimie des laves</small></li>
         <li><button class="link" data-diag="afm">Dorsale ou subduction</button><small>Diagramme AFM · chimie des laves subalcalines</small></li>
         <li><button class="link" data-diag="melt">Pourquoi un magma est né</button><small>Géotherme et solidus de la péridotite</small></li>
         <li><button class="link" data-diag="ph">L'ordre d'apparition des cristaux</button><small>Diagrammes de phases binaires et ternaire</small></li></ul></div>
-    <div class="card"><h2>3.2 Les roches métamorphiques</h2>
+    <div class="card"><h2>Les roches métamorphiques</h2>
       <ul class="dlist"><li><button class="link" data-diag="pt">La profondeur et la chaleur subies</button><small>Diagramme pression – température · faciès et minéraux repères</small></li></ul></div>
-    <div class="card"><h2>3.3 Les roches sédimentaires</h2>
+    <div class="card"><h2>Les roches sédimentaires</h2>
       <ul class="dlist"><li><button class="link" data-diag="hj">La force du courant</button><small>Diagramme de Hjulström · taille des grains</small></li>
         <li><button class="link" data-diag="morph">La durée et le mode de transport</button><small>Forme et tri des grains</small></li>
         <li><button class="link" data-diag="dun">L'énergie de la mer dans un calcaire</button><small>Classification de Dunham</small></li>
