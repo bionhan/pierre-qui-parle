@@ -34,7 +34,7 @@
   .hero .kicker { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
   .hero h2 { font-size: 24px; line-height: 1.15; margin: 2px 0 4px; }
   .hero .descr { color: var(--muted); font-size: 13px; margin: 0; }
-  .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-top: 12px; }
   .fact { background: var(--bg); border-radius: 8px; padding: 8px 10px; }
   .fact span { display: block; font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
   .fact b { font-size: 15px; } .fact small { display: block; color: var(--muted); font-size: 12px; }
@@ -267,7 +267,7 @@
   <span class="brand">Pierre qui parle</span>
   <button data-view="lieu"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-6.2-6.5-11.2a6.5 6.5 0 0 1 13 0C18.5 14.8 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></svg><span class="lg">Les roches selon un lieu</span><span class="sm">Lieu</span></button>
   <button data-view="identifier"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/></svg><span class="lg">Identifier une roche</span><span class="sm">Identifier</span></button>
-  <button data-view="diagrammes"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5L21 19.5H3z"/><circle cx="12.5" cy="14" r="1.6" fill="currentColor"/></svg><span class="lg">Les roches dans un diagramme</span><span class="sm">Diagrammes</span></button>
+  <button data-view="diagrammes"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5L21 19.5H3z"/><circle cx="12.5" cy="14" r="1.6" fill="currentColor"/></svg><span class="lg">Faire parler la roche</span><span class="sm">Faire parler</span></button>
 </nav>
 <section class="view" id="view-lieu">
 <div id="map"></div>
@@ -293,8 +293,8 @@
   </details>
   <details class="settings credits">
     <summary>ⓘ Sources et crédits</summary>
-    <p class="note">Données : © BRGM — carte lithologique simplifiée et carte géologique au 1/1 000 000 (services WFS) ; carte au 1/50 000 : BD Charm-50 (Licence Ouverte).
-    Fond de carte © IGN (Plan IGN, Géoplateforme). Carte du monde : GPlates Web Service, modèle de plaques de Merdith et al. (2021). Âges : bornes de la charte chronostratigraphique internationale (ICS).
+    <p class="note">Données : © BRGM (Bureau de recherches géologiques et minières) — carte lithologique simplifiée et carte géologique au 1/1 000 000 ; carte au 1/50 000 : BD Charm-50 (Licence Ouverte).
+    Fond de carte © IGN (Institut national de l'information géographique et forestière). Carte du monde : GPlates Web Service, modèle de plaques de Merdith et al. (2021). Âges : bornes de la charte chronostratigraphique internationale (ICS, Commission internationale de stratigraphie).
     Photos : Wikimedia Commons, sous licences libres — touchez une photo pour voir son auteur et sa licence.</p>
   </details>
 </div></aside>
@@ -308,12 +308,12 @@
 </section>
 <section class="view page" id="view-diagrammes">
   <div class="inner" id="diag-menu">
-    <h1>Les roches dans un diagramme</h1>
-    <p class="sub">Placer une roche dans un diagramme, c'est transformer ce que l'on observe en une information sur son passé.</p>
+    <h1>Faire parler la roche</h1>
+    <p class="sub">Courant, profondeur, composition du magma… Chaque question ci-dessous se résout en plaçant la roche dans un diagramme : ce que l'on observe devient une information sur son passé.</p>
     <div class="card"><h2>Les roches magmatiques</h2>
       <ul class="dlist"><li><button class="link" data-diag="qapf">De quoi était fait le magma</button><small>Diagramme de Streckeisen · roches à cristaux visibles</small></li>
-        <li><button class="link" data-diag="tas">D'où vient cette lave</button><small>Diagramme TAS · chimie des laves</small></li>
-        <li><button class="link" data-diag="afm">Dorsale ou subduction</button><small>Diagramme AFM · chimie des laves subalcalines</small></li>
+        <li><button class="link" data-diag="tas">D'où vient cette lave</button><small>Diagramme TAS (alcalins totaux – silice)</small></li>
+        <li><button class="link" data-diag="afm">Dorsale ou subduction</button><small>Diagramme AFM (alcalins – fer – magnésium)</small></li>
         <li><button class="link" data-diag="melt">Pourquoi un magma est né</button><small>Géotherme et solidus de la péridotite</small></li>
         <li><button class="link" data-diag="ph">L'ordre d'apparition des cristaux</button><small>Diagrammes de phases binaires et ternaire</small></li></ul></div>
     <div class="card"><h2>Les roches métamorphiques</h2>
@@ -322,7 +322,7 @@
       <ul class="dlist"><li><button class="link" data-diag="hj">La force du courant</button><small>Diagramme de Hjulström · taille des grains</small></li>
         <li><button class="link" data-diag="morph">La durée et le mode de transport</button><small>Forme et tri des grains</small></li>
         <li><button class="link" data-diag="dun">L'énergie de la mer dans un calcaire</button><small>Classification de Dunham</small></li>
-        <li><button class="link" data-diag="qfl">Le relief disparu</button><small>Diagramme QFL · provenance des grès</small></li></ul></div>
+        <li><button class="link" data-diag="qfl">Le relief disparu</button><small>Diagramme QFL (quartz – feldspaths – fragments de roches)</small></li></ul></div>
   </div>
   <div class="inner dg" id="hj" hidden></div><div class="inner dg" id="pt" hidden></div><div class="inner dg" id="qapf" hidden></div>
   <div class="inner dg" id="tas" hidden></div><div class="inner dg" id="ph" hidden></div><div class="inner dg" id="qfl" hidden></div>
@@ -451,14 +451,20 @@ const nf = (v, d) => v.toLocaleString('fr-FR', { minimumFractionDigits: d, maxim
 function fmtMa(v) {
   if (v === 0) return "aujourd'hui";
   if (v < 1) return nf(Math.round(v * 1e6 / 100) * 100, 0) + ' ans';
-  return nf(v, v < 10 ? 1 : 0) + ' Ma';
+  return nf(v, v < 10 ? 1 : 0) + ' ' + maUnit();
 }
+// Unité d'âge : en toutes lettres sur grand écran, abrégée sur téléphone
+const isSmall = () => window.matchMedia('(max-width: 760px)').matches;
+const maUnit = () => isSmall() ? 'Ma' : "millions d'années";
+const ageLabel = () => isSmall() ? "Âge en Ma (millions d'années)" : 'Âge';
+// Intervalle d'âges : l'unité n'est écrite qu'une fois quand les deux bornes sont en millions d'années
+const rangeMa = (from, to) => from >= 1 && to >= 1 ? `${nf(from, from < 10 ? 1 : 0)} à ${nf(to, to < 10 ? 1 : 0)} ${maUnit()}` : `${fmtMa(from)} à ${fmtMa(to)}`;
 function ageInfo(older, younger) {
   const a = AGES[older], b = AGES[younger] || a;
   if (!a) return null;
   const name = b && b !== a ? `${a[0]} → ${b[0]}` : a[0];
   const from = a[1], to = (b || a)[2];
-  const range = `${fmtMa(from)} à ${fmtMa(to)}`;
+  const range = rangeMa(from, to);
   const mid = (from + to) / 2;
   const approx = mid < 1 ? `il y a environ ${nf(Math.round(mid * 1e6 / 1000) * 1000, 0)} ans`
                          : `il y a environ ${nf(mid, mid < 10 ? 1 : 0)} millions d'années`;
@@ -821,16 +827,17 @@ const statusEl = document.getElementById('status'), resultEl = document.getEleme
 function setStatus(t, err) { statusEl.textContent = t; statusEl.className = err ? 'err' : ''; }
 
 // En-tête de fiche : la roche principale, sa photo, puis les faits clés (âge, précision)
+let lastPrecision = '';
 function hero(o) {
   return `<div class="hero"><div class="top">${thumb(o.rock)}<div><div class="kicker">${o.chip ? `<span class="chip" style="background:${esc(o.chip)}"></span>` : ''}${esc(o.kicker)}</div>
       <h2>${esc(cap(o.title))}</h2>${o.descr ? `<p class="descr">${esc(cap(o.descr))}</p>` : ''}</div></div>
-    <div class="facts">${o.facts.map(f => `<div class="fact"><span>${esc(f[0])}</span><b>${esc(f[1])}</b>${f[2] ? `<small>${esc(f[2])}</small>` : ''}</div>`).join('')}</div>
+    <div class="facts">${o.facts.filter(f => f[0] !== 'Précision' || !(lastPrecision = f[1] + ' (' + f[2] + ')')).map(f => `<div class="fact"><span>${esc(f[0])}</span><b>${esc(f[1])}</b>${f[2] ? `<small>${esc(f[2])}</small>` : ''}</div>`).join('')}</div>
     ${o.also && o.also.length ? `<div class="also"><h3>${esc(o.alsoTitle)}</h3><ul class="rocks">${o.also.map(r => `<li>${thumb(r.rock)}<div>${esc(cap(r.name))}${
       r.hi ? `<br><span class="pct">${r.lo}–${r.hi} % de la formation</span>` : ''}</div></li>`).join('')}</ul></div>` : ''}${heroDiagrams(o.rock)}</div>`;
 }
 function heroDiagrams(rock) {
   const rid = rock && Object.keys(ROCKS).find(k => ROCKS[k] === rock), list = rid ? diagramsFor(rid) : [];
-  return list.length ? `<p class="dgbtns">📈 Placer cette roche dans un diagramme : ${list.map(k => `<button class="ghost" data-diagram="${rid}" data-which="${k}">${esc(DIAGS[k].label)}</button>`).join(' ')}</p>` : '';
+  return list.length ? `<p class="dgbtns">🔎 En apprendre plus sur sa formation : ${list.map(k => `<button class="ghost" data-diagram="${rid}" data-which="${k}">${esc(DIAGS[k].label)}</button>`).join(' ')}</p>` : '';
 }
 function render(L1, U, lon, lat, F) {
   const ids = new Set(), idOf = r => Object.keys(ROCKS).find(k => ROCKS[k] === r);
@@ -855,14 +862,14 @@ function render(L1, U, lon, lat, F) {
   // fiche régionale : formation en surface si elle existe, sinon socle simplifié
   if (U && items.length) {
     unit = hero({ kicker: 'Formation en surface', title: items[0].name, rock: items[0].rock, descr: U.description || '',
-      facts: [['Âge', ageU ? ageU.range : 'inconnu', ageU ? ageU.name : ''], ['Précision', P1M[0], P1M[1]]], also: items.slice(1), alsoTitle: 'Aussi dans cette formation' });
+      facts: [[ageLabel(), ageU ? ageU.range : 'inconnu', ageU ? ageU.name : ''], ['Précision', P1M[0], P1M[1]]], also: items.slice(1), alsoTitle: 'Aussi dans cette formation' });
     let intro = '';
-    if (ageU) intro = `<p><strong>${esc(cap(ageU.approx))}</strong>${ctx.length ? ', le BRGM situe ici : ' + esc(ctx.join(' — ')) + '.' : '.'}</p>`;
-    else if (ctx.length) intro = `<p>Le BRGM situe ici : ${esc(ctx.join(' — '))}.</p>`;
+    if (ageU) intro = `<p><strong>${esc(cap(ageU.approx))}</strong>${ctx.length ? ', la carte géologique situe ici : ' + esc(ctx.join(' — ')) + '.' : '.'}</p>`;
+    else if (ctx.length) intro = `<p>La carte géologique situe ici : ${esc(ctx.join(' — '))}.</p>`;
     unit += envBox("Le paysage à l'époque", intro, items.slice(0, 3));
   } else if (socle.length) {
     unit = hero({ kicker: 'Socle rocheux', title: L1.DESCR, rock: socle[0].rock, descr: L1.TYPE || '',
-      facts: [['Âge', 'non indiqué'], ['Précision', P1M[0], P1M[1]]], also: socle.slice(1), alsoTitle: 'Roches de cet ensemble' });
+      facts: [[ageLabel(), 'non indiqué'], ['Précision', P1M[0], P1M[1]]], also: socle.slice(1), alsoTitle: 'Roches de cet ensemble' });
     unit += envBox('Comment ces roches se sont formées', '', socle);
   }
   const socleBlock = (U && items.length && socle.length) ? `<details class="more"><summary>Socle rocheux simplifié : ${esc(L1.DESCR)}</summary>
@@ -881,7 +888,7 @@ function render(L1, U, lon, lat, F) {
     else {
       const main = C.rocks[0];
       html = hero({ kicker: 'Roche à cet endroit', chip: F.color, title: main ? main.name : 'Formation géologique', rock: main && main.rock, descr: F.descr,
-        facts: [['Âge', age ? age.range : 'non indiqué', C.age ? '' : (age ? "d'après la carte régionale" : 'absent de la légende')], ['Précision', P50[0], P50[1]]],
+        facts: [[ageLabel(), age ? age.range : 'non indiqué', C.age ? '' : (age ? "d'après la carte régionale" : 'absent de la légende')], ['Précision', P50[0], P50[1]]],
         also: C.rocks.slice(1), alsoTitle: 'Aussi dans cette formation' });
       html += envBox(age ? "Le paysage à l'époque" : 'Comment ces roches se sont formées', age ? `<p><strong>${esc(cap(age.approx))}.</strong></p>` : '', C.rocks.slice(0, 3));
     }
@@ -923,11 +930,12 @@ async function lookup(lat, lon) {
   const L1 = litho.status === 'fulfilled' ? litho.value : null;
   const U = unit.status === 'fulfilled' ? unit.value : null;
   if (litho.status === 'rejected' && unit.status === 'rejected' && !F) {
-    setStatus('Le service du BRGM ne répond pas. Réessayez dans un instant.', true); return;
+    setStatus('Le service de cartes géologiques du BRGM ne répond pas. Réessayez dans un instant.', true); return;
   }
   if (!L1 && !U && !F) { setStatus('Aucune donnée ici (mer, ou hors France métropolitaine).', true); return; }
-  setStatus(`📍 ${lat.toFixed(4)}, ${lon.toFixed(4)}`);
+  lastPrecision = '';
   render(L1, U, lon, lat, F);
+  setStatus(`📍 ${lat.toFixed(4)}, ${lon.toFixed(4)}` + (lastPrecision ? ` · précision ${lastPrecision}` : ''));
 }
 
 if (map) {
@@ -994,7 +1002,7 @@ function ageFromText(text) {
   hits = hits.filter(a => !hits.some(b => b !== a && b[1] <= a[1] && b[2] >= a[2] && (b[1] < a[1] || b[2] > a[2])));
   const from = Math.max(...hits.map(h => h[1])), to = Math.min(...hits.map(h => h[2])), mid = (from + to) / 2;
   const approx = mid < 1 ? `il y a environ ${nf(Math.round(mid * 1e6 / 1000) * 1000, 0)} ans` : `il y a environ ${nf(mid, mid < 10 ? 1 : 0)} millions d'années`;
-  return { range: `${fmtMa(from)} à ${fmtMa(to)}`, approx, mid };
+  return { range: rangeMa(from, to), approx, mid };
 }
 // Noms de roches cherchés dans les descriptions -> roche du référentiel (et libellé précis éventuel)
 Object.assign(ROCKS, {
@@ -1375,7 +1383,7 @@ function keyRender() {
     }
     html += `<div class="result"><div class="fam">${esc(fam)}</div><div class="rname">${thumb(rock)}<h2>${esc(name)}</h2></div>
       ${rock ? `<div class="env"><h2>🌍 Comment elle s'est formée</h2><p>${esc(cap(rock.env))}</p></div>` : ''}${local}
-      ${diagramsFor(rid).length ? `<p class="dgbtns">📈 Placer cette roche dans un diagramme : ${diagramsFor(rid).map(k => `<button class="ghost" data-diagram="${rid}" data-which="${k}">${esc(DIAGS[k].label)}</button>`).join(' ')}</p>` : ''}
+      ${diagramsFor(rid).length ? `<p class="dgbtns">🔎 En apprendre plus sur sa formation : ${diagramsFor(rid).map(k => `<button class="ghost" data-diagram="${rid}" data-which="${k}">${esc(DIAGS[k].label)}</button>`).join(' ')}</p>` : ''}
       <p class="note">Une clé donne un nom probable à partir de l'œil nu. Pour confirmer, comparez avec une description complète de la roche.</p></div>`;
   }
   html += `<div class="keynav">${keyPath.length ? '<button class="ghost" data-back="' + (keyPath.length - 1) + '">← Étape précédente</button><button class="ghost" data-back="0">↺ Recommencer</button>' : ''}</div>`;
@@ -1403,7 +1411,7 @@ let dgHold = null;
 const dgNum = s => parseFloat(String(s).replace(',', '.'));
 const dgFr = (v, d) => nf(v, d === undefined ? 0 : d);
 const dgTabs = (key, mode) => `<div class="tabs" role="group" aria-label="Façon de placer la roche"><button data-${key}mode="rough" class="${mode === 'rough' ? 'on' : ''}">À la louche</button><button data-${key}mode="precise" class="${mode === 'precise' ? 'on' : ''}">Précisément</button></div>`;
-const dgHead = (title, sub, rockId, kicker) => `<button class="link back" data-diag="menu">← Tous les diagrammes</button>${kicker ? `<div class="kick">${esc(kicker)}</div>` : ''}<h1>${esc(title)}</h1><p class="sub">${esc(sub)}</p>` +
+const dgHead = (title, sub, rockId, kicker) => `<button class="link back" data-diag="menu">← Toutes les questions</button>${kicker ? `<div class="kick">${esc(kicker)}</div>` : ''}<h1>${esc(title)}</h1><p class="sub">${esc(sub)}</p>` +
   (rockId && ROCKS[rockId] ? `<p class="fam">Roche placée : ${esc(cap(ROCKS[rockId].fr))} — position typique, à ajuster</p>` : '');
 const dgPoly = (pts, cls, extra) => `<path d="M${pts.map(p => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('L')}Z" class="${cls}"${extra || ''}/>`;
 const dgLine = (pts, cls) => `<path d="M${pts.map(p => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('L')}" class="${cls}"/>`;
@@ -1494,7 +1502,7 @@ function hjStory() {
 function hjRender() {
   const el = document.getElementById('hj'); if (!el) return;
   const rock = HJ.rock && ROCKS[HJ.rock];
-  el.innerHTML = `<button class="link back" data-diag="menu">← Tous les diagrammes</button>
+  el.innerHTML = `<button class="link back" data-diag="menu">← Toutes les questions</button>
     <div class="kick">Diagramme de Hjulström</div><h1>La force du courant</h1>
     <p class="sub">Roches sédimentaires détritiques. La taille des grains d'une roche garde la mémoire de la force du courant qui les a déposés.</p>
     ${rock ? `<p class="fam">Roche placée : ${esc(cap(rock.fr))} — taille de grain typique, à ajuster</p>` : ''}
@@ -1616,7 +1624,7 @@ function ptRender() {
       <div class="rough">${PT_INDEX.map((r, i) => `<button data-pti="${i}" class="${PT.T === r[2] && PT.P === r[3] ? 'on' : ''}"><strong>${esc(r[0])}</strong><small>${esc(r[1])}</small></button>`).join('')}</div>`
     : `<p class="help">Indiquez les conditions tirées d'une étude (thermobarométrie), ou touchez le diagramme.</p>
       <label class="field">Température <input id="ptT" type="text" inputmode="decimal" value="${dgFr(PT.T)}"> °C</label>
-      <label class="field">Pression <input id="ptP" type="text" inputmode="decimal" value="${dgFr(PT.P, 2)}"> GPa <span class="pct">(1 GPa = 10 kbar ≈ ${KM_PER_GPA} km)</span></label>`) +
+      <label class="field">Pression <input id="ptP" type="text" inputmode="decimal" value="${dgFr(PT.P, 2)}"> GPa <span class="pct">(gigapascals ; 1 GPa ≈ ${KM_PER_GPA} km de profondeur)</span></label>`) +
     `<div class="hjgraph">${ptSVG()}</div><p class="legend">Tirets : réchauffement avec la profondeur — 10 °C/km en subduction, 30 °C/km en collision, 70 °C/km près d'un magma. Pointillés rouges : début de fusion d'un granite hydraté.</p><p class="axes">Vers la droite : plus chaud. Vers le bas : plus profond.</p>
     <div class="story hjstory"><h2>🕰 Ce que cette roche raconte</h2>${ptStory()}</div>
     <details class="more"><summary>Pour aller plus loin : lecture et limites du diagramme</summary><ul class="plain">
@@ -1786,7 +1794,7 @@ function taStory() {
 }
 function taRender() {
   const el = document.getElementById('tas'); if (!el) return;
-  el.innerHTML = dgHead("D'où vient cette lave", "Laves, dont les minéraux sont trop fins pour être comptés. Leur chimie dit d'où vient le magma et comment il a évolué.", TA.rock, 'Diagramme TAS') + dgTabs('ta', TA.mode) +
+  el.innerHTML = dgHead("D'où vient cette lave", "Laves, dont les minéraux sont trop fins pour être comptés. Leur chimie dit d'où vient le magma et comment il a évolué.", TA.rock, 'Diagramme TAS (alcalins totaux – silice)') + dgTabs('ta', TA.mode) +
     (TA.mode === 'rough' ? `<p class="help">Sans analyse chimique, partez d'une lave type : sa composition est indicative.</p><div class="rough">${TAS_ROUGH.map((r, i) => `<button data-tar="${i}" class="${TA.s === r[2] && TA.a === r[3] ? 'on' : ''}"><strong>${esc(r[0])}</strong><small>${esc(r[1])}</small></button>`).join('')}</div>`
     : `<p class="help">Reportez une analyse chimique de roche totale, recalculée à 100 % sans eau ni CO₂. Vous pouvez aussi toucher le diagramme.</p>
       <label class="field">SiO₂ <input id="taS" type="text" inputmode="decimal" value="${esc(TA.raw ? TA.raw[0] : dgFr(TA.s, 1))}"> %</label>
@@ -1867,7 +1875,7 @@ function qfStory() {
 }
 function qfRender() {
   const el = document.getElementById('qfl'); if (!el) return; const [q, f, l] = QF.v;
-  el.innerHTML = dgHead('Le relief disparu', "Grès et sables. La nature des grains désigne le relief qui a été érodé pour les fabriquer.", QF.rock, 'Diagramme QFL') + dgTabs('qf', QF.mode) +
+  el.innerHTML = dgHead('Le relief disparu', "Grès et sables. La nature des grains désigne le relief qui a été érodé pour les fabriquer.", QF.rock, 'Diagramme QFL (quartz – feldspaths – fragments de roches)') + dgTabs('qf', QF.mode) +
     (QF.mode === 'rough' ? `<p class="help">Regardez les grains à la loupe. Quelle description convient le mieux ?</p><div class="rough">${QFL_ROUGH.map((r, i) => `<button data-qfr="${i}" class="${q === r[2] && f === r[3] ? 'on' : ''}"><strong>${esc(r[0])}</strong><small>${esc(r[1])}</small></button>`).join('')}</div>`
     : `<p class="help">Comptez les grains de chaque famille sur une lame mince (300 grains au moins), ou estimez leurs pourcentages. Le total est ramené à 100 %.</p>
       <label class="field">Quartz <input id="qfQ" type="text" inputmode="decimal" value="${esc(QF.raw ? QF.raw[0] : dgFr(q, 1))}"></label>
@@ -2267,7 +2275,7 @@ function afStory() {
 }
 function afRender() {
   const el = document.getElementById('afm'); if (!el) return; const [a, f, m] = afTri(AF.v);
-  el.innerHTML = dgHead('Dorsale ou subduction', "Le TAS ne départage pas les laves subalcalines ; le comportement du fer, lui, distingue les magmas secs des dorsales des magmas hydratés des zones de subduction.", AF.rock, 'Diagramme AFM') + dgTabs('af', AF.mode) +
+  el.innerHTML = dgHead('Dorsale ou subduction', "Le diagramme TAS (alcalins totaux – silice) ne départage pas les laves subalcalines ; le comportement du fer, lui, distingue les magmas secs des dorsales des magmas hydratés des zones de subduction.", AF.rock, 'Diagramme AFM (alcalins – fer – magnésium)') + dgTabs('af', AF.mode) +
     (AF.mode === 'rough' ? `<p class="help">Sans analyse chimique, partez d'une lave type : sa composition est indicative.</p><div class="rough">${AFM_ROUGH.map((r, i) => `<button data-afr="${i}" class="${AF.v[0] === r[2] && AF.v[1] === r[3] ? 'on' : ''}"><strong>${esc(r[0])}</strong><small>${esc(r[1])}</small></button>`).join('')}</div>`
     : `<p class="help">Reportez une analyse chimique, en % du poids. Le fer total s'exprime en FeO (Fe₂O₃ total × 0,9). Vous pouvez aussi toucher le triangle.</p>
       <label class="field">Na₂O + K₂O <input id="afA" type="text" inputmode="decimal" value="${esc(AF.raw ? AF.raw[0] : dgFr(AF.v[0], 2))}"> %</label>
@@ -2292,17 +2300,17 @@ function afRender() {
 
 // Navigation de la partie 3 : menu des diagrammes ou un diagramme ouvert
 const DIAGS = {
-  hj:   { render: hjRender, set: id => { if (HJ_PRESET[id]) { HJ.rock = id; HJ.d = HJ_PRESET[id]; HJ.v = null; HJ.mode = 'rough'; } }, has: id => id in HJ_PRESET, label: 'Hjulström' },
-  pt:   { render: ptRender, set: id => { if (PT_PRESET[id]) { PT.rock = id; [PT.T, PT.P] = PT_PRESET[id]; PT.mode = 'rough'; } }, has: id => id in PT_PRESET, label: 'pression – température' },
-  qapf: { render: qaRender, set: id => { if (QAPF_PRESET[id]) { QA.rock = id; [QA.q, QA.p] = QAPF_PRESET[id]; QA.mode = 'precise'; } }, has: id => ['granite', 'granodiorite', 'tonalite', 'diorite', 'gabbro'].includes(id), label: 'Streckeisen' },
-  tas:  { render: taRender, set: id => { if (TAS_PRESET[id]) { TA.rock = id; [TA.s, TA.a] = TAS_PRESET[id]; TA.raw = null; TA.mode = 'rough'; } }, has: id => id in TAS_PRESET, label: 'TAS' },
-  ph:   { render: phRender, set: id => { PH.rock = id; PH.tab = id === 'peridotite' ? 'ter' : 'eut'; if (id === 'peridotite') PH.v = [60, 25, 15]; }, has: id => ['basalt', 'gabbro', 'dolerite', 'peridotite'].includes(id), label: 'phases' },
-  qfl:  { render: qfRender, set: id => { if (QFL_PRESET[id]) { QF.rock = id; QF.v = QFL_PRESET[id].slice(); QF.raw = null; QF.mode = 'rough'; } }, has: id => id in QFL_PRESET, label: 'QFL' },
-  dun:  { render: duRender, set: id => { if (DUN_PRESET[id]) { DU.rock = id; DU.id = DUN_PRESET[id]; DU.grain = id === 'oolite' ? 'oo' : ''; DU.mode = 'rough'; } }, has: id => id in DUN_PRESET, label: 'Dunham' },
-  morph: { render: moRender, set: id => { if (MO_PRESET[id]) { MO.rock = id; [MO.r, MO.s, MO.size] = MO_PRESET[id]; MO.surf = ''; } }, has: id => id in MO_PRESET, label: 'forme et tri des grains' },
+  hj:   { render: hjRender, set: id => { if (HJ_PRESET[id]) { HJ.rock = id; HJ.d = HJ_PRESET[id]; HJ.v = null; HJ.mode = 'rough'; } }, has: id => id in HJ_PRESET, label: 'force du courant' },
+  pt:   { render: ptRender, set: id => { if (PT_PRESET[id]) { PT.rock = id; [PT.T, PT.P] = PT_PRESET[id]; PT.mode = 'rough'; } }, has: id => id in PT_PRESET, label: 'profondeur et chaleur subies' },
+  qapf: { render: qaRender, set: id => { if (QAPF_PRESET[id]) { QA.rock = id; [QA.q, QA.p] = QAPF_PRESET[id]; QA.mode = 'precise'; } }, has: id => ['granite', 'granodiorite', 'tonalite', 'diorite', 'gabbro'].includes(id), label: 'composition du magma' },
+  tas:  { render: taRender, set: id => { if (TAS_PRESET[id]) { TA.rock = id; [TA.s, TA.a] = TAS_PRESET[id]; TA.raw = null; TA.mode = 'rough'; } }, has: id => id in TAS_PRESET, label: 'origine de la lave' },
+  ph:   { render: phRender, set: id => { PH.rock = id; PH.tab = id === 'peridotite' ? 'ter' : 'eut'; if (id === 'peridotite') PH.v = [60, 25, 15]; }, has: id => ['basalt', 'gabbro', 'dolerite', 'peridotite'].includes(id), label: 'ordre d\'apparition des cristaux' },
+  qfl:  { render: qfRender, set: id => { if (QFL_PRESET[id]) { QF.rock = id; QF.v = QFL_PRESET[id].slice(); QF.raw = null; QF.mode = 'rough'; } }, has: id => id in QFL_PRESET, label: 'relief d\'origine' },
+  dun:  { render: duRender, set: id => { if (DUN_PRESET[id]) { DU.rock = id; DU.id = DUN_PRESET[id]; DU.grain = id === 'oolite' ? 'oo' : ''; DU.mode = 'rough'; } }, has: id => id in DUN_PRESET, label: 'énergie de la mer' },
+  morph: { render: moRender, set: id => { if (MO_PRESET[id]) { MO.rock = id; [MO.r, MO.s, MO.size] = MO_PRESET[id]; MO.surf = ''; } }, has: id => id in MO_PRESET, label: 'durée du transport' },
   melt: { render: meRender, set: id => { ME.rock = id; ME.sc = id === 'andesite' || id === 'dacite' ? 'sub' : id === 'basanite' || id === 'tephrite' || id === 'phonolite' || id === 'trachyte' ? 'hot' : id === 'peridotite' ? 'cra' : 'ridge'; [, , ME.tp, ME.lid, ME.wet] = ME_SC[ME.sc]; ME.mode = 'rough'; },
-          has: id => ['basalt', 'basanite', 'tephrite', 'andesite', 'peridotite'].includes(id), label: 'fusion du manteau' },
-  afm:  { render: afRender, set: id => { if (AFM_PRESET[id]) { AF.rock = id; AF.v = AFM_PRESET[id].slice(); AF.raw = null; AF.mode = 'rough'; } }, has: id => ['basalt', 'andesite', 'dacite'].includes(id), label: 'AFM' }
+          has: id => ['basalt', 'basanite', 'tephrite', 'andesite', 'peridotite'].includes(id), label: 'naissance du magma' },
+  afm:  { render: afRender, set: id => { if (AFM_PRESET[id]) { AF.rock = id; AF.v = AFM_PRESET[id].slice(); AF.raw = null; AF.mode = 'rough'; } }, has: id => ['basalt', 'andesite', 'dacite'].includes(id), label: 'dorsale ou subduction' }
 };
 function showDiag(which, rockId) {
   document.getElementById('diag-menu').hidden = which !== 'menu';
