@@ -194,6 +194,73 @@
   }
   @media (max-width: 380px) { .facts { grid-template-columns: 1fr; } }
 </style>
+
+<style id="look2">
+  /* ===== Look « Carnet de terrain » ===== */
+  :root { --ink:#22302b; --muted:#66736c; --line:#e4dccb; --bg:#f7f1e3; --accent:#c2552d; --deep:#1f3a34; --ochre:#e0a43a; --env:#e9f1e4; --envline:#c3d8bd;
+          --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif; --shadow: 0 1px 2px #3a2a1012, 0 6px 18px #3a2a1014; }
+  body { font-size: 16px; line-height: 1.5; background: var(--bg); }
+  h1, .hero h2, .rname h2, h2.q, .dlist button.link, .story .when, .hjstory .lead, .brand { font-family: var(--serif); }
+  /* Bandeau : vert profond, souligné par une coupe de strates */
+  nav.top { background: var(--deep); padding: 10px 16px; gap: 6px; position: relative; }
+  nav.top::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 5px;
+    background: linear-gradient(90deg, #8c3b2a 0 14%, #c2552d 14% 30%, #e0a43a 30% 47%, #efd9a0 47% 60%, #9bb38a 60% 76%, #4f7f78 76% 90%, #2f5560 90%); }
+  nav.top .brand { font-size: 20px; letter-spacing: .01em; margin-right: 18px; display: inline-flex; align-items: center; gap: 8px; }
+  nav.top .brand::before { content: ""; width: 22px; height: 22px; border-radius: 46% 54% 50% 50% / 58% 52% 48% 42%; background: linear-gradient(160deg, #efd9a0 0 34%, #e0a43a 34% 62%, #c2552d 62%); transform: rotate(-12deg); }
+  nav.top button { border-radius: 99px; padding: 8px 16px; color: #d9e4dc; font-weight: 500; }
+  nav.top button.on { background: #f7f1e3; color: var(--deep); }
+  /* Boutons */
+  button { border-radius: 99px; font-weight: 600; padding: 10px 18px; box-shadow: 0 2px 0 #8c3b2a; border-color: var(--accent); }
+  button:active { transform: translateY(1px); box-shadow: 0 1px 0 #8c3b2a; }
+  button.ghost, button.link, nav.top button, .tabs button, .yn button, .rough button, .icons button, .dtile, button.choice, .world .zoom { box-shadow: none; }
+  button.ghost { background: transparent; }
+  button.link { border-radius: 0; font-weight: inherit; }
+  /* Titres de page */
+  h1 { font-size: 30px; line-height: 1.15; margin-bottom: 8px; letter-spacing: -.01em; }
+  .sub { font-size: 16px; margin-bottom: 20px; max-width: 62ch; }
+  .kick { background: var(--deep); color: #f7f1e3; display: inline-block; padding: 3px 12px; border-radius: 99px; font-size: 11px; margin-bottom: 8px; }
+  .inner { padding-top: 32px; }
+  /* Cartes */
+  aside { background: var(--bg); border-left: 0; box-shadow: -8px 0 24px #3a2a1018; z-index: 600; }
+  .bar { background: var(--bg); }
+  .card, .result, .hero, details.more, .world, .hjgraph, button.choice, .rough button, .dtile, .icons button { border-radius: 18px; border-color: var(--line); background: #fffdf8; box-shadow: var(--shadow); }
+  .card { padding: 6px 20px 10px; margin-bottom: 18px; overflow: hidden; }
+  .hero { border: 0; padding: 0; overflow: hidden; }
+  .hero .top { background: var(--deep); color: #f7f1e3; padding: 18px; }
+  .hero .top .kicker { color: var(--ochre); } .hero .top .descr { color: #c5d3cb; } .hero h2 { font-size: 30px; }
+  .hero .thumb { border-radius: 50%; box-shadow: 0 0 0 3px #f7f1e3; }
+  .hero .facts, .hero .also, .hero .dgbtns, .hero > p { margin-left: 18px; margin-right: 18px; } .hero > :last-child { margin-bottom: 18px; }
+  .fact { background: var(--bg); border-radius: 14px; padding: 10px 14px; border-left: 4px solid var(--ochre); } .fact b { font-family: var(--serif); font-size: 18px; }
+  .thumb { border-radius: 14px; }
+  .env { border-radius: 18px; border: 0; background: var(--env); box-shadow: var(--shadow); padding: 18px; }
+  .story { border-radius: 18px; border: 0; background: #fbecd2; padding: 18px; box-shadow: var(--shadow); position: relative; }
+  .story h2 { color: #8c3b2a; font-size: 13px; }
+  .story .when, .hjstory .lead { font-size: 20px; line-height: 1.35; }
+  .tag, .fam { background: #f3dcc9; color: #8c3b2a; font-weight: 600; }
+  /* Menu des diagrammes : une couleur par famille de roches */
+  #diag-menu .card h2 { font-family: var(--serif); text-transform: none; letter-spacing: 0; font-size: 20px; color: var(--ink); margin: 0 -20px 4px; padding: 12px 20px; border-bottom: 1px solid var(--line); }
+  #diag-menu .card { border-top: 6px solid var(--accent); }
+  #diag-menu .card:nth-of-type(2) { border-top-color: #7a5c99; } #diag-menu .card:nth-of-type(3) { border-top-color: var(--ochre); }
+  .dlist li { padding: 12px 0; position: relative; padding-right: 28px; } .dlist li::after { content: "→"; position: absolute; right: 2px; top: 50%; transform: translateY(-50%); color: var(--accent); font-size: 18px; }
+  .dlist button.link { font-size: 19px; color: var(--ink); } .dlist button.link:hover { color: var(--accent); } .dlist small { font-size: 14px; }
+  /* Clé de détermination */
+  h2.q { font-size: 28px; line-height: 1.2; } .help { font-size: 15px; }
+  button.choice { padding: 14px; font-size: 16px; transition: transform .12s, box-shadow .12s; }
+  button.choice:hover { transform: translateY(-3px); box-shadow: 0 10px 24px #3a2a1026; border-color: var(--accent); }
+  .trail { background: #fffdf8; border-radius: 99px; padding: 6px 14px; display: inline-flex; box-shadow: var(--shadow); }
+  /* Commandes des diagrammes */
+  .tabs { border-radius: 99px; border-width: 2px; background: #fffdf8; } .tabs button { background: transparent; border-radius: 99px; } .yn { border-radius: 99px; }
+  .rough button.on, .dtile.on, .icons button.on { background: #fbecd2; border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+  details.more summary, details.settings summary, details.regional summary, details.mapnote summary { color: var(--accent); }
+  details.settings[open] { border-radius: 14px; background: #fffdf8; }
+  .filebtn { border-radius: 99px; } #status { font-size: 15px; }
+  .intro h1 { font-size: 34px; } .intro .sub { font-size: 17px; }
+  @media (max-width: 760px) {
+    nav.top { padding: 8px 6px 11px; } nav.top button { padding: 9px 4px; font-size: 14px; } nav.top .brand { display: none; }
+    h1 { font-size: 25px; } .intro h1 { font-size: 27px; } h2.q { font-size: 22px; } .hero h2 { font-size: 24px; } .inner { padding-top: 20px; }
+    aside { box-shadow: 0 -8px 24px #3a2a1018; border-top: 0; }
+  }
+</style>
 </head>
 <body>
 <nav class="top">
