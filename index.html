@@ -238,15 +238,29 @@
   .story .when, .hjstory .lead { font-size: 20px; line-height: 1.35; }
   .tag, .fam { background: #f3dcc9; color: #8c3b2a; font-weight: 600; }
   /* Menu des diagrammes : une couleur par famille de roches */
-  #diag-menu .card h2 { font-family: var(--serif); text-transform: none; letter-spacing: 0; font-size: 20px; color: var(--ink); margin: 0 -20px 4px; padding: 12px 20px; border-bottom: 1px solid var(--line); }
-  #diag-menu .card { border-top: 6px solid var(--accent); }
-  #diag-menu .card:nth-of-type(2) { border-top-color: #7a5c99; } #diag-menu .card:nth-of-type(3) { border-top-color: var(--ochre); }
+  /* Trois catégories bien distinctes : bandeau coloré, photo et sous-titre */
+  #diag-menu .card { padding: 0 0 6px; border: 0; --fam: var(--accent); --famink: #fff; }
+  #diag-menu .fam-mag { --fam: #a8402a; } #diag-menu .fam-sed { --fam: #c98a1e; --famink: #2b1d05; } #diag-menu .fam-met { --fam: #6a4f8c; }
+  .famhead { display: flex; gap: 16px; align-items: center; padding: 16px 20px; background: var(--fam); color: var(--famink); }
+  .famhead .thumb { flex: 0 0 76px; width: 76px; height: 76px; border-radius: 50%; box-shadow: 0 0 0 3px #fffdf8; }
+  .famhead h2 { font-family: var(--serif); text-transform: none; letter-spacing: 0; font-size: 24px; line-height: 1.15; color: inherit; margin: 0 0 2px; }
+  .famhead p { margin: 0; font-size: 14px; line-height: 1.35; opacity: .92; }
+  .famkick { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; opacity: .85; }
+  #diag-menu .dlist { margin: 0; padding: 4px 20px 0; } #diag-menu .dlist li::after { color: var(--fam); }
+  #diag-menu .dlist li { border-left: 0; }
   .dlist li { padding: 12px 0; position: relative; padding-right: 28px; } .dlist li::after { content: "→"; position: absolute; right: 2px; top: 50%; transform: translateY(-50%); color: var(--accent); font-size: 18px; }
   .dlist button.link { font-size: 19px; color: var(--ink); } .dlist button.link:hover { color: var(--accent); } .dlist small { font-size: 14px; }
   /* Clé de détermination */
   h2.q { font-size: 28px; line-height: 1.2; } .help { font-size: 15px; }
   button.choice { padding: 14px; font-size: 16px; transition: transform .12s, box-shadow .12s; }
   button.choice:hover { transform: translateY(-3px); box-shadow: 0 10px 24px #3a2a1026; border-color: var(--accent); }
+  .cpics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; } .cpics:has(> :only-child) { grid-template-columns: 1fr; }
+  .cph { position: relative; display: block; border-radius: 12px; overflow: hidden; background: #ece6d6; aspect-ratio: 132 / 92; }
+  .cph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cph em { position: absolute; left: 6px; bottom: 6px; font-style: normal; font-size: 11px; line-height: 1.2; font-weight: 600; color: #fff; background: #1f3a34cc; padding: 2px 8px; border-radius: 99px; max-width: calc(100% - 12px); }
+  .choices { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); } .kcred { margin-top: 14px; } .kcred a { color: inherit; }
+  @media (max-width: 560px) { button.choice { flex-direction: column; align-items: stretch; } button.choice svg { flex: none; width: 100%; } }
+  .dg .back { display: block; width: max-content; margin-bottom: 12px; }
   .trail { background: #fffdf8; border-radius: 99px; padding: 6px 14px; display: inline-flex; box-shadow: var(--shadow); }
   /* Commandes des diagrammes */
   .tabs { border-radius: 99px; border-width: 2px; background: #fffdf8; } .tabs button { background: transparent; border-radius: 99px; } .yn { border-radius: 99px; }
@@ -259,6 +273,7 @@
     nav.top { padding: 8px 6px 11px; } nav.top button { padding: 9px 4px; font-size: 14px; } nav.top .brand { display: none; }
     h1 { font-size: 25px; } .intro h1 { font-size: 27px; } h2.q { font-size: 22px; } .hero h2 { font-size: 24px; } .inner { padding-top: 20px; }
     aside { box-shadow: 0 -8px 24px #3a2a1018; border-top: 0; }
+    .famhead { padding: 14px; gap: 12px; } .famhead .thumb { flex-basis: 60px; width: 60px; height: 60px; } .famhead h2 { font-size: 21px; } #diag-menu .dlist { padding: 4px 14px 0; }
   }
 </style>
 </head>
@@ -310,19 +325,19 @@
   <div class="inner" id="diag-menu">
     <h1>Faire parler la roche</h1>
     <p class="sub">Courant, profondeur, composition du magma… Chaque question ci-dessous se résout en plaçant la roche dans un diagramme : ce que l'on observe devient une information sur son passé.</p>
-    <div class="card"><h2>Les roches magmatiques</h2>
+    <div class="card fam-mag"><div class="famhead"><span data-famphoto="granite"></span><div><div class="famkick">Catégorie</div><h2>Les roches magmatiques</h2><p>Nées du refroidissement d'un magma, en profondeur ou en surface.</p></div></div>
       <ul class="dlist"><li><button class="link" data-diag="qapf">De quoi était fait le magma</button><small>Diagramme de Streckeisen · roches à cristaux visibles</small></li>
         <li><button class="link" data-diag="tas">D'où vient cette lave</button><small>Diagramme TAS (alcalins totaux – silice)</small></li>
         <li><button class="link" data-diag="afm">Dorsale ou subduction</button><small>Diagramme AFM (alcalins – fer – magnésium)</small></li>
         <li><button class="link" data-diag="melt">Pourquoi un magma est né</button><small>Géotherme et solidus de la péridotite</small></li>
         <li><button class="link" data-diag="ph">L'ordre d'apparition des cristaux</button><small>Diagrammes de phases binaires et ternaire</small></li></ul></div>
-    <div class="card"><h2>Les roches métamorphiques</h2>
-      <ul class="dlist"><li><button class="link" data-diag="pt">La profondeur et la chaleur subies</button><small>Diagramme pression – température · faciès et minéraux repères</small></li></ul></div>
-    <div class="card"><h2>Les roches sédimentaires</h2>
+    <div class="card fam-sed"><div class="famhead"><span data-famphoto="sandstone"></span><div><div class="famkick">Catégorie</div><h2>Les roches sédimentaires</h2><p>Formées de débris, de coquilles ou de sels déposés en couches à la surface de la Terre.</p></div></div>
       <ul class="dlist"><li><button class="link" data-diag="hj">La force du courant</button><small>Diagramme de Hjulström · taille des grains</small></li>
         <li><button class="link" data-diag="morph">La durée et le mode de transport</button><small>Forme et tri des grains</small></li>
         <li><button class="link" data-diag="dun">L'énergie de la mer dans un calcaire</button><small>Classification de Dunham</small></li>
         <li><button class="link" data-diag="qfl">Le relief disparu</button><small>Diagramme QFL (quartz – feldspaths – fragments de roches)</small></li></ul></div>
+    <div class="card fam-met"><div class="famhead"><span data-famphoto="gneiss"></span><div><div class="famkick">Catégorie</div><h2>Les roches métamorphiques</h2><p>D'anciennes roches transformées par la chaleur et la pression, sans fondre.</p></div></div>
+      <ul class="dlist"><li><button class="link" data-diag="pt">La profondeur et la chaleur subies</button><small>Diagramme pression – température · faciès et minéraux repères</small></li></ul></div>
   </div>
   <div class="inner dg" id="hj" hidden></div><div class="inner dg" id="pt" hidden></div><div class="inner dg" id="qapf" hidden></div>
   <div class="inner dg" id="tas" hidden></div><div class="inner dg" id="ph" hidden></div><div class="inner dg" id="qfl" hidden></div>
@@ -339,13 +354,13 @@ const SOURCES = {
 /* ---------- Référentiel des roches : nom, photo (fichier Wikimedia Commons), environnement de formation ---------- */
 const ROCKS = {
   granite:     { fr:'granite', img:'Fjæregranitt3.JPG', env:"un magma a refroidi très lentement à plusieurs kilomètres de profondeur, au cœur d'une chaîne de montagnes. L'érosion a ensuite retiré tout ce qui le recouvrait." },
-  granodiorite:{ fr:'granodiorite', img:'Granodiorite saint michel de montjoie calvados.jpg', env:"un magma a refroidi lentement en profondeur, souvent au-dessus d'une zone de subduction ou sous une chaîne de montagnes." },
+  granodiorite:{ fr:'granodiorite', img:'Granodiorite fine-grained.jpg', zoom:1.7, env:"un magma a refroidi lentement en profondeur, souvent au-dessus d'une zone de subduction ou sous une chaîne de montagnes." },
   tonalite:    { fr:'tonalite', img:'Tonalite.png', env:"un magma a refroidi lentement en profondeur, typiquement au-dessus d'une zone de subduction." },
   diorite:     { fr:'diorite', img:'Diorite2.tif', env:"un magma a refroidi lentement en profondeur, typiquement au-dessus d'une zone de subduction." },
   gabbro:      { fr:'gabbro', img:'Gabro 3.jpg', env:"un magma basaltique a refroidi lentement en profondeur, comme dans la croûte des océans." },
   dolerite:    { fr:'dolérite', img:'Dolerite.jpg', env:"un magma basaltique s'est figé dans des fissures (filons), à faible profondeur." },
   peridotite:  { fr:'péridotite', img:'Peridotite 5773.jpg', env:"roche du manteau terrestre, remontée jusqu'à la surface par les mouvements tectoniques." },
-  basalt:      { fr:'basalte', img:'Basalte bulleux saint thibery herault.jpg', env:"des coulées de lave fluide sont sorties d'un volcan, à l'air libre ou sous la mer." },
+  basalt:      { fr:'basalte', img:'Olivine basalt (Pleistocene; lava flow near Keeler, California, USA) (16540711697).jpg', env:"des coulées de lave fluide sont sorties d'un volcan, à l'air libre ou sous la mer." },
   basanite:    { fr:'basanite', img:'Basanite&Dunite bomb.JPG', env:"laves pauvres en silice émises par des volcans de rift ou de point chaud, comme ceux du Massif central." },
   tephrite:    { fr:'téphrite', img:'Tephrite found at Mt. Vesuvius.jpg', env:"laves pauvres en silice émises par des volcans de rift ou de point chaud." },
   andesite:    { fr:'andésite', img:'Amygdaloidal andesite.jpg', env:"laves de volcans explosifs, typiquement au-dessus d'une zone de subduction." },
@@ -375,7 +390,7 @@ const ROCKS = {
   sandstone:   { fr:'grès', img:'Millet-Seed Sandstone Macro.JPG', env:"un ancien sable de plage, de rivière, de delta ou de désert, dont les grains ont été cimentés." },
   conglomerate:{ fr:'conglomérat', img:'Conglomérat.jpg', env:"d'anciens galets de torrent ou de rivage, déposés au pied de reliefs en cours d'érosion." },
   breccia:     { fr:'brèche', img:'Brecha arrabida.JPG', env:"éboulis au pied d'un relief, ou roche broyée le long d'une faille : des fragments anguleux, peu transportés." },
-  mudstone:    { fr:'argilite', img:'Argilite detail merifons.jpg', env:"une boue fine déposée en eau calme, puis compactée." },
+  mudstone:    { fr:'argilite', img:'Black mudshale with glacial scratches 3 (27243862958).jpg', env:"une boue fine déposée en eau calme, puis compactée." },
   wacke:       { fr:'grauwacke', img:'Greywacke-f-and-l.jpg', env:"avalanches sous-marines de sable et de boue, au pied d'un talus continental." },
   limestone:   { fr:'calcaire', img:'Kalksteenrots met in het midden een breccie. 10-09-2019. (actm.) 02.jpg', env:"mer chaude et peu profonde, riche en organismes à coquille ou en récifs (parfois un lac)." },
   chalk:       { fr:'craie', img:'Aiguille2.jpg', env:"mer chaude et calme, où se sont accumulés les squelettes microscopiques d'algues du plancton (coccolithes)." },
@@ -1347,6 +1362,22 @@ const KIN = { reefLimestone:['limestone'], oolite:['limestone'], chalk:['limesto
 let keyPath = [];   // suite des choix effectués : [{node, choice}]
 let localGeo = null; // dernière géologie consultée dans « Les roches selon un lieu »
 let keyWaiting = false; // l'utilisateur est parti indiquer le lieu de sa roche et veut y revenir
+// Photo d'exemple pour un choix de la clé : la roche du résultat, ou une roche typique de la branche
+const KEY_PHOTO = { vis: 'granite', invis: 'mudstone', volc: 'rhyolite', joint: 'granodiorite', plut: 'granite', detr: 'sandstone', metaVis: 'gneiss', evap: 'evaporite',
+  noacid: 'slate', carb: 'limestone', detrDur: 'sandstone', schiste: 'slate', volcNq: 'andesite', volcPl: 'basalt', plutQ: 'granite', plutNq: 'gabbro',
+  congl: 'conglomerate', gres: 'sandstone', carbFos: 'limestone', carbNoFos: 'oolite', metaFol: 'gneiss', metaNoFol: 'eclogite', metaLits: 'micaschist' };
+const keyPhotoRock = (c, node) => c.r ? RESULTS[c.r][1] : node === 'detr' && c.to === 'detrDur' ? 'conglomerate' : KEY_PHOTO[c.to];
+const comFile = rock => encodeURIComponent(rock.img.replace(/ /g, '_'));
+function keyPhoto(c, node) {
+  const rock = ROCKS[keyPhotoRock(c, node)]; if (!rock || !rock.img) return '';
+  return `<span class="cph"><img loading="lazy" alt="Photo : ${esc(rock.fr)}" src="https://commons.wikimedia.org/wiki/Special:FilePath/${comFile(rock)}?width=${rock.zoom ? 640 : 320}"${rock.zoom ? ` style="transform:scale(${rock.zoom})"` : ''} onerror="this.parentNode.remove()"><em>${c.r ? '' : 'ex. : '}${esc(rock.fr)}</em></span>`;
+}
+function keyCredits(n, node) {
+  const seen = new Set(), links = [];
+  for (const c of n.c) { const rock = ROCKS[keyPhotoRock(c, node)]; if (!rock || !rock.img || seen.has(rock.img)) continue; seen.add(rock.img);
+    links.push(`<a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/File:${comFile(rock)}">${esc(rock.fr)}</a>`); }
+  return links.length ? `<p class="note kcred">Les photos montrent un exemple de roche, pas le seul possible : fiez-vous d'abord au critère décrit et au schéma. Photos Wikimedia Commons — auteurs et licences : ${links.join(', ')}.</p>` : '';
+}
 function keyRender() {
   const el = document.getElementById('key');
   const last = keyPath[keyPath.length - 1];
@@ -1356,7 +1387,7 @@ function keyRender() {
   if (cur.node) {
     const n = KEY[cur.node];
     html += `${n.fam ? `<div class="fam">${esc(n.fam)}</div>` : ''}<h2 class="q">${esc(n.q)}</h2>${n.help ? `<p class="help">${esc(n.help)}</p>` : ''}
-      <div class="choices">${n.c.map((c, k) => `<button class="choice" data-pick="${k}">${ill(c.i)}<span><strong>${esc(c.t)}</strong>${c.d ? `<small>${esc(c.d)}</small>` : ''}</span></button>`).join('')}</div>`;
+      <div class="choices">${n.c.map((c, k) => `<button class="choice" data-pick="${k}"><span class="cpics">${ill(c.i)}${keyPhoto(c, cur.node)}</span><span><strong>${esc(c.t)}</strong>${c.d ? `<small>${esc(c.d)}</small>` : ''}</span></button>`).join('')}</div>${keyCredits(n, cur.node)}`;
   } else {
     const [name, rid, fam] = RESULTS[cur.result], rock = ROCKS[rid];
     // L'histoire de cette roche au dernier lieu consulté : formation signalée par la carte, âge, monde à l'époque
@@ -2321,6 +2352,7 @@ function showDiag(which, rockId) {
 // Depuis une fiche de roche : ouvre un diagramme qui a un sens pour elle
 const diagramsFor = rockId => Object.keys(DIAGS).filter(k => DIAGS[k].has(rockId));
 function openDiagramFor(rockId, which) { showView('diagrammes'); showDiag(which || diagramsFor(rockId)[0] || 'menu', rockId); }
+document.querySelectorAll('[data-famphoto]').forEach(el => { el.outerHTML = thumb(ROCKS[el.dataset.famphoto]); });
 document.querySelectorAll('#diag-menu [data-diag]').forEach(b => b.onclick = () => showDiag(b.dataset.diag));
 
 /* ---------- Menu et navigation entre les trois parties ---------- */
