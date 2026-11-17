@@ -246,7 +246,7 @@
   .famhead h2 { font-family: var(--serif); text-transform: none; letter-spacing: 0; font-size: 24px; line-height: 1.15; color: inherit; margin: 0 0 2px; }
   .famhead p { margin: 0; font-size: 14px; line-height: 1.35; opacity: .92; }
   .famkick { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; opacity: .85; }
-  #diag-menu .dlist { margin: 0; padding: 4px 20px 0; } #diag-menu .dlist li::after { color: var(--fam); }
+  #diag-menu .dlist { margin: 0; padding: 4px 20px 0; }
   #diag-menu .dlist li { border-left: 0; }
   .dlist li { padding: 12px 0; position: relative; padding-right: 28px; } .dlist li::after { content: "→"; position: absolute; right: 2px; top: 50%; transform: translateY(-50%); color: var(--accent); font-size: 18px; }
   .dlist button.link { font-size: 19px; color: var(--ink); } .dlist button.link:hover { color: var(--accent); } .dlist small { font-size: 14px; }
@@ -261,6 +261,41 @@
   .choices { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); } .kcred { margin-top: 14px; } .kcred a { color: inherit; }
   @media (max-width: 560px) { button.choice { flex-direction: column; align-items: stretch; } button.choice svg { flex: none; width: 100%; } }
   .dg .back { display: block; width: max-content; margin-bottom: 12px; }
+  .cmp h2 { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 12px 0 10px; }
+  .cmpgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .cmpgrid > div { background: var(--bg); border-radius: 14px; padding: 10px 14px; display: flex; flex-direction: column; gap: 2px; } .cmpgrid small { color: var(--muted); font-size: 12px; } .cmpgrid strong { font-family: var(--serif); font-size: 18px; line-height: 1.2; }
+  .cmpgrid > div:first-child { border-left: 4px solid var(--ochre); } .cmpgrid > div:last-child { border-left: 4px solid var(--accent); }
+  .yn.three { flex-wrap: wrap; } .yn.three button { font-size: 13px; }
+  .match strong { font-weight: 700; }
+  @media (max-width: 560px) { .cmpgrid { grid-template-columns: 1fr; } .yn.three { display: flex; margin: 6px 0 0; width: 100%; } .yn.three button { flex: 1; padding: 6px 4px; } }
+  /* Pointeur de tracé : réticule précis + lettre du point attendu */
+  #map.pf-a, #map.pf-a .leaflet-grab, #map.pf-a .leaflet-interactive, #map.pf-a .leaflet-dragging .leaflet-grab { cursor: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2236%22%20height=%2236%22%20viewBox=%220%200%2036%2036%22%3E%3Cg%20fill=%22none%22%20stroke-linecap=%22round%22%3E%3Cpath%20d=%22M14%202v8M14%2018v8M2%2014h8M18%2014h8%22%20stroke=%22%23fff%22%20stroke-width=%224.5%22/%3E%3Cpath%20d=%22M14%202v8M14%2018v8M2%2014h8M18%2014h8%22%20stroke=%22%23c2552d%22%20stroke-width=%222%22/%3E%3Ccircle%20cx=%2214%22%20cy=%2214%22%20r=%222%22%20fill=%22%23c2552d%22%20stroke=%22%23fff%22%20stroke-width=%221.2%22/%3E%3C/g%3E%3Ccircle%20cx=%2228%22%20cy=%2227%22%20r=%227.5%22%20fill=%22%231f3a34%22%20stroke=%22%23fff%22%20stroke-width=%221.5%22/%3E%3Ctext%20x=%2228%22%20y=%2231%22%20text-anchor=%22middle%22%20font-family=%22Arial,sans-serif%22%20font-weight=%22700%22%20font-size=%2211%22%20fill=%22%23fff%22%3EA%3C/text%3E%3C/svg%3E") 14 14, crosshair; }
+  #map.pf-b, #map.pf-b .leaflet-grab, #map.pf-b .leaflet-interactive, #map.pf-b .leaflet-dragging .leaflet-grab { cursor: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2236%22%20height=%2236%22%20viewBox=%220%200%2036%2036%22%3E%3Cg%20fill=%22none%22%20stroke-linecap=%22round%22%3E%3Cpath%20d=%22M14%202v8M14%2018v8M2%2014h8M18%2014h8%22%20stroke=%22%23fff%22%20stroke-width=%224.5%22/%3E%3Cpath%20d=%22M14%202v8M14%2018v8M2%2014h8M18%2014h8%22%20stroke=%22%23c2552d%22%20stroke-width=%222%22/%3E%3Ccircle%20cx=%2214%22%20cy=%2214%22%20r=%222%22%20fill=%22%23c2552d%22%20stroke=%22%23fff%22%20stroke-width=%221.2%22/%3E%3C/g%3E%3Ccircle%20cx=%2228%22%20cy=%2227%22%20r=%227.5%22%20fill=%22%231f3a34%22%20stroke=%22%23fff%22%20stroke-width=%221.5%22/%3E%3Ctext%20x=%2228%22%20y=%2231%22%20text-anchor=%22middle%22%20font-family=%22Arial,sans-serif%22%20font-weight=%22700%22%20font-size=%2211%22%20fill=%22%23fff%22%3EB%3C/text%3E%3C/svg%3E") 14 14, crosshair; }
+  .bar .sm { display: none; } #profile.on { background: var(--accent); color: #fff; }
+  .profhead { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin: 12px 0 10px; }
+  .profhead h2 { font-family: var(--serif); font-size: 22px; margin: 0; } .profhead .tabs button { font-size: 13px; padding: 6px 12px; }
+  .pfwrap { padding: 6px; touch-action: pan-y; } .pfwrap svg { display: block; width: 100%; height: auto; cursor: crosshair; }
+  .pfinfo { height: 108px; overflow: hidden; background: var(--bg); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 12px; padding: 10px 12px; margin: 0 0 10px; box-sizing: border-box; }
+  .pfi-empty { color: var(--muted); font-size: 14px; line-height: 1.4; }
+  .pfi-top { display: flex; align-items: center; gap: 8px; } .pfi-top strong { font-size: 16px; flex: 1 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pfinfo .pnum { background: var(--deep); color: #fff; border-radius: 50%; width: 22px; height: 22px; display: inline-grid; place-items: center; font-size: 11px; font-weight: 700; flex: none; }
+  .pfi-code { flex: none; font-size: 12px; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 0 6px; }
+  .pfi-mid { display: flex; gap: 10px; align-items: baseline; margin-top: 4px; height: 1.35em; } .pfi-pos { flex: none; margin-left: auto; font-size: 13px; font-weight: 600; color: var(--ink); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .pfi-age { flex: 1 1 auto; min-width: 0; color: var(--accent); font-weight: 600; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .pfi-age em { color: var(--muted); font-weight: 400; font-style: italic; }
+  .pfi-descr { color: var(--muted); font-size: 13px; line-height: 1.35; margin-top: 3px; height: 2.7em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  #pfinfo .sw, .pflegend .sw { display: inline-block; width: 14px; height: 14px; border-radius: 4px; border: 1px solid #0003; vertical-align: -2px; }
+  .pflegend { list-style: none; padding: 0; margin: 12px 0 6px; display: grid; gap: 6px; }
+  .pflegend li { display: grid; grid-template-columns: 24px 16px 1fr auto; gap: 8px; align-items: start; padding: 8px 10px; border-radius: 12px; background: var(--bg); border: 1px solid transparent; }
+  .pflegend li.hl { border-color: var(--accent); background: #fbecd2; } .pflegend .sw { margin-top: 3px; }
+  .pfh { display: inline-block; width: 22px; height: 12px; border-radius: 3px; vertical-align: -1px; background: repeating-linear-gradient(45deg, #f1ede3 0 4px, #ddd6c6 4px 6px); border: 1px solid #0002; }
+  .pfmore { display: block !important; background: none !important; padding: 0 !important; } .pfmore summary { cursor: pointer; color: var(--accent); font-size: 14px; padding: 4px 2px; }
+  .pflegend .pnum { background: var(--deep); color: #fff; border-radius: 50%; width: 22px; height: 22px; display: grid; place-items: center; font-size: 11px; font-weight: 700; }
+  .pflegend small { display: block; color: var(--muted); font-size: 12px; line-height: 1.35; } .pflegend .pfage { color: var(--accent); font-weight: 600; }
+  .pflegend button.link { font-size: 13px; white-space: nowrap; }
+  .leaflet-tooltip.proftip { font-weight: 700; padding: 1px 7px; }
+  @media (max-width: 760px) { .bar .lg { display: none; } .bar .sm { display: inline; } .bar button { padding: 9px 6px; font-size: 14px; }
+    .pfinfo { height: 116px; } .pfi-top strong { font-size: 15px; }
+    .pflegend li { grid-template-columns: 22px 14px 1fr; } .pflegend button.link { grid-column: 3; justify-self: start; } #pfsvg .t { font-size: 14px; } }
   .trail { background: #fffdf8; border-radius: 99px; padding: 6px 14px; display: inline-flex; box-shadow: var(--shadow); }
   /* Commandes des diagrammes */
   .tabs { border-radius: 99px; border-width: 2px; background: #fffdf8; } .tabs button { background: transparent; border-radius: 99px; } .yn { border-radius: 99px; }
@@ -288,12 +323,13 @@
 <div id="map"></div>
 <aside><div class="panel">
   <div class="bar">
-    <button id="locate">📍 Ma position</button>
-    <button id="maptoggle" class="ghost" aria-controls="map" aria-expanded="true">Masquer la carte</button>
+    <button id="locate">📍 <span class="lg">Ma position</span><span class="sm">Position</span></button>
+    <button id="profile" class="ghost">✏️ <span class="lg">Tracer un profil</span><span class="sm">Profil</span></button>
+    <button id="maptoggle" class="ghost" aria-controls="map" aria-expanded="true"><span class="lg">Masquer la carte</span><span class="sm">Carte ✕</span></button>
   </div>
   <div class="intro">
     <h1>Les roches selon un lieu</h1>
-    <p class="sub">Quelle roche se trouve sous vos pieds ? Utilisez votre position ou touchez la carte (France métropolitaine).</p>
+    <p class="sub">Quelle roche se trouve sous vos pieds ? Utilisez votre position ou touchez la carte (France métropolitaine). Pour voir les roches traversées d'un point à un autre, tracez un profil.</p>
   </div>
   <div id="status">Touchez la carte pour commencer.</div>
   <div id="result"></div>
@@ -309,7 +345,7 @@
   <details class="settings credits">
     <summary>ⓘ Sources et crédits</summary>
     <p class="note">Données : © BRGM (Bureau de recherches géologiques et minières) — carte lithologique simplifiée et carte géologique au 1/1 000 000 ; carte au 1/50 000 : BD Charm-50 (Licence Ouverte).
-    Fond de carte © IGN (Institut national de l'information géographique et forestière). Carte du monde : GPlates Web Service, modèle de plaques de Merdith et al. (2021). Âges : bornes de la charte chronostratigraphique internationale (ICS, Commission internationale de stratigraphie).
+    Fond de carte et altitudes des profils © IGN (Institut national de l'information géographique et forestière ; Plan IGN et RGE ALTI®). Carte du monde : GPlates Web Service, modèle de plaques de Merdith et al. (2021). Âges : bornes de la charte chronostratigraphique internationale (ICS, Commission internationale de stratigraphie).
     Photos : Wikimedia Commons, sous licences libres — touchez une photo pour voir son auteur et sa licence.</p>
   </details>
 </div></aside>
@@ -930,12 +966,13 @@ function render(L1, U, lon, lat, F) {
 function setMap(show) {
   const view = document.getElementById('view-lieu'), b = document.getElementById('maptoggle');
   view.classList.toggle('nomap', !show);
-  b.textContent = show ? 'Masquer la carte' : '🗺 Afficher la carte'; b.setAttribute('aria-expanded', show ? 'true' : 'false');
+  b.innerHTML = show ? '<span class="lg">Masquer la carte</span><span class="sm">Carte ✕</span>' : '<span class="lg">🗺 Afficher la carte</span><span class="sm">🗺 Carte</span>'; b.setAttribute('aria-expanded', show ? 'true' : 'false');
   if (show && map) setTimeout(() => map.invalidateSize(), 0);
 }
 document.getElementById('maptoggle').onclick = () => setMap(document.getElementById('view-lieu').classList.contains('nomap'));
 
-async function lookup(lat, lon) {
+async function lookup(lat, lon, fromProf) {
+  profCursorOff();
   if (marker) marker.setLatLng([lat, lon]); else marker = L.marker([lat, lon]).addTo(map);
   setStatus(`Recherche pour ${lat.toFixed(4)}, ${lon.toFixed(4)}…`);
   resultEl.innerHTML = '';
@@ -951,10 +988,12 @@ async function lookup(lat, lon) {
   lastPrecision = '';
   render(L1, U, lon, lat, F);
   setStatus(`📍 ${lat.toFixed(4)}, ${lon.toFixed(4)}` + (lastPrecision ? ` · précision ${lastPrecision}` : ''));
+  if (fromProf && PROF) { resultEl.insertAdjacentHTML('afterbegin', '<button class="ghost backkey" id="backprof">← Revenir au profil</button>');
+    document.getElementById('backprof').onclick = () => { if (marker) { marker.remove(); marker = null; } profRender(); setStatus('Profil de ' + nf(PROF.len / 1000, PROF.len < 10000 ? 1 : 0) + ' km.'); }; }
 }
 
 if (map) {
-  map.on('click', e => lookup(e.latlng.lat, e.latlng.lng));
+  map.on('click', e => profMode ? profClick(e.latlng.lat, e.latlng.lng) : lookup(e.latlng.lat, e.latlng.lng));
   const btn = document.getElementById('locate');
   btn.addEventListener('click', () => {
     if (!navigator.geolocation) { setStatus('Géolocalisation indisponible : touchez la carte.', true); return; }
@@ -1101,13 +1140,158 @@ async function query50(lon, lat) {
     const x = lon * d.q, y = lat * d.q;
     for (const [li, bb, rings] of d.polys) { if (x < bb[0] || x > bb[2] || y < bb[1] || y > bb[3]) continue;
       let n = 0; for (const r of rings) if (inFlatRing(x, y, r)) n++;
-      if (n % 2) return { descr: d.legend[li][1], color: d.legend[li][2], dept: name }; } }
+      if (n % 2) return { descr: d.legend[li][1], color: d.legend[li][2], code: d.legend[li][0], dept: name }; } }
   return null;
 }
 function info50(F) {
   if (/^reseau hydrographique/.test(norm(F.descr))) return { water: true, rocks: [], age: null };
   return { water: false, rocks: rocksFromText(F.descr), age: ageFromText(F.descr) };
 }
+/* ---------- Profil géologique de surface : relief (IGN) + formations au 1/50 000 le long d'un trait ---------- */
+const ALTI = 'https://data.geopf.fr/altimetrie/1.0/calcul/alti/rest/elevationLine.json';
+let profMode = 0, profA = null, profLayer = null, profCursor = null, PROF = null, profReal = false;
+const profBtn = document.getElementById('profile');
+const hav = (a, b) => { const R = 6371000, r = Math.PI / 180, dla = (b[0] - a[0]) * r, dlo = (b[1] - a[1]) * r;
+  const h = Math.sin(dla / 2) ** 2 + Math.cos(a[0] * r) * Math.cos(b[0] * r) * Math.sin(dlo / 2) ** 2; return 2 * R * Math.asin(Math.sqrt(h)); };
+const CARD = ['N', 'NE', 'E', 'SE', 'S', 'SO', 'O', 'NO'];
+const bearing = (a, b) => { const r = Math.PI / 180, y = Math.sin((b[1] - a[1]) * r) * Math.cos(b[0] * r),
+  x = Math.cos(a[0] * r) * Math.sin(b[0] * r) - Math.sin(a[0] * r) * Math.cos(b[0] * r) * Math.cos((b[1] - a[1]) * r); return (Math.atan2(y, x) / r + 360) % 360; };
+const card = deg => CARD[Math.round(deg / 45) % 8];
+const niceStep = (span, n) => { const raw = span / n, p = 10 ** Math.floor(Math.log10(raw)), m = raw / p; return (m < 1.5 ? 1 : m < 3.5 ? 2 : m < 7.5 ? 5 : 10) * p; };
+let profRubber = null;
+function profUI() { const mp = document.getElementById('map'); mp.classList.toggle('pf-a', profMode === 1); mp.classList.toggle('pf-b', profMode === 2);
+  if (!profBtn) return; profBtn.classList.toggle('on', profMode > 0);
+  profBtn.innerHTML = profMode ? '✕ <span class="lg">Annuler le profil</span><span class="sm">Annuler</span>' : '✏️ <span class="lg">Tracer un profil</span><span class="sm">Profil</span>'; }
+function profClear() { profRubber = null; if (profLayer) { profLayer.remove(); profLayer = null; } if (profCursor) { profCursor.remove(); profCursor = null; } }
+const profDot = (ll, t) => L.circleMarker(ll, { radius: 6, color: '#1f3a34', weight: 3, fillColor: '#fff', fillOpacity: 1 }).bindTooltip(t, { permanent: true, direction: 'top', className: 'proftip' });
+function profClick(lat, lon) {
+  if (profMode === 1) { profA = [lat, lon]; profLayer = L.layerGroup().addTo(map); profDot(profA, 'A').addTo(profLayer); profMode = 2;
+    profUI(); setStatus("Touchez maintenant le point d'arrivée (B)."); return; }
+  const B = [lat, lon]; if (profRubber) { profRubber.remove(); profRubber = null; } L.polyline([profA, B], { color: '#c2552d', weight: 4 }).addTo(profLayer); profDot(B, 'B').addTo(profLayer);
+  profMode = 0; profUI(); profBuild(profA, B);
+}
+if (profBtn && !map) profBtn.hidden = true;
+// trait élastique entre A et la souris pendant le choix de B
+if (map) map.on('mousemove', e => { if (profMode !== 2 || !profLayer) return;
+  if (!profRubber) profRubber = L.polyline([profA, e.latlng], { color: '#c2552d', weight: 3, dashArray: '6 7', interactive: false }).addTo(profLayer); else profRubber.setLatLngs([profA, e.latlng]); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && profMode && profBtn) profBtn.click(); });
+if (profBtn) profBtn.onclick = () => {
+  if (profMode) { profMode = 0; profClear(); profUI(); setStatus('Profil annulé. Touchez la carte pour consulter un lieu.'); return; }
+  profClear(); if (marker) { marker.remove(); marker = null; } profMode = 1; profUI(); setMap(true);
+  setStatus('Profil : touchez le point de départ (A) sur la carte.');
+};
+async function profBuild(a, b) {
+  const len = hav(a, b);
+  if (len < 300) { setStatus('Profil trop court : éloignez davantage A et B.', true); profClear(); return; }
+  if (len > 150000) { setStatus('Profil trop long : 150 km au maximum.', true); profClear(); return; }
+  const n = Math.max(120, Math.min(600, Math.round(len / 20)));
+  document.getElementById('view-lieu').classList.add('has-result'); resultEl.innerHTML = '';
+  setStatus('Calcul du relief…');
+  let z;
+  try { const r = await fetch(`${ALTI}?lon=${a[1].toFixed(6)}|${b[1].toFixed(6)}&lat=${a[0].toFixed(6)}|${b[0].toFixed(6)}&resource=ign_rge_alti_wld&delimiter=|&indent=false&measures=false&zonly=true&sampling=${n}`);
+    if (!r.ok) throw new Error('HTTP ' + r.status); const j = await r.json();
+    z = (j.elevations || []).map(e => { const v = typeof e === 'number' ? e : e.z; return v > -9000 ? v : null; });
+    if (z.length < 2) throw new Error('vide');
+  } catch (e) { setStatus("Le service d'altitude de l'IGN ne répond pas. Réessayez dans un instant.", true); return; }
+  setStatus('Lecture de la carte géologique le long du profil…');
+  const m = z.length, pts = [];
+  for (let i = 0; i < m; i++) { const t = i / (m - 1), lat = a[0] + (b[0] - a[0]) * t, lon = a[1] + (b[1] - a[1]) * t;
+    let F; try { F = await query50(lon, lat); } catch (e) { F = undefined; }
+    pts.push({ d: len * t, z: z[i], lat, lon, F }); }
+  // tronçons de même formation
+  const keyOf = p => p.z === null ? '~sea' : p.F === undefined ? '~none' : p.F === null ? '~gap' : p.F.descr;
+  const forms = [], fIndex = {}, segs = [];
+  pts.forEach((p, i) => { const k = keyOf(p);
+    if (!(k in fIndex)) { fIndex[k] = forms.length; forms.push({ k, F: p.F, len: 0, i0: i, sea: k === '~sea', none: k === '~none', gap: k === '~gap' }); }
+    p.f = fIndex[k]; const last = segs[segs.length - 1];
+    if (last && last.f === p.f) last.i1 = i; else segs.push({ f: p.f, i0: i, i1: i }); });
+  for (const s of segs) { const d0 = s.i0 ? (pts[s.i0].d + pts[s.i0 - 1].d) / 2 : 0, d1 = s.i1 < m - 1 ? (pts[s.i1].d + pts[s.i1 + 1].d) / 2 : len; s.d0 = d0; s.d1 = d1; forms[s.f].len += d1 - d0; }
+  forms.forEach(f => { f.color = f.sea ? '#cfe3f2' : f.none ? '#e9e4d8' : f.gap ? '#dcdcdc' : f.F.color || '#ccc';
+    f.code = f.F && f.F.code && /^[\x20-\x7E]+$/.test(f.F.code) ? f.F.code : ''; if (f.F) { f.age = ageFromText(f.F.descr); f.rocks = rocksFromText(f.F.descr); f.water = /^reseau hydrographique/.test(norm(f.F.descr)); } });
+  PROF = { a, b, len, pts, segs, forms, br: bearing(a, b) };
+  if (matchMedia('(max-width: 760px)').matches) setMap(false);
+  profRender();
+  setStatus(`Profil de ${nf(len / 1000, len < 10000 ? 1 : 0)} km, de ${card((PROF.br + 180) % 360)} (A) vers ${card(PROF.br)} (B).`);
+}
+function profSVG() {
+  const P = PROF, W = 680, L = 66, R = 14, T = 26, band = 14, pw = W - L - R, sx = pw / P.len;
+  const zs = P.pts.map(p => p.z === null ? 0 : p.z), zmin = Math.min(...zs), zmax = Math.max(...zs);
+  let lo, hi, sy, Hp;
+  if (profReal) { lo = Math.min(0, Math.floor(zmin / 100) * 100); hi = Math.max(lo + 100, zmax); sy = sx; Hp = Math.max(40, (hi - lo) * sy); }
+  else { const pad = Math.max(20, (zmax - zmin) * .12); lo = Math.floor((zmin - pad) / 10) * 10; hi = zmax + pad; Hp = 220; sy = Hp / (hi - lo); }
+  const H = T + Hp + band + 34, yb = T + Hp + band, X = d => L + d * sx, Y = zz => T + (hi - zz) * sy, exag = sy / sx;
+  P.view = { L, pw, sx, W, H, T, ground: null };
+  const zOf = p => p.z === null ? 0 : p.z;
+  let g = `<defs><pattern id="pfq" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V10" stroke="#00000014" stroke-width="4"/></pattern></defs>`;
+  // grille et axes
+  const ys = niceStep(hi - lo, profReal ? 3 : 5); for (let v = Math.ceil(lo / ys) * ys; v <= hi; v += ys) g += `<path d="M${L} ${Y(v).toFixed(1)}H${W - R}" class="g"/><text x="${L - 6}" y="${(Y(v) + 4).toFixed(1)}" text-anchor="end" class="t">${nf(v, 0)} m</text>`;
+  const xs = niceStep(P.len / 1000, 6); for (let v = 0; v <= P.len / 1000 + 1e-9; v += xs) g += `<path d="M${X(v * 1000).toFixed(1)} ${T}V${yb}" class="g"/><text x="${X(v * 1000).toFixed(1)}" y="${yb + 15}" text-anchor="middle" class="t">${nf(v, xs < 1 ? 1 : 0)} km</text>`;
+  // sous-sol inconnu
+  const ground = P.pts.map(p => [X(p.d), Y(zOf(p))]);
+  P.view.ground = ground;
+  g += dgPoly([...ground, [X(P.len), yb], [X(0), yb]], 'f', ' fill="#f1ede3"') + dgPoly([...ground, [X(P.len), yb], [X(0), yb]], 'f', ' fill="url(#pfq)"');
+  // bande colorée des formations
+  const yAt = d => { const t = d / P.len * (P.pts.length - 1), i = Math.min(P.pts.length - 2, Math.floor(t)), f = t - i; return Y(zOf(P.pts[i]) * (1 - f) + zOf(P.pts[i + 1]) * f); };
+  for (const s of P.segs) { const f = P.forms[s.f], top = [[X(s.d0), yAt(s.d0)], ...P.pts.slice(s.i0, s.i1 + 1).map(p => [X(p.d), Y(zOf(p))]), [X(s.d1), yAt(s.d1)]];
+    g += `<path d="M${top.map(q => q[0].toFixed(1) + ' ' + q[1].toFixed(1)).join('L')}L${top.slice().reverse().map(q => q[0].toFixed(1) + ' ' + (q[1] + band).toFixed(1)).join('L')}Z" fill="${f.color}" stroke="#0003" stroke-width=".6"${f.none ? ' fill-opacity=".6"' : ''}/>`; }
+  g += dgLine(ground, 'ln" stroke="#22302b" stroke-width="1.8');
+  // numéros des formations au-dessus des tronçons assez larges
+  for (const s of P.segs) { const w = (s.d1 - s.d0) * sx, f = P.forms[s.f]; if (w < 18 || f.sea || f.none) continue; const xm = X((s.d0 + s.d1) / 2);
+    g += `<text x="${xm.toFixed(1)}" y="${(yAt((s.d0 + s.d1) / 2) - 7).toFixed(1)}" text-anchor="middle" class="pn">${s.f + 1}</text>`; }
+  g += `<text x="${X(0)}" y="${T - 10}" text-anchor="start" class="pab">A <tspan class="t">${card((P.br + 180) % 360)}</tspan></text><text x="${X(P.len)}" y="${T - 10}" text-anchor="end" class="pab"><tspan class="t">${card(P.br)}</tspan> B</text>`;
+  g += `<g id="pfcur" style="display:none"><path d="M0 ${T}V${yb}" stroke="#c2552d" stroke-width="1.5"/><circle r="5" fill="#fff" stroke="#c2552d" stroke-width="2.5"/></g>`;
+  return { exag, svg: `<svg id="pfsvg" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Profil topographique et géologique">${DG_STYLE}<style>.pn{font:700 11px system-ui,sans-serif;fill:#22302b;paint-order:stroke;stroke:#fff;stroke-width:3px}.pab{font:700 15px system-ui,sans-serif;fill:#22302b}.psub{font-style:italic;fill:#7a7466}</style>${g}<rect x="${L}" y="${T}" width="${pw}" height="${yb - T}" fill="none" stroke="#0004"/><rect id="pfhit" x="${L}" y="0" width="${pw}" height="${H}" fill="transparent"/></svg>` };
+}
+function profStory() {
+  const P = PROF, real = P.forms.filter(f => f.F && !f.water), tot = P.len; if (!real.length) return '';
+  const name = f => `<strong>${esc(f.code ? f.code + ' · ' : '')}${esc(f.rocks && f.rocks.length ? f.rocks.map(r => r.name).join(', ') : f.F.descr.slice(0, 60))}</strong>`;
+  let top = null; P.pts.forEach(p => { if (p.z !== null && p.F && (!top || p.z > top.z)) top = p; });
+  const out = [];
+  if (top) out.push(`<p>Le point le plus haut (${nf(top.z, 0)} m, à ${nf(top.d / 1000, 1)} km de A) est dans la formation ${top.f + 1} : ${name(P.forms[top.f])}.</p>`);
+  // pente moyenne par formation (formations couvrant au moins 8 % du profil)
+  const slope = P.forms.map(() => [0, 0]);
+  for (let i = 1; i < P.pts.length; i++) { const p = P.pts[i], q = P.pts[i - 1]; if (p.z === null || q.z === null || p.f !== q.f) continue; slope[p.f][0] += Math.abs(p.z - q.z); slope[p.f][1] += p.d - q.d; }
+  const big = real.map(f => ({ f, s: Math.atan2(slope[P.forms.indexOf(f)][0], slope[P.forms.indexOf(f)][1] || 1) * 180 / Math.PI })).filter(o => o.f.len >= tot * .08 && slope[P.forms.indexOf(o.f)][1] > 0);
+  if (big.length >= 2) { big.sort((x, y) => y.s - x.s); const st = big[0], ge = big[big.length - 1];
+    if (st.s >= ge.s * 2 && st.s - ge.s >= 3) out.push(`<p>Les pentes les plus raides (${nf(st.s, 0)}° en moyenne) sont dans la formation ${P.forms.indexOf(st.f) + 1} : ${name(st.f)} ; les plus douces (${nf(ge.s, 0)}°) dans la formation ${P.forms.indexOf(ge.f) + 1} : ${name(ge.f)}.
+      Les roches résistantes arment souvent les reliefs et les roches tendres les creux, mais la pente dépend aussi du travail des rivières et des glaciers : c'est une piste à vérifier, pas une règle.</p>`); }
+  const aged = real.filter(f => f.age).sort((x, y) => y.age.mid - x.age.mid);
+  if (aged.length >= 2 && aged[0].age.mid - aged[aged.length - 1].age.mid > 1) out.push(`<p>Le long de ce trait se côtoient des roches formées ${esc(aged[aged.length - 1].age.approx)} (formation ${P.forms.indexOf(aged[aged.length - 1]) + 1}) et ${esc(aged[0].age.approx)} (formation ${P.forms.indexOf(aged[0]) + 1}) : quelques kilomètres de marche traversent ${nf(aged[0].age.mid - aged[aged.length - 1].age.mid, 0)} millions d'années d'histoire.</p>`);
+  return out.length ? `<div class="story"><h2>🕰 Ce que montre ce profil</h2>${out.join('')}<p class="note">Lecture automatique à partir de la carte et du relief : à confronter avec le terrain.</p></div>` : '';
+}
+function profRender() {
+  const P = PROF, { exag, svg } = profSVG(), none = P.forms.some(f => f.none), all = P.forms.every(f => f.none || f.sea);
+  const item = (f, i) => `<li data-pf="${i}"><span class="pnum">${i + 1}</span><span class="sw" style="background:${f.color}"></span><div>${
+    f.sea ? '<strong>Mer ou altitude inconnue</strong>' : f.none ? '<strong>Carte détaillée non chargée ici</strong>' : f.gap ? '<strong>Zone non cartographiée</strong>'
+    : `<strong>${f.code ? esc(f.code) + ' · ' : ''}${esc(f.rocks && f.rocks.length ? cap(f.rocks.map(r => r.name).join(', ')) : f.water ? 'Cours d\'eau ou plan d\'eau' : 'Formation')}</strong><small>${esc(f.F.descr.length > 170 ? f.F.descr.slice(0, 167) + '…' : f.F.descr)}</small>${f.age ? `<small class="pfage">${esc(f.age.range)}</small>` : ''}`
+    }<small>${nf(f.len / 1000, f.len < 10000 ? 2 : 1)} km le long du profil</small></div>${f.F && !f.water ? `<button class="link" data-pfgo="${i}">Voir la fiche</button>` : ''}</li>`;
+  const major = (f, i) => f.len >= P.len * .03 || P.forms.length <= 8, small = P.forms.map((f, i) => [f, i]).filter(([f, i]) => !major(f, i));
+  const legend = P.forms.map((f, i) => major(f, i) ? item(f, i) : '').join('') + (small.length ? `<li class="pfmore"><details><summary>${small.length} autre${small.length > 1 ? 's' : ''} formation${small.length > 1 ? 's' : ''} traversée${small.length > 1 ? 's' : ''} sur moins de 3 % du profil</summary><ol class="pflegend">${small.map(([f, i]) => item(f, i)).join('')}</ol></details></li>` : '');
+  resultEl.innerHTML = `<div class="card prof"><div class="profhead"><h2>Profil géologique</h2><div class="tabs"><button data-pfx="0" class="${profReal ? '' : 'on'}">Relief accentué${profReal ? '' : ` ×${nf(exag, exag < 10 ? 1 : 0)}`}</button><button data-pfx="1" class="${profReal ? 'on' : ''}">Échelle réelle</button></div></div>
+    <div id="pfinfo" class="pfinfo" aria-live="polite"><div class="pfi-empty">👆 Parcourez le profil du doigt ou de la souris : la roche qui affleure s'affiche ici, et le point correspondant sur la carte.</div></div>
+    <div class="hjgraph pfwrap">${svg}</div><p class="legend"><span class="sw pfh"></span> sous-sol non représenté : la carte ne décrit que ce qui affleure en surface.</p>
+    ${profReal ? `<p class="note">À l'échelle réelle, même les montagnes paraissent plates : un relief de 1 000 m sur 10 km ne fait qu'une pente de 6°. Les profils sont presque toujours dessinés avec une exagération verticale.</p>` : `<p class="note">Hauteurs exagérées ×${nf(exag, exag < 10 ? 1 : 0)} par rapport aux longueurs, pour rendre le relief lisible : les pentes réelles sont bien plus douces.</p>`}
+    ${all ? `<p class="match no">⚠ Pas de carte au 1/50 000 disponible le long de ce trait. Sur un fichier ouvert depuis votre ordinateur, importez-la dans « ⚙ Données détaillées ».</p>` : none ? `<p class="match no">⚠ Une partie du trait sort des cartes détaillées chargées.</p>` : ''}
+    <ol class="pflegend">${legend}</ol></div>${profStory()}
+    <p class="note">Relief : IGN (RGE ALTI®). Formations : BRGM, BD Charm-50. Un profil de surface n'est pas une coupe : il montre ce qui affleure, pas la géométrie des couches en profondeur. <button class="link" data-pfnew>Tracer un autre profil</button></p>`;
+  resultEl.querySelectorAll('[data-pfx]').forEach(b => b.onclick = () => { profReal = b.dataset.pfx === '1'; profRender(); });
+  resultEl.querySelector('[data-pfnew]').onclick = () => profBtn.click();
+  resultEl.querySelectorAll('[data-pfgo]').forEach(b => b.onclick = () => { const f = +b.dataset.pfgo, s = P.segs.filter(s => s.f === f).sort((x, y) => (y.d1 - y.d0) - (x.d1 - x.d0))[0], p = P.pts[Math.round((s.i0 + s.i1) / 2)];
+    profCursorOff(); lookup(p.lat, p.lon, true); });
+  const svgEl = document.getElementById('pfsvg'), cur = document.getElementById('pfcur'), info = document.getElementById('pfinfo');
+  const move = ev => { const r = svgEl.getBoundingClientRect(), x = (ev.clientX - r.left) / r.width * P.view.W, d = Math.max(0, Math.min(P.len, (x - P.view.L) / P.view.sx));
+    const i = Math.round(d / P.len * (P.pts.length - 1)), p = P.pts[i], f = P.forms[p.f], gy = P.view.ground[i];
+    cur.style.display = ''; cur.setAttribute('transform', `translate(${gy[0]} 0)`); cur.querySelector('circle').setAttribute('cy', gy[1]);
+    info.innerHTML = `<div class="pfi-top"><span class="pnum">${p.f + 1}</span><span class="sw" style="background:${f.color}"></span><strong>${
+      f.sea ? 'Mer ou altitude inconnue' : f.none ? 'Carte détaillée non chargée ici' : f.gap ? 'Zone non cartographiée' : esc(f.rocks && f.rocks.length ? cap(f.rocks.map(r => r.name).join(', ')) : f.water ? "Cours d'eau ou plan d'eau" : 'Formation')
+      }</strong>${f.code ? `<span class="pfi-code">${esc(f.code)}</span>` : ''}</div>${
+      `<div class="pfi-mid"><span class="pfi-age">${f.age ? esc(f.age.range) : f.F ? '<em>âge non précisé par la carte</em>' : ''}</span><span class="pfi-pos">${nf(p.d / 1000, 2)} km · ${p.z === null ? '—' : nf(p.z, 0) + ' m'}</span></div>`}<div class="pfi-descr">${f.F ? esc(f.F.descr) : ''}</div>`;
+    resultEl.querySelectorAll('.pflegend li').forEach(li => li.classList.toggle('hl', +li.dataset.pf === p.f));
+    if (map) { if (!profCursor) profCursor = L.circleMarker([p.lat, p.lon], { radius: 7, color: '#c2552d', weight: 3, fillColor: '#fff', fillOpacity: 1 }).addTo(map); else profCursor.setLatLng([p.lat, p.lon]); } };
+  const hit = document.getElementById('pfhit'); hit.addEventListener('pointermove', move); hit.addEventListener('pointerdown', move);
+}
+function profCursorOff() { if (profCursor) { profCursor.remove(); profCursor = null; } }
+
 // Interface : état et import des données détaillées
 function deptStatus(msg) {
   const n = Object.keys(deptIndex).length;
@@ -1362,6 +1546,23 @@ const KIN = { reefLimestone:['limestone'], oolite:['limestone'], chalk:['limesto
 let keyPath = [];   // suite des choix effectués : [{node, choice}]
 let localGeo = null; // dernière géologie consultée dans « Les roches selon un lieu »
 let keyWaiting = false; // l'utilisateur est parti indiquer le lieu de sa roche et veut y revenir
+let keyCtx = ''; // où était l'échantillon : 'place' (affleurement en place), 'loose' (bloc ou galet isolé), '' (non précisé)
+// Confrontation de l'identification à la carte : prédiction (carte) contre observation (clé)
+function keyCompare(rid, name) {
+  const kin = KIN[rid] || [rid], story = kin.map(k => localGeo.byRock[k]).find(Boolean) || null, agree = !!story || kin.some(k => localGeo.ids.has(k));
+  const expected = [...localGeo.ids].map(k => ROCKS[k] && ROCKS[k].fr).filter(Boolean), fam = RESULTS[Object.keys(RESULTS).find(k => RESULTS[k][1] === rid)] || [];
+  const ctx = `<p class="q3">Où était votre échantillon ? <span class="yn three"><button data-ctx="place" class="${keyCtx === 'place' ? 'on' : ''}">En place dans l'affleurement</button><button data-ctx="loose" class="${keyCtx === 'loose' ? 'on' : ''}">Bloc ou galet isolé</button><button data-ctx="" class="${keyCtx === '' ? 'on' : ''}">Je ne sais pas</button></span></p>`;
+  let verdict;
+  if (agree) verdict = `<p class="match ok">✔ <strong>Accord.</strong> La prédiction de la carte se vérifie sur le terrain${keyCtx === 'loose' ? ", même si un bloc isolé peut toujours venir d'ailleurs : l'accord est probable, pas certain" : ''}. C'est le cas le plus fréquent, et il ne prouve pas que la carte ait raison partout : une formation cartographiée d'un seul tenant contient souvent plusieurs roches.</p>`;
+  else if (keyCtx === 'loose') verdict = `<p class="match no">⚠ <strong>Désaccord, probablement explicable.</strong> Un bloc ou un galet isolé a pu être transporté : par une rivière (galets arrondis), par un glacier (bloc erratique, parfois à des centaines de kilomètres de son origine), par un éboulement venu d'une pente au-dessus, ou par l'homme (remblai, ballast, mur). Cherchez d'où il peut venir : à l'amont, en altitude, ou dans la liste des roches voisines.</p>`;
+  else if (keyCtx === 'place') verdict = `<p class="match no">⚠ <strong>Désaccord réel, à prendre au sérieux.</strong> Si la roche est bien en place, c'est votre observation qui prime : une carte simplifie (une formation peut cacher des bancs d'une autre roche, un filon, une lentille), sa précision est de quelques dizaines à centaines de mètres, et vous êtes peut-être sur une limite. Avant de conclure, revérifiez les étapes de la clé qui vous ont fait hésiter, puis notez l'observation : c'est ainsi que les cartes s'améliorent.</p>`;
+  else verdict = `<p class="match no">⚠ <strong>Désaccord.</strong> Deux lectures sont possibles, et c'est le contexte qui départage : un échantillon <em>en place</em> dans l'affleurement contredit vraiment la carte ; un bloc ou un galet <em>isolé</em> a pu être transporté de loin. Répondez à la question ci-dessus.</p>`;
+  return `<div class="card cmp"><h2>🔬 Confronter l'observation à la carte</h2>
+    <div class="cmpgrid"><div><small>Ce que prédit la carte</small><strong>${expected.length ? esc(expected.slice(0, 4).join(', ')) : 'rien de lisible ici'}</strong><small>au point ${esc(localGeo.label)}</small></div>
+      <div><small>Ce que vous avez observé</small><strong>${esc(name)}</strong><small>par la clé de détermination</small></div></div>
+    ${ctx}${verdict}
+    <p class="note">Prédire, observer, confronter : c'est la démarche du géologue de terrain. Un désaccord n'est pas une erreur, c'est une question à résoudre. <button class="link" data-place>Changer de lieu</button></p></div>`;
+}
 // Photo d'exemple pour un choix de la clé : la roche du résultat, ou une roche typique de la branche
 const KEY_PHOTO = { vis: 'granite', invis: 'mudstone', volc: 'rhyolite', joint: 'granodiorite', plut: 'granite', detr: 'sandstone', metaVis: 'gneiss', evap: 'evaporite',
   noacid: 'slate', carb: 'limestone', detrDur: 'sandstone', schiste: 'slate', volcNq: 'andesite', volcPl: 'basalt', plutQ: 'granite', plutNq: 'gabbro',
@@ -1402,11 +1603,8 @@ function keyRender() {
             <p>Voici la Terre à ce moment-là, et l'endroit où se trouvait ce lieu :</p><div class="world" id="world-key"></div>`
             : `<p class="note">La carte ne donne pas l'âge de cette formation : impossible de la replacer dans le temps.</p>`}
           <p class="note">D'après la carte au ${story.scale}. <button class="link" data-place>Changer de lieu</button></p></div>`;
-      } else if (kin.some(k => localGeo.ids.has(k))) {
-        local = `<p class="match ok">✔ Cohérent avec la carte géologique de votre dernier lieu consulté (${esc(localGeo.label)}), qui ne précise pas son âge. <button class="link" data-place>Changer de lieu</button></p>`;
-      } else {
-        local = `<p class="match no">⚠ La carte géologique ne signale pas cette roche à votre dernier lieu consulté (${esc(localGeo.label)}). Elle peut exister localement ou avoir été apportée ; revérifiez aussi vos réponses. <button class="link" data-place>Changer de lieu</button></p>`;
       }
+      local = keyCompare(rid, name) + local;
     } else {
       local = `<div class="story"><h2>🕰 Ce que cette roche raconte</h2>
         <p>Une roche est un témoin : selon l'endroit où vous l'avez trouvée, elle a un âge et une histoire. Indiquez ce lieu pour savoir quand elle s'est formée et à quoi ressemblait la Terre à ce moment-là.</p>
@@ -1422,6 +1620,7 @@ function keyRender() {
   el.querySelectorAll('[data-pick]').forEach(b => b.onclick = () => { keyPath.push({ node: cur.node, choice: KEY[cur.node].c[+b.dataset.pick] }); keyRender(); el.scrollIntoView({ block: 'start' }); });
   el.querySelectorAll('[data-back]').forEach(b => b.onclick = () => { keyPath = keyPath.slice(0, +b.dataset.back); keyRender(); });
   el.querySelectorAll('[data-diagram]').forEach(b => b.onclick = () => openDiagramFor(b.dataset.diagram, b.dataset.which));
+  el.querySelectorAll('[data-ctx]').forEach(b => b.onclick = () => { keyCtx = b.dataset.ctx; keyRender(); });
   el.querySelectorAll('[data-place]').forEach(b => b.onclick = () => { keyWaiting = true; showView('lieu'); setMap(true); setStatus('Touchez la carte à l\'endroit où vous avez trouvé la roche.'); });
   const wk = document.getElementById('world-key');
   if (wk && cur.result) { const [, rid2] = RESULTS[cur.result], st = (KIN[rid2] || [rid2]).map(k => localGeo.byRock[k]).find(Boolean); if (st && st.age) showWorld(wk, st.age.mid, localGeo.lon, localGeo.lat); }
