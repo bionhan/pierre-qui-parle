@@ -179,6 +179,7 @@
   @media (max-width: 760px) {
     #view-lieu.on { display: flex; flex-direction: column; }
     #view-lieu #map { flex: 0 0 42vh; height: 42vh; min-height: 0; }
+    #view-lieu.profiling #map { flex-basis: 36vh; height: 36vh; }
     aside { flex: 1 1 auto; min-height: 0; border-left: 0; border-top: 1px solid var(--line); padding: 14px; }
     .bar { top: -14px; }
     nav.top { padding: 4px 6px; } nav.top .brand { display: none; }
@@ -972,7 +973,7 @@ function setMap(show) {
 document.getElementById('maptoggle').onclick = () => setMap(document.getElementById('view-lieu').classList.contains('nomap'));
 
 async function lookup(lat, lon, fromProf) {
-  profCursorOff();
+  profCursorOff(); document.getElementById('view-lieu').classList.remove('profiling');
   if (marker) marker.setLatLng([lat, lon]); else marker = L.marker([lat, lon]).addTo(map);
   setStatus(`Recherche pour ${lat.toFixed(4)}, ${lon.toFixed(4)}…`);
   resultEl.innerHTML = '';
@@ -989,7 +990,7 @@ async function lookup(lat, lon, fromProf) {
   render(L1, U, lon, lat, F);
   setStatus(`📍 ${lat.toFixed(4)}, ${lon.toFixed(4)}` + (lastPrecision ? ` · précision ${lastPrecision}` : ''));
   if (fromProf && PROF) { resultEl.insertAdjacentHTML('afterbegin', '<button class="ghost backkey" id="backprof">← Revenir au profil</button>');
-    document.getElementById('backprof').onclick = () => { if (marker) { marker.remove(); marker = null; } profRender(); setStatus('Profil de ' + nf(PROF.len / 1000, PROF.len < 10000 ? 1 : 0) + ' km.'); }; }
+    document.getElementById('backprof').onclick = () => { if (marker) { marker.remove(); marker = null; } profShow(); setStatus('Profil de ' + nf(PROF.len / 1000, PROF.len < 10000 ? 1 : 0) + ' km.'); }; }
 }
 
 if (map) {
@@ -1209,8 +1210,7 @@ async function profBuild(a, b) {
   forms.forEach(f => { f.color = f.sea ? '#cfe3f2' : f.none ? '#e9e4d8' : f.gap ? '#dcdcdc' : f.F.color || '#ccc';
     f.code = f.F && f.F.code && /^[\x20-\x7E]+$/.test(f.F.code) ? f.F.code : ''; if (f.F) { f.age = ageFromText(f.F.descr); f.rocks = rocksFromText(f.F.descr); f.water = /^reseau hydrographique/.test(norm(f.F.descr)); } });
   PROF = { a, b, len, pts, segs, forms, br: bearing(a, b) };
-  if (matchMedia('(max-width: 760px)').matches) setMap(false);
-  profRender();
+  profShow();
   setStatus(`Profil de ${nf(len / 1000, len < 10000 ? 1 : 0)} km, de ${card((PROF.br + 180) % 360)} (A) vers ${card(PROF.br)} (B).`);
 }
 function profSVG() {
@@ -1289,6 +1289,15 @@ function profRender() {
     resultEl.querySelectorAll('.pflegend li').forEach(li => li.classList.toggle('hl', +li.dataset.pf === p.f));
     if (map) { if (!profCursor) profCursor = L.circleMarker([p.lat, p.lon], { radius: 7, color: '#c2552d', weight: 3, fillColor: '#fff', fillOpacity: 1 }).addTo(map); else profCursor.setLatLng([p.lat, p.lon]); } };
   const hit = document.getElementById('pfhit'); hit.addEventListener('pointermove', move); hit.addEventListener('pointerdown', move);
+}
+// Affiche le profil à côté de la carte : la carte cadre le trait ; sur téléphone, elle reste en haut
+// et le panneau défile pour amener l'encart de lecture et le graphique juste sous la barre de boutons.
+function profShow() {
+  document.getElementById('view-lieu').classList.add('profiling'); setMap(true); profRender();
+  if (map && map.fitBounds) setTimeout(() => { map.invalidateSize(); map.fitBounds([PROF.a, PROF.b], { padding: [28, 28], maxZoom: 15 }); }, 0);
+  if (!matchMedia('(max-width: 760px)').matches) return;
+  requestAnimationFrame(() => { const aside = document.querySelector('#view-lieu aside'), bar = aside.querySelector('.bar'), info = document.getElementById('pfinfo');
+    if (!aside || !info) return; aside.scrollTop += info.getBoundingClientRect().top - bar.getBoundingClientRect().bottom - 8; });
 }
 function profCursorOff() { if (profCursor) { profCursor.remove(); profCursor = null; } }
 
