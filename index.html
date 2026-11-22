@@ -293,8 +293,24 @@
   .pflegend .pnum { background: var(--deep); color: #fff; border-radius: 50%; width: 22px; height: 22px; display: grid; place-items: center; font-size: 11px; font-weight: 700; }
   .pflegend small { display: block; color: var(--muted); font-size: 12px; line-height: 1.35; } .pflegend .pfage { color: var(--accent); font-weight: 600; }
   .pflegend button.link { font-size: 13px; white-space: nowrap; }
+  .bkwrap { position: relative; border-radius: 14px; overflow: hidden; background: #f7f2e6; border: 1px solid var(--line); }
+  .bkwrap canvas { display: block; width: 100%; aspect-ratio: 4 / 3; max-height: calc(100vh - 300px); min-height: 260px; touch-action: none; cursor: grab; } .bkwrap canvas:active { cursor: grabbing; }
+  .bkcomp { position: absolute; top: 10px; right: 10px; width: 34px; height: 34px; border-radius: 50%; background: #fffdf8e6; border: 1px solid var(--line); display: grid; place-items: center; font: 700 12px system-ui, sans-serif; color: var(--accent); pointer-events: none; }
+  .bkcomp::before { content: ""; position: absolute; top: 3px; left: 50%; margin-left: -4px; border: 4px solid transparent; border-bottom: 8px solid var(--accent); border-top: 0; }
+  .bktools { position: absolute; left: 10px; bottom: 10px; display: flex; gap: 6px; } .bktools button { background: #fffdf8e6; padding: 5px 10px; font-size: 13px; }
+  #block.on { background: var(--accent); color: #fff; }
+  .bkscale { position: absolute; right: 10px; bottom: 10px; display: flex; align-items: flex-end; gap: 8px; pointer-events: none; font: 600 11px system-ui, sans-serif; color: #22302b; }
+  .bkscale span { background: #fffdf8d9; padding: 1px 5px; border-radius: 5px; white-space: nowrap; }
+  .bks-h { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+  .bks-h i { display: block; height: 7px; border: 2px solid #22302b; border-top: 0; background: repeating-linear-gradient(90deg, #22302b 0 50%, #fffdf8 50% 100%) bottom / 100% 3px no-repeat; box-sizing: border-box; }
+  .bks-v { display: flex; align-items: flex-end; gap: 4px; } .bks-v i { display: block; width: 7px; border: 2px solid #22302b; border-left: 0; box-sizing: border-box; }
+  .bkdim { background: none; border: 0; }
+  .bkd { position: relative; display: inline-block; transform: translate(-50%, -50%); background: #fffdf8; border: 2px solid #c2552d; color: #22302b; border-radius: 8px; padding: 2px 8px 5px; font: 700 12px system-ui, sans-serif; white-space: nowrap; box-shadow: 0 1px 4px #0003; overflow: hidden; }
+  .bkdim-x .bkd { transform: translate(-50%, 4px); } .bkdim-y .bkd { transform: translate(6px, -50%); }
+  .bkd i { position: absolute; left: 0; bottom: 0; height: 3px; background: #c2552d; } .bkd.max { border-color: #a12a2a; background: #fbe3dc; } .bkd.max i { background: #a12a2a; }
+  .bkd.max::after { content: ' max'; color: #a12a2a; } .bkd.small { border-color: #a12a2a; color: #a12a2a; }
   .leaflet-tooltip.proftip { font-weight: 700; padding: 1px 7px; }
-  @media (max-width: 760px) { .bar .lg { display: none; } .bar .sm { display: inline; } .bar button { padding: 9px 6px; font-size: 14px; }
+  @media (max-width: 760px) { .bar .lg { display: none; } .bar .sm { display: inline; } .bar button { padding: 9px 4px; font-size: 13px; white-space: nowrap; flex: 1 1 0; min-width: 0; } .bar { gap: 6px; }
     .pfinfo { height: 116px; } .pfi-top strong { font-size: 15px; }
     .pflegend li { grid-template-columns: 22px 14px 1fr; } .pflegend button.link { grid-column: 3; justify-self: start; } #pfsvg .t { font-size: 14px; } }
   .trail { background: #fffdf8; border-radius: 99px; padding: 6px 14px; display: inline-flex; box-shadow: var(--shadow); }
@@ -326,6 +342,7 @@
   <div class="bar">
     <button id="locate">📍 <span class="lg">Ma position</span><span class="sm">Position</span></button>
     <button id="profile" class="ghost">✏️ <span class="lg">Tracer un profil</span><span class="sm">Profil</span></button>
+    <button id="block" class="ghost">🧊 <span class="lg">Bloc 3D</span><span class="sm">3D</span></button>
     <button id="maptoggle" class="ghost" aria-controls="map" aria-expanded="true"><span class="lg">Masquer la carte</span><span class="sm">Carte ✕</span></button>
   </div>
   <div class="intro">
@@ -972,8 +989,9 @@ function setMap(show) {
 }
 document.getElementById('maptoggle').onclick = () => setMap(document.getElementById('view-lieu').classList.contains('nomap'));
 
-async function lookup(lat, lon, fromProf) {
-  profCursorOff(); document.getElementById('view-lieu').classList.remove('profiling');
+async function lookup(lat, lon, back) {
+  profCursorOff(); blkCursorOff(); document.getElementById('view-lieu').classList.remove('profiling');
+  if (!back) resetView(true);   // nouveau lieu : on quitte le profil ou le bloc 3D
   if (marker) marker.setLatLng([lat, lon]); else marker = L.marker([lat, lon]).addTo(map);
   setStatus(`Recherche pour ${lat.toFixed(4)}, ${lon.toFixed(4)}…`);
   resultEl.innerHTML = '';
@@ -989,16 +1007,16 @@ async function lookup(lat, lon, fromProf) {
   lastPrecision = '';
   render(L1, U, lon, lat, F);
   setStatus(`📍 ${lat.toFixed(4)}, ${lon.toFixed(4)}` + (lastPrecision ? ` · précision ${lastPrecision}` : ''));
-  if (fromProf && PROF) { resultEl.insertAdjacentHTML('afterbegin', '<button class="ghost backkey" id="backprof">← Revenir au profil</button>');
-    document.getElementById('backprof').onclick = () => { if (marker) { marker.remove(); marker = null; } profShow(); setStatus('Profil de ' + nf(PROF.len / 1000, PROF.len < 10000 ? 1 : 0) + ' km.'); }; }
+  if (back) { resultEl.insertAdjacentHTML('afterbegin', `<button class="ghost backkey" id="backprof">${esc(back.label)}</button>`);
+    document.getElementById('backprof').onclick = () => { if (marker) { marker.remove(); marker = null; } back.fn(); }; }
 }
 
 if (map) {
-  map.on('click', e => profMode ? profClick(e.latlng.lat, e.latlng.lng) : lookup(e.latlng.lat, e.latlng.lng));
+  map.on('click', e => blkMode ? blkClick(e.latlng.lat, e.latlng.lng) : profMode ? profClick(e.latlng.lat, e.latlng.lng) : lookup(e.latlng.lat, e.latlng.lng));
   const btn = document.getElementById('locate');
   btn.addEventListener('click', () => {
     if (!navigator.geolocation) { setStatus('Géolocalisation indisponible : touchez la carte.', true); return; }
-    btn.disabled = true; setStatus('Localisation en cours…');
+    resetView(); btn.disabled = true; setStatus('Localisation en cours…');
     navigator.geolocation.getCurrentPosition(p => {
       btn.disabled = false;
       map.setView([p.coords.latitude, p.coords.longitude], 12);
@@ -1209,8 +1227,8 @@ if (map) map.on('mousemove', e => { if (profMode !== 2 || !profLayer) return;
   if (!profRubber) profRubber = L.polyline([profA, e.latlng], { color: '#c2552d', weight: 3, dashArray: '6 7', interactive: false }).addTo(profLayer); else profRubber.setLatLngs([profA, e.latlng]); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && profMode && profBtn) profBtn.click(); });
 if (profBtn) profBtn.onclick = () => {
-  if (profMode) { profMode = 0; profClear(); profUI(); setStatus('Profil annulé. Touchez la carte pour consulter un lieu.'); return; }
-  profClear(); if (marker) { marker.remove(); marker = null; } profMode = 1; profUI(); setMap(true);
+  if (profMode) { resetView(); setStatus('Profil annulé. Touchez la carte pour consulter un lieu.'); return; }
+  resetView(); profMode = 1; profUI(); setMap(true);
   setStatus('Profil : touchez le point de départ (A) sur la carte.');
 };
 async function profBuild(a, b) {
@@ -1309,7 +1327,7 @@ function profRender() {
   resultEl.querySelectorAll('[data-pfx]').forEach(b => b.onclick = () => { profReal = b.dataset.pfx === '1'; profRender(); });
   resultEl.querySelector('[data-pfnew]').onclick = () => profBtn.click();
   resultEl.querySelectorAll('[data-pfgo]').forEach(b => b.onclick = () => { const f = +b.dataset.pfgo, s = P.segs.filter(s => s.f === f).sort((x, y) => (y.d1 - y.d0) - (x.d1 - x.d0))[0], p = P.pts[Math.round((s.i0 + s.i1) / 2)];
-    profCursorOff(); lookup(p.lat, p.lon, true); });
+    profCursorOff(); lookup(p.lat, p.lon, { label: '← Revenir au profil', fn: () => { profShow(); setStatus('Profil de ' + nf(PROF.len / 1000, PROF.len < 10000 ? 1 : 0) + ' km.'); } }); });
   const svgEl = document.getElementById('pfsvg'), cur = document.getElementById('pfcur'), info = document.getElementById('pfinfo');
   const move = ev => { const r = svgEl.getBoundingClientRect(), x = (ev.clientX - r.left) / r.width * P.view.W, d = Math.max(0, Math.min(P.len, (x - P.view.L) / P.view.sx));
     const i = Math.round(d / P.len * (P.pts.length - 1)), p = P.pts[i], f = P.forms[p.f], gy = P.view.ground[i];
@@ -1333,6 +1351,286 @@ function profShow() {
 }
 function profCursorOff() { if (profCursor) { profCursor.remove(); profCursor = null; } }
 
+/* ---------- Bloc 3D : relief (IGN) drapé de la carte géologique au 1/50 000, dans un rectangle choisi sur la carte ---------- */
+const BLK_MAX = 20, BLK_MIN = 1;   // côtés en km
+const ALTI_WMS = 'https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ELEVATION.ELEVATIONGRIDCOVERAGE.HIGHRES&STYLES=&CRS=EPSG:4326&FORMAT=image/x-bil;bits=32';
+let blkMode = 0, blkC1 = null, blkLayer = null, blkRect = null, BLK = null, blkCursor = null, blkDims = null;
+const blkBtn = document.getElementById('block');
+const kmLon = lat => 111.32 * Math.cos(lat * Math.PI / 180), KM_LAT = 110.57;
+// Rectangle bridé : chaque côté ramené à BLK_MAX km au plus
+function blkClamp(c1, c2) {
+  let dx = (c2[1] - c1[1]) * kmLon(c1[0]), dy = (c2[0] - c1[0]) * KM_LAT; const clamped = Math.abs(dx) > BLK_MAX || Math.abs(dy) > BLK_MAX;
+  dx = Math.sign(dx || 1) * Math.min(Math.abs(dx), BLK_MAX); dy = Math.sign(dy || 1) * Math.min(Math.abs(dy), BLK_MAX);
+  const c = [c1[0] + dy / KM_LAT, c1[1] + dx / kmLon(c1[0])];
+  const rx = Math.abs((c2[1] - c1[1]) * kmLon(c1[0])), ry = Math.abs((c2[0] - c1[0]) * KM_LAT);
+  return { b: [[Math.min(c1[0], c[0]), Math.min(c1[1], c[1])], [Math.max(c1[0], c[0]), Math.max(c1[1], c[1])]], w: Math.abs(dx), h: Math.abs(dy), clamped, small: Math.abs(dx) < BLK_MIN || Math.abs(dy) < BLK_MIN,
+    cx: rx > BLK_MAX, cy: ry > BLK_MAX, sx: Math.abs(dx) < BLK_MIN, sy: Math.abs(dy) < BLK_MIN };
+}
+const kmTxt = v => nf(v, v < 10 ? 1 : 0);
+function blkUI() { const mp = document.getElementById('map'); mp.classList.toggle('pf-a', blkMode === 1); mp.classList.toggle('pf-b', blkMode === 2);
+  if (!blkBtn) return; blkBtn.classList.toggle('on', blkMode > 0);
+  blkBtn.innerHTML = blkMode ? '✕ <span class="lg">Annuler le bloc 3D</span><span class="sm">Annuler</span>' : '🧊 <span class="lg">Bloc 3D</span><span class="sm">3D</span>'; }
+function blkClear() { blkRect = null; blkDims = null; if (blkLayer) { blkLayer.remove(); blkLayer = null; } blkCursorOff(); }
+function blkCursorOff() { if (blkCursor) { blkCursor.remove(); blkCursor = null; } }
+function blkCancel(msg) { resetView(); if (msg) setStatus(msg); }
+if (blkBtn && !map) blkBtn.hidden = true;
+if (blkBtn) blkBtn.onclick = () => {
+  if (blkMode) { blkCancel('Bloc 3D annulé. Touchez la carte pour consulter un lieu.'); return; }
+  resetView(); blkMode = 1; blkUI(); setMap(true);
+  setStatus(`Bloc 3D : touchez un premier coin de la zone (de ${BLK_MIN} à ${BLK_MAX} km de côté).`);
+};
+function blkDraw(r) { const style = { color: r.small ? '#a12a2a' : '#c2552d', weight: 2, dashArray: r.clamped ? '6 5' : null, fillOpacity: .1 };
+  if (!blkRect) blkRect = L.rectangle(r.b, style).addTo(blkLayer); else { blkRect.setBounds(r.b); if (blkRect.setStyle) blkRect.setStyle(style); }
+  // cotes : x (est-ouest) au milieu du bord sud, y (nord-sud) au milieu du bord est, avec la jauge jusqu'à 20 km
+  const [[s, w], [n, e]] = r.b, lab = (axis, v, max, small) => `<span class="bkd ${max ? 'max' : small ? 'small' : ''}">${axis} ${kmTxt(v)} km<i style="width:${Math.min(100, v / BLK_MAX * 100).toFixed(0)}%"></i></span>`;
+  const items = [[[s, (w + e) / 2], lab('↔', r.w, r.cx, r.sx), 'bkdim bkdim-x'], [[(s + n) / 2, e], lab('↕', r.h, r.cy, r.sy), 'bkdim bkdim-y']];
+  if (!L.divIcon) return;
+  if (!blkDims) blkDims = items.map(([ll, html, cls]) => L.marker(ll, { icon: L.divIcon({ className: cls, html, iconSize: null }), interactive: false, keyboard: false }).addTo(blkLayer));
+  else items.forEach(([ll, html], k) => { const m = blkDims[k]; m.setLatLng(ll); const el = m.getElement && m.getElement(); if (el) el.innerHTML = html; else m._html = html; });
+}
+const blkSizeMsg = r => `Zone de ${kmTxt(r.w)} km (est-ouest) × ${kmTxt(r.h)} km (nord-sud)` + (r.clamped ? ` — limitée à ${BLK_MAX} km de côté` : '') + (r.small ? ` — trop petite (au moins ${BLK_MIN} km de côté)` : '');
+function blkClick(lat, lon) {
+  if (blkMode === 1) { blkC1 = [lat, lon]; blkLayer = L.layerGroup().addTo(map); profDot(blkC1, '').addTo(blkLayer); blkMode = 2; blkUI();
+    setStatus(matchMedia('(hover: hover)').matches ? `Déplacez la souris puis cliquez le coin opposé (${BLK_MAX} km de côté au maximum).` : `Touchez le coin opposé (${BLK_MAX} km de côté au maximum).`); return; }
+  const r = blkClamp(blkC1, [lat, lon]); blkDraw(r);
+  if (r.small) { setStatus(`${blkSizeMsg(r)}. Touchez un autre coin opposé.`, true); return; }
+  blkMode = 0; blkUI(); blkBuild(r);
+}
+if (map) map.on('mousemove', e => { if (blkMode !== 2 || !blkLayer) return; const r = blkClamp(blkC1, [e.latlng.lat !== undefined ? e.latlng.lat : e.latlng[0], e.latlng.lng !== undefined ? e.latlng.lng : e.latlng[1]]);
+  blkDraw(r); setStatus(blkSizeMsg(r) + '.', r.small); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && blkMode) blkCancel('Bloc 3D annulé.'); });
+
+// Le service d'altitude de l'IGN rééchantillonne « au plus proche voisin » à partir d'une grille parfois plus grossière :
+// certaines lignes (ou colonnes) sont alors la copie exacte de la précédente, ce qui crée des marches et des stries à l'ombrage.
+// On remplace chaque série de lignes identiques par une interpolation linéaire entre les vraies valeurs voisines.
+function blkDestair(z, nx, ny) {
+  const pass = (n, m, get, set) => { const blocks = []; let start = 0, dup = 0;
+    const same = (a, b) => { for (let k = 0; k < m; k++) if (get(a, k) !== get(b, k)) return false; return true; };
+    for (let j = 1; j <= n; j++) if (j === n || !same(j, j - 1)) { blocks.push([(start + j - 1) / 2, start]); start = j; } else dup++;
+    if (!dup || blocks.length < 2) return 0;
+    const src = blocks.map(([, row]) => Float64Array.from({ length: m }, (_, k) => get(row, k)));
+    for (let j = 0, b = 0; j < n; j++) { while (b < blocks.length - 2 && j > blocks[b + 1][0]) b++;
+      const [c0] = blocks[b], [c1] = blocks[b + 1], t = Math.max(0, Math.min(1, (j - c0) / (c1 - c0)));
+      for (let k = 0; k < m; k++) set(j, k, src[b][k] * (1 - t) + src[b + 1][k] * t); }
+    return dup; };
+  const rows = pass(ny, nx, (j, i) => z[j * nx + i], (j, i, v) => { z[j * nx + i] = v; });
+  const cols = pass(nx, ny, (i, j) => z[j * nx + i], (i, j, v) => { z[j * nx + i] = v; });
+  return rows + cols;
+}
+async function blkBuild(r) {
+  const [[s, w], [n, e]] = r.b, longest = Math.max(r.w, r.h), small = matchMedia('(max-width: 760px)').matches, N = small ? 150 : 210;
+  const nx = Math.max(24, Math.round(N * r.w / longest)), ny = Math.max(24, Math.round(N * r.h / longest));
+  document.getElementById('view-lieu').classList.add('has-result'); resultEl.innerHTML = '';
+  setStatus('Chargement du relief (IGN)…');
+  let z;
+  try { const res = await fetch(`${ALTI_WMS}&BBOX=${s},${w},${n},${e}&WIDTH=${nx}&HEIGHT=${ny}`); if (!res.ok) throw new Error('HTTP ' + res.status);
+    const buf = await res.arrayBuffer(); if (buf.byteLength !== nx * ny * 4) throw new Error('taille'); z = new Float32Array(buf); }
+  catch (err) { setStatus("Le service d'altitude de l'IGN ne répond pas. Réessayez dans un instant.", true); return; }
+  let zmin = Infinity, zmax = -Infinity; for (let i = 0; i < z.length; i++) { if (z[i] < -1000) continue; if (z[i] < zmin) zmin = z[i]; if (z[i] > zmax) zmax = z[i]; }
+  if (zmin === Infinity) { zmin = 0; zmax = 1; } for (let i = 0; i < z.length; i++) if (z[i] < -1000) z[i] = Math.min(0, zmin);
+  const stairs = blkDestair(z, nx, ny);
+  setStatus('Lecture de la carte géologique…');
+  const TW = Math.round((small ? 768 : 1024) * r.w / longest), TH = Math.round((small ? 768 : 1024) * r.h / longest);
+  const geo = await blkPaint(r.b, TW, TH);
+  BLK = { b: r.b, w: r.w, h: r.h, clamped: r.clamped, nx, ny, z, zmin, zmax, TW, TH, geo, real: false, yaw: 0, pitch: 0.62, dist: null, stairs };
+  setStatus('Construction du bloc…');
+  blkShow();
+  setStatus(`Bloc de ${kmTxt(r.w)} × ${kmTxt(r.h)} km, de ${nf(zmin, 0)} à ${nf(zmax, 0)} m d'altitude.` + (r.clamped ? ` Zone limitée à ${BLK_MAX} km de côté.` : ''));
+}
+// Peint les polygones au 1/50 000 dans deux images : couleurs de la carte, et identifiants pour la lecture et la légende
+async function blkPaint(b, TW, TH) {
+  const [[s, w], [n, e]] = b, tex = document.createElement('canvas'), ids = document.createElement('canvas'); tex.width = ids.width = TW; tex.height = ids.height = TH;
+  const g = tex.getContext('2d'), gi = ids.getContext('2d', { willReadFrequently: true }); g.fillStyle = '#e9e4d8'; g.fillRect(0, 0, TW, TH);
+  await indexReady;
+  const names = Object.keys(deptIndex).filter(k => { const bb = deptIndex[k].bbox; return bb[0] <= e && bb[2] >= w && bb[1] <= n && bb[3] >= s; });
+  const forms = [], key = {}; let any = false;
+  for (const name of names) { let d; try { d = await getDept(name); } catch (err) { continue; } any = true;
+    const q = d.q, X = x => (x / q - w) / (e - w) * TW, Y = y => (n - y / q) / (n - s) * TH;
+    for (const [li, bb, rings] of d.polys) { if (bb[2] / q < w || bb[0] / q > e || bb[3] / q < s || bb[1] / q > n) continue;
+      const k = name + '|' + li; if (!(k in key)) { key[k] = forms.length; const L0 = d.legend[li];
+        forms.push({ descr: L0[1], color: L0[2] || '#ccc', code: /^[\x20-\x7E]+$/.test(L0[0] || '') ? L0[0] : '', n: 0, sx: 0, sy: 0 }); }
+      const id = key[k] + 1, path = new Path2D();
+      for (const r of rings) { for (let i = 0; i < r.length; i += 2) (i ? path.lineTo : path.moveTo).call(path, X(r[i]), Y(r[i + 1])); path.closePath(); }
+      g.fillStyle = forms[id - 1].color; g.fill(path, 'evenodd');
+      gi.fillStyle = `rgb(${id >> 8 & 255},${id & 255},255)`; gi.fill(path, 'evenodd'); } }
+  // surfaces : on ne compte que les pixels d'identifiant exact (les bords lissés sont ignorés)
+  const px = gi.getImageData(0, 0, TW, TH).data, idAt = new Int32Array(TW * TH).fill(-1); let tot = 0, painted = 0;
+  for (let p = 0, i = 0; p < px.length; p += 4, i++) { if (px[p + 3] > 0) painted++; if (px[p + 2] !== 255 || px[p + 3] !== 255) continue; const id = (px[p] << 8 | px[p + 1]) - 1; if (id < 0 || id >= forms.length) continue;
+    idAt[i] = id; const f = forms[id]; f.n++; f.sx += i % TW; f.sy += (i / TW) | 0; tot++; }
+  forms.forEach((f, k) => { f.k = k; f.water = /^reseau hydrographique/.test(norm(f.descr)); f.rocks = rocksFromText(f.descr); f.age = ageFromText(f.descr); f.pct = tot ? f.n / (TW * TH) : 0;
+    if (f.n) { const cx = f.sx / f.n, cy = f.sy / f.n; let best = -1, bd = Infinity; for (let i = 0; i < idAt.length; i++) if (idAt[i] === k) { const d2 = (i % TW - cx) ** 2 + ((i / TW | 0) - cy) ** 2; if (d2 < bd) { bd = d2; best = i; } }
+      f.at = [n - ((best / TW | 0) + .5) / TH * (n - s), w + (best % TW + .5) / TW * (e - w)]; } });
+  return { tex, idAt, forms, any, cover: painted / (TW * TH) };
+}
+// Formation sous un point de l'image (u, v entre 0 et 1), en regardant les voisins si l'on tombe sur un bord
+function blkFormAt(u, v) { const G = BLK.geo, x = Math.min(BLK.TW - 1, Math.max(0, Math.round(u * (BLK.TW - 1)))), y = Math.min(BLK.TH - 1, Math.max(0, Math.round(v * (BLK.TH - 1))));
+  for (let rad = 0; rad <= 3; rad++) for (let dy = -rad; dy <= rad; dy++) for (let dx = -rad; dx <= rad; dx++) { const xx = x + dx, yy = y + dy; if (xx < 0 || yy < 0 || xx >= BLK.TW || yy >= BLK.TH) continue; const id = G.idAt[yy * BLK.TW + xx]; if (id >= 0) return G.forms[id]; }
+  return null; }
+
+/* --- Moteur 3D minimal (WebGL 1) : maillage du relief, côtés hachurés, éclairage, orbite --- */
+const M4 = {
+  persp(f, a, n, fr) { const t = 1 / Math.tan(f / 2); return [t / a, 0, 0, 0, 0, t, 0, 0, 0, 0, (fr + n) / (n - fr), -1, 0, 0, 2 * fr * n / (n - fr), 0]; },
+  look(e, c, u) { const z = V.norm(V.sub(e, c)), x = V.norm(V.cross(u, z)), y = V.cross(z, x);
+    return [x[0], y[0], z[0], 0, x[1], y[1], z[1], 0, x[2], y[2], z[2], 0, -V.dot(x, e), -V.dot(y, e), -V.dot(z, e), 1]; },
+  mul(a, b) { const r = new Array(16); for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) { let s = 0; for (let k = 0; k < 4; k++) s += a[k * 4 + j] * b[i * 4 + k]; r[i * 4 + j] = s; } return r; }
+};
+const V = { sub: (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]], add: (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]], sc: (a, s) => [a[0] * s, a[1] * s, a[2] * s],
+  dot: (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2], cross: (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]], norm: a => { const l = Math.hypot(...a) || 1; return [a[0] / l, a[1] / l, a[2] / l]; } };
+const BLK_VS = `attribute vec3 p;attribute vec3 nm;attribute vec2 uv;attribute float sd;uniform mat4 m;varying vec3 vn;varying vec2 vuv;varying float vs;varying vec3 vp;
+void main(){vn=nm;vuv=uv;vs=sd;vp=p;gl_Position=m*vec4(p,1.0);}`;
+const BLK_FS = `precision mediump float;uniform sampler2D t;uniform vec3 L;uniform float hs;uniform vec3 mk;uniform float mr;varying vec3 vn;varying vec2 vuv;varying float vs;varying vec3 vp;
+void main(){vec3 N=normalize(vn);float d=max(dot(N,normalize(L)),0.0);
+if(vs>0.5){float h=fract((vp.x+vp.z+vp.y)/hs);vec3 c=h<0.22?vec3(0.80,0.76,0.68):vec3(0.95,0.93,0.88);gl_FragColor=vec4(c*(0.8+0.2*d),1.0);}
+else{vec3 c=texture2D(t,vuv).rgb*(0.5+0.62*d);float r=length(vp.xz-mk.xz);if(mr>0.0&&r<mr)c=mix(c,vec3(0.76,0.33,0.18),0.85);else if(mr>0.0&&r<mr*1.9)c=mix(c,vec3(1.0),0.7);gl_FragColor=vec4(c,1.0);}}`;
+function blkExag() { if (BLK.real) return 1; const relief = (BLK.zmax - BLK.zmin) / 1000, size = Math.max(BLK.w, BLK.h); if (relief <= 0) return 1;
+  return Math.max(1, Math.min(6, Math.round(2 * Math.max(1, .22 * size / relief)) / 2)); }
+const blkH = (i, j) => BLK.z[Math.min(BLK.ny - 1, Math.max(0, j)) * BLK.nx + Math.min(BLK.nx - 1, Math.max(0, i))];
+function blkMesh() {
+  const { nx, ny, w: W, h: H, zmin } = BLK, ex = blkExag(), base = -Math.max(W, H) * .08, P = [], Nn = [], U = [], S = [], I = [];
+  const X = i => (i / (nx - 1) - .5) * W, Z = j => (j / (ny - 1) - .5) * H, Yh = (i, j) => (blkH(i, j) - zmin) / 1000 * ex;
+  for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) { P.push(X(i), Yh(i, j), Z(j));
+    const dx = (Yh(i + 1, j) - Yh(i - 1, j)) / (X(Math.min(nx - 1, i + 1)) - X(Math.max(0, i - 1))), dz = (Yh(i, j + 1) - Yh(i, j - 1)) / (Z(Math.min(ny - 1, j + 1)) - Z(Math.max(0, j - 1)));
+    const nn = V.norm([-dx, 1, -dz]); Nn.push(...nn); U.push(i / (nx - 1), j / (ny - 1)); S.push(0); }
+  for (let j = 0; j < ny - 1; j++) for (let i = 0; i < nx - 1; i++) { const a = j * nx + i; I.push(a, a + nx, a + 1, a + 1, a + nx, a + nx + 1); }
+  // quatre côtés : du bord du relief jusqu'au socle du bloc
+  const side = (pts, nrm) => { const o = P.length / 3; pts.forEach(([i, j]) => { P.push(X(i), Yh(i, j), Z(j), X(i), base, Z(j)); Nn.push(...nrm, ...nrm); U.push(0, 0, 0, 0); S.push(1, 1); });
+    for (let k = 0; k < pts.length - 1; k++) { const a = o + 2 * k; I.push(a, a + 1, a + 2, a + 2, a + 1, a + 3); } };
+  side([...Array(nx).keys()].map(i => [i, ny - 1]), [0, 0, 1]); side([...Array(nx).keys()].map(i => [i, 0]), [0, 0, -1]);
+  side([...Array(ny).keys()].map(j => [0, j]), [-1, 0, 0]); side([...Array(ny).keys()].map(j => [nx - 1, j]), [1, 0, 0]);
+  return { P: new Float32Array(P), N: new Float32Array(Nn), U: new Float32Array(U), S: new Float32Array(S), I: new Uint16Array(I), ex, base };
+}
+function blkGL(cv) {
+  const gl = cv.getContext('webgl', { antialias: true, preserveDrawingBuffer: true }); if (!gl) return null;
+  const sh = (t, src) => { const s = gl.createShader(t); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; };
+  const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, BLK_VS)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, BLK_FS)); gl.linkProgram(pr); gl.useProgram(pr);
+  const R = { gl, pr, buf: {}, tex: gl.createTexture() };
+  gl.bindTexture(gl.TEXTURE_2D, R.tex); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, BLK.geo.tex);
+  for (const p of [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T]) gl.texParameteri(gl.TEXTURE_2D, p, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.enable(gl.DEPTH_TEST); return R;
+}
+function blkUpload(R) { const { gl, pr } = R, M = BLK.mesh = blkMesh();
+  for (const [name, data, size] of [['p', M.P, 3], ['nm', M.N, 3], ['uv', M.U, 2], ['sd', M.S, 1]]) { const b = R.buf[name] || (R.buf[name] = gl.createBuffer()); gl.bindBuffer(gl.ARRAY_BUFFER, b); gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(pr, name); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, size, gl.FLOAT, false, 0, 0); }
+  R.ib = R.ib || gl.createBuffer(); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, R.ib); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, M.I, gl.STATIC_DRAW); R.n = M.I.length; }
+function blkCam() { const size = Math.max(BLK.w, BLK.h), M = BLK.mesh, tgt = [0, (BLK.zmax - BLK.zmin) / 1000 * M.ex * .12 + M.base * .5, 0], d = BLK.dist || size * 1.4, cp = Math.cos(BLK.pitch);
+  const eye = V.add(tgt, [d * cp * Math.sin(BLK.yaw), d * Math.sin(BLK.pitch), d * cp * Math.cos(BLK.yaw)]); return { eye, tgt, fov: .8, near: size * .02, far: size * 8 }; }
+function blkDrawGL() { if (!BLK || !BLK.R) return; const R = BLK.R; const { gl, pr } = R, cv = gl.canvas, dpr = Math.min(2, window.devicePixelRatio || 1);
+  const W = Math.round(cv.clientWidth * dpr), H = Math.round(cv.clientHeight * dpr); if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; }
+  gl.viewport(0, 0, W, H); gl.clearColor(.97, .95, .9, 1); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  const c = blkCam(), m = M4.mul(M4.persp(c.fov, W / H, c.near, c.far), M4.look(c.eye, c.tgt, [0, 1, 0])); BLK.cam = Object.assign(c, { m, W, H });
+  gl.uniformMatrix4fv(gl.getUniformLocation(pr, 'm'), false, new Float32Array(m)); gl.uniform3fv(gl.getUniformLocation(pr, 'L'), [-.5, .85, .35]);
+  gl.uniform1f(gl.getUniformLocation(pr, 'hs'), Math.max(BLK.w, BLK.h) / 45);
+  gl.uniform3fv(gl.getUniformLocation(pr, 'mk'), BLK.mk ? BLK.mk : [0, 0, 0]); gl.uniform1f(gl.getUniformLocation(pr, 'mr'), BLK.mk ? Math.max(BLK.w, BLK.h) / 160 : 0);
+  gl.drawElements(gl.TRIANGLES, R.n, gl.UNSIGNED_SHORT, 0);
+  // boussole : direction du nord à l'écran
+  const pj = p => { const v = [p[0], p[1], p[2], 1], o = [0, 1, 3].map(r => v[0] * m[r] + v[1] * m[4 + r] + v[2] * m[8 + r] + v[3] * m[12 + r]); return [o[0] / o[2], o[1] / o[2]]; };
+  const a = pj([0, 0, 0]), b = pj([0, 0, -1]), ang = Math.atan2(b[0] - a[0], b[1] - a[1]) * 180 / Math.PI, cmp = document.getElementById('bkcomp'); if (cmp) cmp.style.transform = `rotate(${ang}deg)`;
+  blkScale(pj, c);
+}
+// Échelle graphique, valable au centre du bloc (en perspective, elle change avec la profondeur) :
+// barre horizontale pour les distances, barre verticale pour les altitudes (exagération comprise)
+const NICE_KM = [.05, .1, .2, .25, .5, 1, 2, 2.5, 5, 10, 20, 50], NICE_M = [5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 5000];
+function blkScale(pj, c) { const el = document.getElementById('bkscale'), cv = BLK && BLK.R && BLK.R.gl.canvas; if (!el || !cv) return;
+  const cw = cv.clientWidth, ch = cv.clientHeight, css = p => { const q = pj(p); return [(q[0] + 1) / 2 * cw, (1 - q[1]) / 2 * ch]; };
+  const f = V.norm(V.sub(c.tgt, c.eye)), r = V.norm(V.cross(f, [0, 1, 0])), o = css(c.tgt), h1 = css(V.add(c.tgt, r)), pxKm = Math.hypot(h1[0] - o[0], h1[1] - o[1]);
+  const dk = NICE_KM.find(d => d * pxKm >= 55) || NICE_KM[NICE_KM.length - 1], ex = BLK.mesh.ex;
+  const v1 = css(V.add(c.tgt, [0, ex, 0])), pxKmV = Math.hypot(v1[0] - o[0], v1[1] - o[1]), dm = NICE_M.find(d => d / 1000 * pxKmV >= 28) || NICE_M[NICE_M.length - 1];
+  const H = el.querySelector('.bks-h'), Vv = el.querySelector('.bks-v');
+  H.querySelector('i').style.width = Math.round(dk * pxKm) + 'px'; H.querySelector('span').textContent = dk < 1 ? nf(dk * 1000, 0) + ' m' : nf(dk, dk % 1 ? 1 : 0) + ' km';
+  // barre verticale masquée en vue plongeante ou si elle dépasse largement le relief : elle n'aurait plus de sens
+  const vh = Math.round(dm / 1000 * pxKmV); Vv.style.display = vh >= 8 && BLK.pitch < 1.2 && dm <= Math.max(50, (BLK.zmax - BLK.zmin) * 1.5) ? '' : 'none'; Vv.querySelector('i').style.height = vh + 'px';
+  Vv.querySelector('span').textContent = (dm >= 1000 ? nf(dm / 1000, 0) + ' km' : nf(dm, 0) + ' m') + (ex > 1 ? ` (×${nf(ex, ex % 1 ? 1 : 0)})` : '');
+}
+let blkRaf = 0; const blkReq = () => { if (!blkRaf) blkRaf = requestAnimationFrame(() => { blkRaf = 0; blkDrawGL(); }); };
+// Lecture : rayon depuis la caméra jusqu'au relief
+function blkPick(px, py) { const c = BLK.cam; if (!c) return null; const x = (px / c.W * 2 - 1), y = 1 - py / c.H * 2, t = Math.tan(c.fov / 2), asp = c.W / c.H;
+  const f = V.norm(V.sub(c.tgt, c.eye)), r = V.norm(V.cross(f, [0, 1, 0])), u = V.cross(r, f), dir = V.norm(V.add(f, V.add(V.sc(r, x * t * asp), V.sc(u, y * t))));
+  const { nx, ny, w: W, h: H, zmin } = BLK, ex = BLK.mesh.ex, hAt = (X, Z) => { const fi = (X / W + .5) * (nx - 1), fj = (Z / H + .5) * (ny - 1); if (fi < 0 || fj < 0 || fi > nx - 1 || fj > ny - 1) return null;
+    const i = Math.floor(fi), j = Math.floor(fj), a = fi - i, b = fj - j; const z = blkH(i, j) * (1 - a) * (1 - b) + blkH(i + 1, j) * a * (1 - b) + blkH(i, j + 1) * (1 - a) * b + blkH(i + 1, j + 1) * a * b; return (z - zmin) / 1000 * ex; };
+  const step = Math.max(W, H) / 600; let prev = null;
+  for (let k = 0; k < 6000; k++) { const p = V.add(c.eye, V.sc(dir, k * step)), h = hAt(p[0], p[2]);
+    if (h !== null && p[1] <= h) { let lo = (k - 1) * step, hi = k * step; for (let it = 0; it < 18; it++) { const mid = (lo + hi) / 2, q = V.add(c.eye, V.sc(dir, mid)), hq = hAt(q[0], q[2]); if (hq !== null && q[1] <= hq) hi = mid; else lo = mid; }
+      const q = V.add(c.eye, V.sc(dir, hi)); return { x: q[0], y: q[1], z: q[2], u: q[0] / W + .5, v: q[2] / H + .5 }; }
+    if (p[1] < BLK.mesh.base - 1) break; }
+  return null; }
+function blkInfo(hit) { const info = document.getElementById('bkinfo'); if (!info) return;
+  if (!hit) { info.innerHTML = '<div class="pfi-empty">👆 Survolez ou touchez le relief : la roche qui affleure s\'affiche ici, et le point correspondant sur la carte. Faites glisser pour tourner, molette ou deux doigts pour zoomer.</div>'; return; }
+  const [[s, w], [n, e]] = BLK.b, lat = n - hit.v * (n - s), lon = w + hit.u * (e - w), f = blkFormAt(hit.u, hit.v), i = Math.round(hit.u * (BLK.nx - 1)), j = Math.round(hit.v * (BLK.ny - 1)), alt = blkH(i, j);
+  const num = f ? BLK.order.indexOf(f.k) + 1 : 0;
+  info.innerHTML = `<div class="pfi-top">${f ? `<span class="pnum">${num}</span><span class="sw" style="background:${f.color}"></span>` : ''}<strong>${f ? esc(f.water ? "Cours d'eau ou plan d'eau" : f.rocks.length ? cap(f.rocks.map(r => r.name).join(', ')) : 'Formation') : BLK.geo.any ? 'Zone non cartographiée' : 'Carte détaillée non chargée ici'}</strong>${f && f.code ? `<span class="pfi-code">${esc(f.code)}</span>` : ''}</div>
+    <div class="pfi-mid"><span class="pfi-age">${f && f.age ? esc(f.age.range) : f ? '<em>âge non précisé par la carte</em>' : ''}</span><span class="pfi-pos">${nf(alt, 0)} m · ${lat.toFixed(4)}, ${lon.toFixed(4)}</span></div><div class="pfi-descr">${f ? esc(f.descr) : ''}</div>`;
+  resultEl.querySelectorAll('.bklegend li[data-bk]').forEach(li => li.classList.toggle('hl', f && +li.dataset.bk === f.k));
+  if (map) { if (!blkCursor) blkCursor = L.circleMarker([lat, lon], { radius: 7, color: '#c2552d', weight: 3, fillColor: '#fff', fillOpacity: 1 }).addTo(map); else blkCursor.setLatLng([lat, lon]); }
+}
+let blkResizeOn = false;
+function blkRender() {
+  if (BLK.R) { const lose = BLK.R.gl.getExtension('WEBGL_lose_context'); if (lose) lose.loseContext(); BLK.R = null; }
+  const G = BLK.geo, ex = blkExag(), forms = G.forms.filter(f => f.n > 0).sort((a, b) => b.n - a.n); BLK.order = forms.map(f => f.k);
+  const item = (f, i) => `<li data-bk="${f.k}"><span class="pnum">${i + 1}</span><span class="sw" style="background:${f.color}"></span><div><strong>${f.code ? esc(f.code) + ' · ' : ''}${esc(f.water ? "Cours d'eau ou plan d'eau" : f.rocks.length ? cap(f.rocks.map(r => r.name).join(', ')) : 'Formation')}</strong><small>${esc(f.descr.length > 170 ? f.descr.slice(0, 167) + '…' : f.descr)}</small>${f.age ? `<small class="pfage">${esc(f.age.range)}</small>` : ''}<small>${nf(f.pct * 100, f.pct < .1 ? 1 : 0)} % de la surface</small></div>${f.water ? '' : `<button class="link" data-bkgo="${f.k}">Voir la fiche</button>`}</li>`;
+  const major = forms.filter(f => f.pct >= .02 || forms.length <= 8), minor = forms.filter(f => !major.includes(f));
+  const legend = major.map(f => item(f, forms.indexOf(f))).join('') + (minor.length ? `<li class="pfmore"><details><summary>${minor.length} autre${minor.length > 1 ? 's' : ''} formation${minor.length > 1 ? 's' : ''} sur moins de 2 % de la surface</summary><ol class="pflegend bklegend">${minor.map(f => item(f, forms.indexOf(f))).join('')}</ol></details></li>` : '');
+  const top = forms.find(f => !f.water);
+  resultEl.innerHTML = `<div class="card prof blk"><div class="profhead"><h2>Bloc 3D</h2><div class="tabs"><button data-bkx="0" class="${BLK.real ? '' : 'on'}">Relief accentué${BLK.real ? '' : ` ×${nf(ex, ex % 1 ? 1 : 0)}`}</button><button data-bkx="1" class="${BLK.real ? 'on' : ''}">Échelle réelle</button></div></div>
+    <div id="bkinfo" class="pfinfo" aria-live="polite"></div>
+    <div class="bkwrap"><canvas id="bkcv" aria-label="Bloc 3D du relief et de la géologie"></canvas><div id="bkcomp" class="bkcomp" title="Nord">N</div>
+      <div class="bkscale" id="bkscale" title="Échelle au centre du bloc"><div class="bks-v"><i></i><span></span></div><div class="bks-h"><span></span><i></i></div></div>
+      <div class="bktools"><button class="ghost" data-bkreset title="Revenir à la vue de départ">↺ Vue</button><button class="ghost" data-bkpng title="Enregistrer l'image">📷 Image</button></div></div>
+    <p class="legend"><span class="sw pfh"></span> côtés du bloc : sous-sol non représenté, la carte ne décrit que ce qui affleure.</p>
+    ${BLK.real ? `<p class="note">À l'échelle réelle, le relief paraît souvent plat : les pentes réelles sont bien plus douces qu'on ne l'imagine.</p>` : `<p class="note">Hauteurs exagérées ×${nf(ex, ex % 1 ? 1 : 0)} par rapport aux distances, pour rendre le relief lisible.</p>`}
+    ${!G.any ? `<p class="match no">⚠ Pas de carte au 1/50 000 dans cette zone (ou carte non importée sur un fichier ouvert depuis l'ordinateur) : seul le relief est affiché.</p>` : G.cover < .9 ? `<p class="match no">⚠ Une partie de la zone n'est pas couverte par les cartes détaillées (mer, hors de France ou carte non chargée).</p>` : ''}
+    <ol class="pflegend bklegend">${legend}</ol></div>
+    ${top ? `<div class="story"><h2>🕰 À retenir</h2><p>La formation la plus étendue de ce bloc (${nf(top.pct * 100, 0)} % de la surface) : <strong>${esc(top.rocks.length ? top.rocks.map(r => r.name).join(', ') : top.descr.slice(0, 60))}</strong>${top.age ? `, ${esc(top.age.approx)}` : ''}. Tournez le bloc pour voir sur quels versants, crêtes ou fonds de vallée chaque roche affleure.</p></div>` : ''}
+    <p class="note">Relief : IGN (RGE ALTI®). Formations : BRGM, BD Charm-50. <button class="link" data-bknew>Choisir une autre zone</button></p>`;
+  blkInfo(null);
+  resultEl.querySelectorAll('[data-bkx]').forEach(b => b.onclick = () => { BLK.real = b.dataset.bkx === '1'; blkShow(true); });
+  resultEl.querySelector('[data-bknew]').onclick = () => blkBtn.click();
+  resultEl.querySelectorAll('[data-bkgo]').forEach(b => b.onclick = () => { const f = G.forms[+b.dataset.bkgo]; blkCursorOff(); lookup(f.at[0], f.at[1], { label: '← Revenir au bloc 3D', fn: () => blkShow(false, true) }); });
+  const cv = document.getElementById('bkcv');
+  try { BLK.R = blkGL(cv); } catch (err) { BLK.R = null; }
+  if (!BLK.R) { cv.replaceWith(Object.assign(document.createElement('p'), { className: 'match no', textContent: "Votre navigateur ne permet pas l'affichage 3D (WebGL). Le profil reste disponible." })); return; }
+  blkUpload(BLK.R); blkDrawGL();
+  // interactions : glisser = tourner, molette ou pincement = zoomer, survol ou toucher bref = lire
+  const pts = new Map(); let moved = false, pinch0 = null;
+  const pos = ev => { const r = cv.getBoundingClientRect(); return [(ev.clientX - r.left) * BLK.cam.W / r.width, (ev.clientY - r.top) * BLK.cam.H / r.height]; };
+  const read = ev => { const [x, y] = pos(ev), hit = blkPick(x, y); BLK.mk = hit ? [hit.x, hit.y, hit.z] : null; blkInfo(hit); blkReq(); };
+  cv.addEventListener('pointerdown', ev => { cv.setPointerCapture(ev.pointerId); pts.set(ev.pointerId, [ev.clientX, ev.clientY]); moved = false;
+    if (pts.size === 2) { const [a, b] = [...pts.values()]; pinch0 = { d: Math.hypot(a[0] - b[0], a[1] - b[1]), dist: BLK.dist || Math.max(BLK.w, BLK.h) * 1.4 }; } });
+  cv.addEventListener('pointermove', ev => {
+    if (!pts.has(ev.pointerId)) { if (ev.pointerType === 'mouse') read(ev); return; }
+    const p0 = pts.get(ev.pointerId), dx = ev.clientX - p0[0], dy = ev.clientY - p0[1]; pts.set(ev.pointerId, [ev.clientX, ev.clientY]);
+    if (pts.size === 2 && pinch0) { const [a, b] = [...pts.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]); BLK.dist = Math.max(Math.max(BLK.w, BLK.h) * .35, Math.min(Math.max(BLK.w, BLK.h) * 4, pinch0.dist * pinch0.d / Math.max(d, 1))); moved = true; blkReq(); return; }
+    if (Math.abs(dx) + Math.abs(dy) > 0) { if (Math.hypot(dx, dy) > 2) moved = true; BLK.yaw -= dx * .008; BLK.pitch = Math.max(.12, Math.min(1.5, BLK.pitch + dy * .006)); blkReq(); } });
+  const up = ev => { if (pts.has(ev.pointerId)) { pts.delete(ev.pointerId); if (!moved && pts.size === 0) read(ev); } if (pts.size < 2) pinch0 = null; };
+  cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
+  cv.addEventListener('pointerleave', ev => { if (ev.pointerType === 'mouse' && !pts.size) { BLK.mk = null; blkInfo(null); blkCursorOff(); blkReq(); } });
+  cv.addEventListener('wheel', ev => { ev.preventDefault(); const s = Math.max(BLK.w, BLK.h); BLK.dist = Math.max(s * .35, Math.min(s * 4, (BLK.dist || s * 1.4) * Math.exp(ev.deltaY * .0012))); blkReq(); }, { passive: false });
+  resultEl.querySelector('[data-bkreset]').onclick = () => { BLK.yaw = 0; BLK.pitch = .62; BLK.dist = null; blkReq(); };
+  resultEl.querySelector('[data-bkpng]').onclick = () => { blkDrawGL(); const a = document.createElement('a'); a.download = `bloc3d-${BLK.b[0][0].toFixed(3)}_${BLK.b[0][1].toFixed(3)}.png`; a.href = cv.toDataURL('image/png'); a.click(); };
+  if (!blkResizeOn) { blkResizeOn = true; window.addEventListener('resize', () => { if (BLK && BLK.R && document.getElementById('bkcv')) blkReq(); }); }
+}
+// Affiche le bloc à côté de la carte : la carte cadre la zone ; sur téléphone, elle reste en haut et le panneau défile jusqu'au bloc
+function blkShow(keepScroll, back) {
+  document.getElementById('view-lieu').classList.add('profiling'); setMap(true);
+  if (back && map) { blkClear(); blkLayer = L.layerGroup().addTo(map); blkDraw({ b: BLK.b, w: BLK.w, h: BLK.h, clamped: false, small: false }); }
+  const aside = document.querySelector('#view-lieu aside'), top0 = aside ? aside.scrollTop : 0;
+  blkRender();
+  if (map && map.fitBounds) setTimeout(() => { map.invalidateSize(); map.fitBounds(BLK.b, { padding: [24, 24] }); }, 0);
+  if (keepScroll) { if (aside) aside.scrollTop = top0; return; }
+  requestAnimationFrame(() => { const bar = aside.querySelector('.bar'), info = document.getElementById('bkinfo'), small = matchMedia('(max-width: 760px)').matches;
+    if (info) aside.scrollTop += info.getBoundingClientRect().top - (small ? bar.getBoundingClientRect().bottom : aside.getBoundingClientRect().top + bar.offsetHeight) - 8; });
+}
+
+// Changement de mode (position, lieu touché, profil, bloc 3D) : on efface tout ce que le mode précédent avait laissé
+function resetView(keepPanel) {
+  if (profMode) { profMode = 0; profUI(); } if (blkMode) { blkMode = 0; blkUI(); }
+  profClear(); blkClear(); profCursorOff(); if (marker) { marker.remove(); marker = null; }
+  if (BLK && BLK.R) { const lose = BLK.R.gl.getExtension('WEBGL_lose_context'); if (lose) lose.loseContext(); }
+  PROF = null; BLK = null;
+  const v = document.getElementById('view-lieu'); v.classList.remove('profiling');
+  if (!keepPanel) { resultEl.innerHTML = ''; v.classList.remove('has-result'); setMap(true); }
+}
 // Interface : état et import des données détaillées
 function deptStatus(msg) {
   const n = Object.keys(deptIndex).length;
