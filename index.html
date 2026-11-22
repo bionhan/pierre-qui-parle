@@ -1081,22 +1081,40 @@ Object.assign(ROCKS, {
   scree:   { fr:'éboulis et colluvions', img:null, env:"débris descendus des versants par gravité ou ruissellement, accumulés en bas de pente." },
   peat:    { fr:'tourbe', img:null, env:"marais ou tourbière : les végétaux s'accumulent dans l'eau sans se décomposer." },
   flysch:  { fr:'flysch', img:'Greywacke-f-and-l.jpg', env:"avalanches sous-marines répétées de sable et de boue, dans un bassin profond au pied d'une chaîne de montagnes en formation." },
+  trachyandesite: { fr:'trachyandésite', img:'Muséum de Nantes - 620 - Trachyandésite (Cantal, France).jpg', env:"lave de composition intermédiaire, riche en sodium et potassium, émise par un volcan continental de rift ou de point chaud, comme ceux du Mont-Dore, du Cantal ou de la chaîne des Puys (la pierre de Volvic en est une)." },
+  alterite: { fr:'altérites (roche décomposée)', img:null, env:"la roche en place s'est décomposée sous l'effet de l'eau et du climat : ses minéraux se sont peu à peu transformés en argiles et en sables, souvent sous un climat plus chaud et humide qu'aujourd'hui." },
+  bauxite: { fr:'bauxite', img:'Pisolitic bauxite (Alcoa Bauxite Mine, Arkansas, USA) 8.jpg', env:"un sol tropical très lessivé : un climat chaud et humide a dissous presque tout, sauf l'aluminium et le fer. Elle doit son nom aux Baux-de-Provence, où elle s'est formée au Crétacé, quand la région émergeait sous un climat tropical." },
   molasse: { fr:'molasse', img:'Millet-Seed Sandstone Macro.JPG', env:"sables, galets et argiles arrachés à une chaîne de montagnes en cours d'érosion, déposés à son pied." }
 });
+// Préfixes courants des noms de roches : microdiorite, leucomonzogranite, métaquartzite, orthoamphibolite…
+const RPX = '(?:micro-?|leuco|meta|ortho|mela|monzo|syeno|quartzo)*';
+const rw = (words, ...rest) => [new RegExp('\\b' + RPX + '(?:' + words + ')\\b'), ...rest];
 const ROCKWORDS = [
   [/\blherzolites?\b/, 'peridotite', 'lherzolite (une péridotite)'], [/\bperidotites?\b/, 'peridotite'], [/\bserpentin\w*/, 'serpentinite'],
-  [/\b(leuco|monzo|micro)?granites?\b/, 'granite'], [/\bgranodiorites?\b/, 'granodiorite'], [/\btonalites?\b/, 'tonalite'], [/\bdiorites?\b/, 'diorite'],
-  [/\bgabbros?\b/, 'gabbro'], [/\bdolerites?\b/, 'dolerite'], [/\bophites?\b/, 'dolerite', 'ophite (une dolérite)'], [/\b(meta)?basaltes?\b/, 'basalt'],
-  [/\b(meta)?andesites?\b/, 'andesite'], [/\brhyolites?\b/, 'rhyolite'], [/\btrachytes?\b/, 'trachyte'], [/\bphonolites?\b/, 'phonolite'],
+  rw('granites?', 'granite'), rw('alaskites?', 'granite', 'alaskite (un granite très clair)'), [/\b(aplito-?|aplo-)?pegmatites?\b/, 'granite', 'pegmatite (granite à très grands cristaux)'], [/\baplites?\b/, 'granite', 'aplite (granite à grain très fin)'],
+  rw('granodiorites?', 'granodiorite'), rw('tonalites?', 'tonalite'), rw('trondhjemites?', 'tonalite', 'trondhjémite (une tonalite claire)'), rw('diorites?', 'diorite'),
+  rw('monzonites?', 'igneous', 'monzonite (roche plutonique)'), rw('syenites?', 'igneous', 'syénite (roche plutonique)'), [/\b(lamprophyres?|kersantites?|vaugnerites?)\b/, 'igneous', 'lamprophyre (roche filonienne sombre)'],
+  rw('gabbros?', 'gabbro'), rw('dolerites?', 'dolerite'), [/\bophites?\b/, 'dolerite', 'ophite (une dolérite)'],
+  [/\btrachy-?andesit(e|es|ique|iques)\b/, 'trachyandesite'], [/\blatites?\b/, 'trachyandesite', 'latite (une trachyandésite)'], [/\b(mugearites?|benmoreites?)\b/, 'trachyandesite', 'trachyandésite sodique'],
+  [/\bdoreites?\b/, 'trachyandesite', 'doréite (une trachyandésite du Mont-Dore)'], [/\btrachy-?labradorites?\b/, 'trachyandesite', 'trachylabradorite (ancien nom des trachyandésites)'],
+  [/\b(teschenites?|picrites?)\b/, 'dolerite', 'roche sombre de filon ou de sill (teschénite, picrite)'], rw('rhyodacites?', 'dacite', 'rhyodacite'),
+  [/\b(meta|paleo|hypo)?volcanites?\b/, 'igneous', 'roches volcaniques'], [/\bvolcano-?clastites?\b/, 'pyroclastic'], [/\btrachy-?basalt(e|es|ique|iques)\b/, 'basalt', 'trachybasalte'],
+  [/\bbasanit(e|es|ique|iques)\b/, 'basanite'], [/\btephrit(e|es|ique|iques)\b/, 'tephrite'], [/\bhawai+tes?\b/, 'basalt', 'hawaïte (un basalte alcalin)'],
+  [/\bankaramites?\b/, 'basalt', 'ankaramite (un basalte riche en cristaux)'], [/\bspilites?\b/, 'basalt', "spilite (un basalte transformé par l'eau de mer)"], [/\b(meta|leuco)?basaltes?\b/, 'basalt'], [/\blabradorites?\b/, 'basalt', 'labradorite (ancien nom régional de certains basaltes)'],
+  [/\b(meta)?andesites?\b/, 'andesite'], rw('dacites?', 'dacite'), rw('rhyolites?', 'rhyolite'), rw('trachytes?', 'trachyte'), [/\bphonolites?\b/, 'phonolite'],
   [/\b(tufs?|ignimbrites?|pyroclast\w*|cinerites?)\b/, 'pyroclastic'], [/\borthogneiss\b/, 'orthogneiss'], [/\bparagneiss\b/, 'paragneiss'], [/\bgneiss\b/, 'gneiss'],
-  [/\bmicaschistes?\b/, 'micaschist'], [/\b(schistes? ardoisiers?|ardoises?)\b/, 'slate'], [/\b(calc)?schistes?\b/, 'schist'], [/\bamphibolites?\b/, 'amphibolite'],
-  [/\beclogites?\b/, 'eclogite'], [/\b(marbres?|cipolins?)\b/, 'marble'], [/\b(migmatites?|anatexites?)\b/, 'migmatite'], [/\bquartzites?\b/, 'quartzite'],
-  [/\bcorneennes?\b/, 'hornfels'], [/\b(loess|loessiques?|limons?)\b/, 'loess'], [/\b(moraines?|morainiques?|glaciaires?|tills?)\b/, 'moraine'], [/\bdunes?\b/, 'sand', 'sable de dune'], [/\b(tangues?|vases?|vaseux)\b/, 'mud'], [/\bfaluns?\b/, 'limestone', 'falun (sable coquillier)'],
+  [/\ble(y)?ptynites?\b/, 'gneiss', 'leptynite (un gneiss clair)'], [/^(?!.*granite).*\bgranulites?\b/, 'metamorphic', 'granulite (métamorphisme de très haute température)'],
+  [/\bmetabasites?\b/, 'amphibolite', 'métabasite (ancien basalte métamorphisé)'], [/\bkinzigites?\b/, 'gneiss', 'kinzigite (un gneiss à grenat et cordiérite)'],
+  [/\bmicaschistes?\b/, 'micaschist'], [/\b(schistes? ardoisiers?|ardoises?)\b/, 'slate'], [/\b(calc)?schistes?\b/, 'schist'], [/\bmetapelites?\b/, 'schist', 'métapélite (ancienne argile métamorphisée)'],
+  rw('amphibolites?', 'amphibolite'), [/\beclogites?\b/, 'eclogite'], [/\b(marbres?|cipolins?)\b/, 'marble'], [/\b(migmatites?|anatexites?|metatexites?|diatexites?)\b/, 'migmatite'], rw('quartzites?', 'quartzite'),
+  [/\bcorneennes?\b/, 'hornfels'], [/\b(ultra|blasto)?mylonites?\b/, 'metamorphic', 'mylonite (roche broyée dans une faille)'],
+  [/\b(loess|loessiques?|limons?)\b/, 'loess'], [/\b(moraines?|morainiques?|glaciaires?|tills?|tillites?)\b/, 'moraine'], [/\bgrouines?\b/, 'scree', 'grouine (éboulis éclatés par le gel)'], [/\bdunes?\b/, 'sand', 'sable de dune'], [/\b(tangues?|vases?|vaseux)\b/, 'mud'], [/\bfaluns?\b/, 'limestone', 'falun (sable coquillier)'],
   [/\b(alluvions|cailloutis|galets|graviers)\b/, 'alluvium'], [/\b(eboulis|colluvions|eluvions)\b/, 'scree'], [/\b(tourbes?|tourbeux)\b/, 'peat'],
-  [/\bfly(sch|sh)s?\b/, 'flysch'], [/\bmolasses?\b/, 'molasse'], [/\barkoses?\b/, 'arkose'], [/\bgrauwackes?\b/, 'wacke'], [/\b(gres|greseuse|greseux)\b/, 'sandstone', 'grès'],
-  [/\b(micro)?conglomerats?\b/, 'conglomerate'], [/\bpoudingues?\b/, 'poudingue'], [/\bbreches?\b/, 'breccia'], [/\b(argilites?|pelites?|siltites?)\b/, 'mudstone'],
-  [/\bargiles?\b/, 'clay'], [/\bsables?\b/, 'sand'], [/\bcraies?\b/, 'chalk'], [/\bcalcaires?\b/, 'limestone'], [/\bdolomies?\b/, 'dolomite'], [/\bmarnes?\b/, 'marl'],
-  [/\bgypses?\b/, 'gypsum'], [/\b(houille|charbons?)\b/, 'coal'], [/\b(silex|cherts?|lydiennes?|jaspes?|radiolarites?)\b/, 'chert']
+  [/\b(alterites?|alloterites?|isalterites?|arenes?)\b/, 'alterite'], [/\bbauxites?\b/, 'bauxite'],
+  [/\bfly(sch|sh)s?\b/, 'flysch'], [/\bmolasses?\b/, 'molasse'], [/\barkoses?\b/, 'arkose'], [/\bgrauwackes?\b/, 'wacke'], [/\b(gres|greseuse|greseux|quartzarenites?)\b/, 'sandstone', 'grès'],
+  [/\b(micro)?conglomerats?\b/, 'conglomerate'], [/\bpoudingues?\b/, 'poudingue'], [/\bbreches?\b/, 'breccia'], [/\b(argilites?|pelites?|siltites?)\b/, 'mudstone'], [/\bampelites?\b/, 'mudstone', 'ampélite (schiste noir riche en carbone)'],
+  [/\bargiles?\b/, 'clay'], [/\bsables?\b/, 'sand'], [/\bcraies?\b/, 'chalk'], [/\bcalcaires?\b/, 'limestone'], [/\boolith(e|es|ique|iques)\b/, 'oolite'], [/\bcalcarenites?\b/, 'limestone', 'calcarénite (sable calcaire cimenté)'], [/\bdolomies?\b/, 'dolomite'], [/\bmarnes?\b/, 'marl'],
+  [/\bgypses?\b/, 'gypsum'], [/\b(houille|charbons?|lignites?)\b/, 'coal'], [/\b(silex|cherts?|lydiennes?|jaspes?|radiolarites?)\b/, 'chert'], [/\b(meta)?phtanites?\b/, 'chert', 'phtanite (un chert noir)']
 ];
 function rocksFromText(text) {
   const t = norm(text), found = [];
@@ -1563,7 +1581,7 @@ const KIN = { reefLimestone:['limestone'], oolite:['limestone'], chalk:['limesto
   halite:['evaporite'], sylvite:['evaporite'], gypsum:['gypsum','evaporite'], slate:['schist'], schist:['schist','micaschist'], micaschist:['micaschist','schist'],
   gneiss:['gneiss','orthogneiss','paragneiss','metamorphic'], granite:['granite','granodiorite','igneous'], granodiorite:['granodiorite','granite','tonalite','igneous'],
   gabbro:['gabbro','dolerite','ophiolite'], peridotite:['peridotite','serpentinite','ophiolite'], basalt:['basalt','basanite','tephrite'], rhyolite:['rhyolite'],
-  trachyte:['trachyte','phonolite'], andesite:['andesite','dacite'], blueschist:['metamorphic'], hornfels:['metamorphic'], amphibolite:['amphibolite'],
+  trachyte:['trachyte','phonolite'], trachyandesite:['trachyandesite','andesite','trachyte'], andesite:['andesite','dacite'], blueschist:['metamorphic'], hornfels:['metamorphic'], amphibolite:['amphibolite'],
   eclogite:['eclogite'], migmatite:['migmatite','gneiss'] };
 
 let keyPath = [];   // suite des choix effectués : [{node, choice}]
@@ -2014,7 +2032,7 @@ const TAS_ROUGH = [
   ['Andésite', 'volcan de subduction', 60, 5.2], ['Dacite', 'dôme de volcan explosif', 66, 6.5], ['Rhyolite', 'lave claire, très riche en silice', 74, 8],
   ['Trachyandésite', 'lave grise de la Chaîne des Puys', 57, 8.5], ['Trachyte', 'dôme clair, type puy de Dôme', 65, 11], ['Phonolite', 'piton de lave sonore', 57.5, 14.2]
 ];
-const TAS_PRESET = { basalt: [49, 3.2], basanite: [43.5, 5.5], tephrite: [45, 7], andesite: [60, 5.2], dacite: [66, 6.5], rhyolite: [74, 8], trachyte: [65, 11], phonolite: [57.5, 14.2] };
+const TAS_PRESET = { trachyandesite: [59, 8.8], basalt: [49, 3.2], basanite: [43.5, 5.5], tephrite: [45, 7], andesite: [60, 5.2], dacite: [66, 6.5], rhyolite: [74, 8], trachyte: [65, 11], phonolite: [57.5, 14.2] };
 const TA = { s: 49, a: 3.2, raw: null, mode: 'rough', rock: null };
 const TAB = { L: 50, R: 12, T: 14, B: 42, W: 640, H: 430, s0: 36, s1: 80, a1: 16 };
 const taX = s => TAB.L + (s - TAB.s0) / (TAB.s1 - TAB.s0) * (TAB.W - TAB.L - TAB.R), taY = a => TAB.H - TAB.B - a / TAB.a1 * (TAB.H - TAB.T - TAB.B);
@@ -2561,8 +2579,8 @@ const DIAGS = {
   qfl:  { render: qfRender, set: id => { if (QFL_PRESET[id]) { QF.rock = id; QF.v = QFL_PRESET[id].slice(); QF.raw = null; QF.mode = 'rough'; } }, has: id => id in QFL_PRESET, label: 'relief d\'origine' },
   dun:  { render: duRender, set: id => { if (DUN_PRESET[id]) { DU.rock = id; DU.id = DUN_PRESET[id]; DU.grain = id === 'oolite' ? 'oo' : ''; DU.mode = 'rough'; } }, has: id => id in DUN_PRESET, label: 'énergie de la mer' },
   morph: { render: moRender, set: id => { if (MO_PRESET[id]) { MO.rock = id; [MO.r, MO.s, MO.size] = MO_PRESET[id]; MO.surf = ''; } }, has: id => id in MO_PRESET, label: 'durée du transport' },
-  melt: { render: meRender, set: id => { ME.rock = id; ME.sc = id === 'andesite' || id === 'dacite' ? 'sub' : id === 'basanite' || id === 'tephrite' || id === 'phonolite' || id === 'trachyte' ? 'hot' : id === 'peridotite' ? 'cra' : 'ridge'; [, , ME.tp, ME.lid, ME.wet] = ME_SC[ME.sc]; ME.mode = 'rough'; },
-          has: id => ['basalt', 'basanite', 'tephrite', 'andesite', 'peridotite'].includes(id), label: 'naissance du magma' },
+  melt: { render: meRender, set: id => { ME.rock = id; ME.sc = id === 'andesite' || id === 'dacite' ? 'sub' : id === 'basanite' || id === 'tephrite' || id === 'phonolite' || id === 'trachyte' || id === 'trachyandesite' ? 'hot' : id === 'peridotite' ? 'cra' : 'ridge'; [, , ME.tp, ME.lid, ME.wet] = ME_SC[ME.sc]; ME.mode = 'rough'; },
+          has: id => ['basalt', 'basanite', 'tephrite', 'andesite', 'trachyandesite', 'peridotite'].includes(id), label: 'naissance du magma' },
   afm:  { render: afRender, set: id => { if (AFM_PRESET[id]) { AF.rock = id; AF.v = AFM_PRESET[id].slice(); AF.raw = null; AF.mode = 'rough'; } }, has: id => ['basalt', 'andesite', 'dacite'].includes(id), label: 'dorsale ou subduction' }
 };
 function showDiag(which, rockId) {
