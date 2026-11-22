@@ -1048,10 +1048,24 @@ const STAGES = [
   ['liasique',201.4,174.7],['triasique',251.9,201.4],['werfenien',251.9,247.2],['olenekien',251.2,247.2],['westphallien',319,307],
   ['caradocien',458.4,449],['ashgillien',449,443.8],['llanvirnien',467,462],['llandeilien',462,458.4],['tremadocien',485.4,478]
 ];
+// Subdivisions des séries : « Pliocène supérieur », « Pléistocène inférieur »… (charte ICS 2023 ;
+// « moyen » quand la charte n'a que deux subdivisions, « basal », « terminal », « sommital » : usages informels, bornes approchées)
+const SUBSERIES = {
+  paleocene: [[66, 61.6], [61.6, 59.2], [59.2, 56]], eocene: [[56, 47.8], [47.8, 37.71], [37.71, 33.9]], oligocene: [[33.9, 27.82], [32, 27.82], [27.82, 23.03]],
+  miocene: [[23.03, 15.98], [15.98, 11.63], [11.63, 5.333]], pliocene: [[5.333, 3.6], [3.6, 3.0], [3.6, 2.58]], pleistocene: [[2.58, 0.774], [0.774, 0.129], [0.129, 0.0117]],
+  cretace: [[145, 100.5], [113, 93.9], [100.5, 66]], jurassique: [[201.4, 174.7], [174.7, 161.5], [161.5, 145]], trias: [[251.9, 247.2], [247.2, 237], [237, 201.4]],
+  lias: [[201.4, 192.9], [192.9, 184.2], [184.2, 174.7]], dogger: [[174.7, 168.2], [170.9, 165.3], [168.2, 161.5]], malm: [[161.5, 154.8], [157, 152], [154.8, 145]],
+  permien: [[298.9, 273.01], [273.01, 259.51], [259.51, 251.9]], carbonifere: [[358.9, 323.2], [331, 307], [323.2, 298.9]], devonien: [[419.2, 393.3], [393.3, 382.7], [382.7, 358.9]],
+  silurien: [[443.8, 433.4], [433.4, 427.4], [427.4, 419.2]], ordovicien: [[485.4, 470], [470, 458.4], [458.4, 443.8]], cambrien: [[538.8, 506.5], [506.5, 497], [497, 485.4]]
+};
+for (const [serie, [inf, moy, sup]] of Object.entries(SUBSERIES))
+  for (const [q, v] of [['inferieur', inf], ['basal', inf], ['moyen', moy], ['superieur', sup], ['terminal', sup], ['sommital', sup]])
+    if (!STAGES.some(s => s[0] === serie + ' ' + q)) STAGES.push([serie + ' ' + q, v[0], v[1]]);
 // Trouve l'âge dans une description libre : on garde les termes les plus précis et on réunit leurs intervalles
 function ageFromText(text) {
   // pluriels et féminins ramenés au nom de l'étage : « weichséliennes » -> « weichselien »
-  const t = ' ' + norm(text).replace(/[^a-z0-9]+/g, ' ').replace(/ien(s|ne|nes)\b/g, 'ien') + ' ';
+  const t = ' ' + norm(text).replace(/[^a-z0-9]+/g, ' ').replace(/ien(s|ne|nes)\b/g, 'ien')
+    .replace(/\b(inferieur|superieur|basal|terminal|sommital)(e|es|s)\b/g, '$1').replace(/\bmoyen(s|ne|nes)\b/g, 'moyen').replace(/\bbasaux\b/g, 'basal') + ' ';
   let hits = STAGES.filter(s => t.includes(' ' + s[0] + ' '));
   if (!hits.length) return null;
   hits = hits.filter(a => !hits.some(b => b !== a && b[1] <= a[1] && b[2] >= a[2] && (b[1] < a[1] || b[2] > a[2])));
