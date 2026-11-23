@@ -294,7 +294,8 @@
   .pflegend small { display: block; color: var(--muted); font-size: 12px; line-height: 1.35; } .pflegend .pfage { color: var(--accent); font-weight: 600; }
   .pflegend button.link { font-size: 13px; white-space: nowrap; }
   .bkwrap { position: relative; border-radius: 14px; overflow: hidden; background: #f7f2e6; border: 1px solid var(--line); }
-  .bkwrap canvas { display: block; width: 100%; aspect-ratio: 4 / 3; max-height: calc(100vh - 300px); min-height: 260px; touch-action: none; cursor: grab; } .bkwrap canvas:active { cursor: grabbing; }
+  .bkwrap canvas { display: block; width: 100%; aspect-ratio: 4 / 3; max-height: calc(100vh - 300px); min-height: 260px; touch-action: none; cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M16 3v9M16 20v9M3 16h9M20 16h9' stroke='%23fff' stroke-width='4'/%3E%3Cpath d='M16 3v9M16 20v9M3 16h9M20 16h9' stroke='%23c2552d' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='2.2' fill='%23c2552d' stroke='%23fff' stroke-width='1.2'/%3E%3C/g%3E%3C/svg%3E") 16 16, crosshair; } .bkwrap canvas.turning { cursor: grabbing; }
+  #map.bk-hover, #map.bk-hover .leaflet-grab, #map.bk-hover .leaflet-interactive { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M16 3v9M16 20v9M3 16h9M20 16h9' stroke='%23fff' stroke-width='4'/%3E%3Cpath d='M16 3v9M16 20v9M3 16h9M20 16h9' stroke='%23c2552d' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='2.2' fill='%23c2552d' stroke='%23fff' stroke-width='1.2'/%3E%3C/g%3E%3C/svg%3E") 16 16, crosshair; }
   .bkcomp { position: absolute; top: 10px; right: 10px; width: 34px; height: 34px; border-radius: 50%; background: #fffdf8e6; border: 1px solid var(--line); display: grid; place-items: center; font: 700 12px system-ui, sans-serif; color: var(--accent); pointer-events: none; }
   .bkcomp::before { content: ""; position: absolute; top: 3px; left: 50%; margin-left: -4px; border: 4px solid transparent; border-bottom: 8px solid var(--accent); border-top: 0; }
   .bktools { position: absolute; left: 10px; bottom: 10px; display: flex; gap: 6px; } .bktools button { background: #fffdf8e6; padding: 5px 10px; font-size: 13px; }
@@ -310,9 +311,21 @@
   .bkd i { position: absolute; left: 0; bottom: 0; height: 3px; background: #c2552d; } .bkd.max { border-color: #a12a2a; background: #fbe3dc; } .bkd.max i { background: #a12a2a; }
   .bkd.max::after { content: ' max'; color: #a12a2a; } .bkd.small { border-color: #a12a2a; color: #a12a2a; }
   .leaflet-tooltip.proftip { font-weight: 700; padding: 1px 7px; }
+  @media (min-width: 761px) {
+    .bar { gap: 6px; padding: 6px 0; margin: -6px 0 4px; flex-wrap: wrap; top: -20px; }
+    .bar button { flex: 0 1 auto; width: auto; padding: 5px 12px; font-size: 13.5px; font-weight: 600; white-space: nowrap; box-shadow: 0 1px 0 #8c3b2a; }
+    .bar button.ghost { box-shadow: none; }
+    #view-lieu.on.bk3d:not(.nomap) { grid-template-columns: minmax(260px, 33%) 1fr; } #view-lieu.bk3d .panel { max-width: 1100px; }
+    .bkwrap canvas { max-height: calc(100vh - 230px); }
+  }
   @media (max-width: 760px) { .bar .lg { display: none; } .bar .sm { display: inline; } .bar button { padding: 9px 4px; font-size: 13px; white-space: nowrap; flex: 1 1 0; min-width: 0; } .bar { gap: 6px; }
     .pfinfo { height: 116px; } .pfi-top strong { font-size: 15px; }
     .pflegend li { grid-template-columns: 22px 14px 1fr; } .pflegend button.link { grid-column: 3; justify-self: start; } #pfsvg .t { font-size: 14px; } }
+  .phcred { font-size: 11px; color: #c5d3cb; margin: 4px 0 0; } .phcred a { color: inherit; }
+  .kcred span[data-cred] a { color: inherit; } .phlist li { font-size: 14px; padding: 3px 0; } .phlist li a { color: var(--accent); }
+  nav.top .navinfo { margin-left: auto; padding: 8px 10px; } .legal .card h2 { font-family: var(--serif); text-transform: none; letter-spacing: 0; font-size: 20px; color: var(--ink); }
+  .legal .card p, .legal .card li { font-size: 15px; line-height: 1.5; } .legal a { color: var(--accent); }
+  @media (max-width: 760px) { nav.top .navinfo { flex: 0 0 auto; padding: 9px 8px; } }
   .trail { background: #fffdf8; border-radius: 99px; padding: 6px 14px; display: inline-flex; box-shadow: var(--shadow); }
   /* Commandes des diagrammes */
   .tabs { border-radius: 99px; border-width: 2px; background: #fffdf8; } .tabs button { background: transparent; border-radius: 99px; } .yn { border-radius: 99px; }
@@ -335,6 +348,7 @@
   <button data-view="lieu"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-6.2-6.5-11.2a6.5 6.5 0 0 1 13 0C18.5 14.8 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></svg><span class="lg">Les roches selon un lieu</span><span class="sm">Lieu</span></button>
   <button data-view="identifier"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/></svg><span class="lg">Identifier une roche</span><span class="sm">Identifier</span></button>
   <button data-view="diagrammes"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5L21 19.5H3z"/><circle cx="12.5" cy="14" r="1.6" fill="currentColor"/></svg><span class="lg">Faire parler la roche</span><span class="sm">Faire parler</span></button>
+  <button data-view="infos" class="navinfo" title="Mentions légales et crédits" aria-label="Mentions légales et crédits"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.1"/></svg></button>
 </nav>
 <section class="view" id="view-lieu">
 <div id="map"></div>
@@ -364,9 +378,40 @@
     <summary>ⓘ Sources et crédits</summary>
     <p class="note">Données : © BRGM (Bureau de recherches géologiques et minières) — carte lithologique simplifiée et carte géologique au 1/1 000 000 ; carte au 1/50 000 : BD Charm-50 (Licence Ouverte).
     Fond de carte et altitudes des profils © IGN (Institut national de l'information géographique et forestière ; Plan IGN et RGE ALTI®). Carte du monde : GPlates Web Service, modèle de plaques de Merdith et al. (2021). Âges : bornes de la charte chronostratigraphique internationale (ICS, Commission internationale de stratigraphie).
-    Photos : Wikimedia Commons, sous licences libres — touchez une photo pour voir son auteur et sa licence.</p>
+    Photos : Wikimedia Commons, sous licences libres. <button class="link" data-view-go="infos">Mentions légales et crédits complets</button></p>
   </details>
 </div></aside>
+</section>
+<section class="view page" id="view-infos">
+  <div class="inner legal">
+    <h1>Mentions légales et crédits</h1>
+    <p class="sub">Pierre qui parle — ce que racontent les roches de France. Application pédagogique libre.</p>
+    <div class="card"><h2>Éditeur et hébergement</h2>
+      <p><strong>Éditeur</strong> : Nhan LE - Bionhan, à titre personnel et non commercial. Contact : par les tickets du <a target="_blank" rel="noopener" href="https://github.com/bionhan/pierre-qui-parle/issues">dépôt GitHub du projet</a>.</p>
+      <p><strong>Hébergeur</strong> : GitHub, Inc. (service GitHub Pages), 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.</p>
+      <p>Application réalisée avec l'assistance de Claude (Anthropic).</p></div>
+    <div class="card"><h2>Usage des informations</h2>
+      <p>Les informations sont fournies à titre <strong>pédagogique</strong>. Elles sont lues automatiquement dans des cartes géologiques et des bases publiques, puis simplifiées : elles peuvent être incomplètes ou inexactes et n'ont <strong>aucune valeur réglementaire</strong>. Pour tout usage engageant (construction, risques, achat d'un terrain…), reportez-vous aux sources officielles du BRGM, de l'IGN et de Géorisques.</p></div>
+    <div class="card"><h2>Données personnelles</h2>
+      <ul class="plain">
+        <li>Aucun compte, aucun cookie, aucune mesure d'audience, aucune publicité.</li>
+        <li><strong>Position</strong> : elle n'est demandée que si vous touchez « Ma position », et votre navigateur vous demande d'abord votre accord. Elle n'est pas conservée par l'application.</li>
+        <li><strong>Services consultés</strong> : quand vous choisissez un lieu, un profil ou un bloc 3D, les coordonnées correspondantes sont envoyées aux services publics qui fournissent les réponses : BRGM (cartes géologiques), IGN (fond de carte et altitudes), GPlates (carte du monde ancien). Les photos sont chargées depuis Wikimedia Commons. Comme pour toute page web, ces services reçoivent l'adresse IP de votre appareil.</li>
+        <li><strong>Cartes importées</strong> : si vous importez des cartes au 1/50 000, elles restent dans la mémoire de votre navigateur ; vous pouvez les effacer en vidant les données du site.</li>
+      </ul></div>
+    <div class="card"><h2>Licences</h2>
+      <ul class="plain">
+        <li><strong>Application</strong> (code, textes, schémas) : <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr">CC BY-NC-SA 4.0</a>.</li>
+        <li><strong>Cartes géologiques</strong> : © BRGM — carte lithologique simplifiée et carte géologique au 1/1 000 000 ; cartes au 1/50 000 issues de la BD Charm-50 (édition 2019), Licence Ouverte, simplifiées pour l'application.</li>
+        <li><strong>Fond de carte et altitudes</strong> : © IGN — Plan IGN et RGE ALTI®, Licence Ouverte Etalab 2.0.</li>
+        <li><strong>Carte du monde à l'époque</strong> : GPlates Web Service, modèle de Merdith et al. (2021).</li>
+        <li><strong>Affichage de la carte</strong> : bibliothèque Leaflet (licence BSD).</li>
+        <li><strong>Âges</strong> : charte chronostratigraphique internationale (ICS).</li>
+      </ul></div>
+    <div class="card"><h2>Crédits des photos</h2>
+      <p class="note">Toutes les photos proviennent de Wikimedia Commons, sous licence libre ou dans le domaine public. Chaque nom renvoie à la page de la photo, chaque licence à son texte.</p>
+      <ul class="plain phlist" id="phlist"></ul></div>
+  </div>
 </section>
 <section class="view page" id="view-identifier">
   <div class="inner">
@@ -545,10 +590,33 @@ function rockOf(cgiTerm) {
   if (!m) return { name: k.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase(), rock: null };
   return { name: m[1] || ROCKS[m[0]].fr, rock: ROCKS[m[0]] };
 }
+/* ---------- Crédits des photos : auteur et licence lus sur Wikimedia Commons, affichés près des images ---------- */
+const PHOTO_META = {}, photoWant = new Set(); let photoTimer = 0;
+function photoAsk(file) { if (file && !PHOTO_META[file]) { photoWant.add(file); if (!photoTimer) photoTimer = setTimeout(() => { photoTimer = 0; photoFetch(); }, 80); } }
+async function photoFetch() {
+  const files = [...photoWant].filter(f => !PHOTO_META[f]); photoWant.clear();
+  for (let i = 0; i < files.length; i += 40) { const part = files.slice(i, i + 40);
+    try { const j = await (await fetch('https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&prop=imageinfo&iiprop=extmetadata&iiextmetadatafilter=Artist|LicenseShortName|LicenseUrl&titles=' + encodeURIComponent(part.map(f => 'File:' + f).join('|')))).json();
+      const back = {}; part.forEach(f => back['File:' + f] = f); ((j.query || {}).normalized || []).forEach(n => back[n.to] = back[n.from]);
+      for (const pg of Object.values((j.query || {}).pages || {})) { const f = back[pg.title]; if (!f) continue; const m = ((pg.imageinfo || [{}])[0] || {}).extmetadata || {};
+        const tmp = document.createElement('div'); tmp.innerHTML = (m.Artist || {}).value || '';
+        PHOTO_META[f] = { artist: tmp.textContent.replace(/\s+/g, ' ').trim(), lic: ((m.LicenseShortName || {}).value || '').trim(), url: ((m.LicenseUrl || {}).value || '').trim() }; } }
+    catch (e) { /* hors ligne : les liens vers Commons restent disponibles */ } }
+  photoApply();
+}
+const photoLine = (f, short) => { const m = PHOTO_META[f]; if (!m) return ''; const who = m.artist || 'auteur indiqué sur Wikimedia Commons';
+  return short ? `${who} · ${m.lic || 'licence libre'}` : `Photo : ${who} — ${m.lic || 'licence libre'}, via Wikimedia Commons`; };
+function photoApply(root) { root = root || document;
+  root.querySelectorAll('[data-photo]:not([data-ok])').forEach(el => { const f = el.dataset.photo; if (!PHOTO_META[f]) { photoAsk(f); return; } el.title = photoLine(f); el.dataset.ok = '1'; });
+  root.querySelectorAll('[data-cred]:not([data-ok])').forEach(el => { const f = el.dataset.cred; if (!PHOTO_META[f]) { photoAsk(f); return; } el.dataset.ok = '1';
+    const m = PHOTO_META[f]; el.innerHTML = `${el.dataset.credLabel ? esc(el.dataset.credLabel) + ' : ' : 'Photo : '}<a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/File:${encodeURIComponent(f.replace(/ /g, '_'))}">${esc(m.artist || 'auteur sur Wikimedia Commons')}</a>${
+      m.lic ? ' — ' + (m.url ? `<a target="_blank" rel="noopener" href="${esc(m.url)}">${esc(m.lic)}</a>` : esc(m.lic)) : ''}`; }); }
+// les images apparaissent au fil des fiches : on complète les crédits dès qu'elles sont insérées
+new MutationObserver(() => { clearTimeout(photoApply.t); photoApply.t = setTimeout(() => photoApply(), 50); }).observe(document.body, { childList: true, subtree: true });
 function thumb(rock) {
   if (!rock || !rock.img) return '<span class="thumb"></span>';
   const f = encodeURIComponent(rock.img.replace(/ /g, '_'));
-  return `<a class="thumb" target="_blank" rel="noopener" title="Photo Wikimedia Commons — voir l'auteur et la licence"
+  return `<a class="thumb" target="_blank" rel="noopener" data-photo="${esc(rock.img)}" title="Photo Wikimedia Commons — voir l'auteur et la licence"
     href="https://commons.wikimedia.org/wiki/File:${f}"><img loading="lazy" alt=""
     src="https://commons.wikimedia.org/wiki/Special:FilePath/${f}?width=160" onerror="this.remove()"></a>`;
 }
@@ -899,7 +967,7 @@ function setStatus(t, err) { statusEl.textContent = t; statusEl.className = err 
 let lastPrecision = '';
 function hero(o) {
   return `<div class="hero"><div class="top">${thumb(o.rock)}<div><div class="kicker">${o.chip ? `<span class="chip" style="background:${esc(o.chip)}"></span>` : ''}${esc(o.kicker)}</div>
-      <h2>${esc(cap(o.title))}</h2>${o.descr ? `<p class="descr">${esc(cap(o.descr))}</p>` : ''}</div></div>
+      <h2>${esc(cap(o.title))}</h2>${o.descr ? `<p class="descr">${esc(cap(o.descr))}</p>` : ''}${o.rock && o.rock.img ? `<p class="phcred" data-cred="${esc(o.rock.img)}"></p>` : ''}</div></div>
     <div class="facts">${o.facts.filter(f => f[0] !== 'Précision' || !(lastPrecision = f[1] + ' (' + f[2] + ')')).map(f => `<div class="fact"><span>${esc(f[0])}</span><b>${esc(f[1])}</b>${f[2] ? `<small>${esc(f[2])}</small>` : ''}</div>`).join('')}</div>
     ${o.also && o.also.length ? `<div class="also"><h3>${esc(o.alsoTitle)}</h3><ul class="rocks">${o.also.map(r => `<li>${thumb(r.rock)}<div>${esc(cap(r.name))}${
       r.hi ? `<br><span class="pct">${r.lo}–${r.hi} % de la formation</span>` : ''}</div></li>`).join('')}</ul></div>` : ''}${heroDiagrams(o.rock)}</div>`;
@@ -990,7 +1058,7 @@ function setMap(show) {
 document.getElementById('maptoggle').onclick = () => setMap(document.getElementById('view-lieu').classList.contains('nomap'));
 
 async function lookup(lat, lon, back) {
-  profCursorOff(); blkCursorOff(); document.getElementById('view-lieu').classList.remove('profiling');
+  profCursorOff(); blkCursorOff(); blkWide(false); document.getElementById('view-lieu').classList.remove('profiling');
   if (!back) resetView(true);   // nouveau lieu : on quitte le profil ou le bloc 3D
   if (marker) marker.setLatLng([lat, lon]); else marker = L.marker([lat, lon]).addTo(map);
   setStatus(`Recherche pour ${lat.toFixed(4)}, ${lon.toFixed(4)}…`);
@@ -1481,7 +1549,7 @@ void main(){vn=nm;vuv=uv;vs=sd;vp=p;gl_Position=m*vec4(p,1.0);}`;
 const BLK_FS = `precision mediump float;uniform sampler2D t;uniform vec3 L;uniform float hs;uniform vec3 mk;uniform float mr;varying vec3 vn;varying vec2 vuv;varying float vs;varying vec3 vp;
 void main(){vec3 N=normalize(vn);float d=max(dot(N,normalize(L)),0.0);
 if(vs>0.5){float h=fract((vp.x+vp.z+vp.y)/hs);vec3 c=h<0.22?vec3(0.80,0.76,0.68):vec3(0.95,0.93,0.88);gl_FragColor=vec4(c*(0.8+0.2*d),1.0);}
-else{vec3 c=texture2D(t,vuv).rgb*(0.5+0.62*d);float r=length(vp.xz-mk.xz);if(mr>0.0&&r<mr)c=mix(c,vec3(0.76,0.33,0.18),0.85);else if(mr>0.0&&r<mr*1.9)c=mix(c,vec3(1.0),0.7);gl_FragColor=vec4(c,1.0);}}`;
+else{vec3 c=texture2D(t,vuv).rgb*(0.5+0.62*d);float r=length(vp.xz-mk.xz);if(mr>0.0&&r<mr)c=vec3(0.76,0.33,0.18);else if(mr>0.0&&r<mr*1.6)c=mix(c,vec3(1.0),0.9);else if(mr>0.0&&r<mr*1.9)c=mix(c,vec3(0.12,0.14,0.13),0.8);gl_FragColor=vec4(c,1.0);}}`;
 function blkExag() { if (BLK.real) return 1; const relief = (BLK.zmax - BLK.zmin) / 1000, size = Math.max(BLK.w, BLK.h); if (relief <= 0) return 1;
   return Math.max(1, Math.min(6, Math.round(2 * Math.max(1, .22 * size / relief)) / 2)); }
 const blkH = (i, j) => BLK.z[Math.min(BLK.ny - 1, Math.max(0, j)) * BLK.nx + Math.min(BLK.nx - 1, Math.max(0, i))];
@@ -1522,7 +1590,7 @@ function blkDrawGL() { if (!BLK || !BLK.R) return; const R = BLK.R; const { gl, 
   const c = blkCam(), m = M4.mul(M4.persp(c.fov, W / H, c.near, c.far), M4.look(c.eye, c.tgt, [0, 1, 0])); BLK.cam = Object.assign(c, { m, W, H });
   gl.uniformMatrix4fv(gl.getUniformLocation(pr, 'm'), false, new Float32Array(m)); gl.uniform3fv(gl.getUniformLocation(pr, 'L'), [-.5, .85, .35]);
   gl.uniform1f(gl.getUniformLocation(pr, 'hs'), Math.max(BLK.w, BLK.h) / 45);
-  gl.uniform3fv(gl.getUniformLocation(pr, 'mk'), BLK.mk ? BLK.mk : [0, 0, 0]); gl.uniform1f(gl.getUniformLocation(pr, 'mr'), BLK.mk ? Math.max(BLK.w, BLK.h) / 160 : 0);
+  gl.uniform3fv(gl.getUniformLocation(pr, 'mk'), BLK.mk ? BLK.mk : [0, 0, 0]); gl.uniform1f(gl.getUniformLocation(pr, 'mr'), BLK.mk ? Math.max(BLK.w, BLK.h) / 85 : 0);
   gl.drawElements(gl.TRIANGLES, R.n, gl.UNSIGNED_SHORT, 0);
   // boussole : direction du nord à l'écran
   const pj = p => { const v = [p[0], p[1], p[2], 1], o = [0, 1, 3].map(r => v[0] * m[r] + v[1] * m[4 + r] + v[2] * m[8 + r] + v[3] * m[12 + r]); return [o[0] / o[2], o[1] / o[2]]; };
@@ -1562,8 +1630,20 @@ function blkInfo(hit) { const info = document.getElementById('bkinfo'); if (!inf
   info.innerHTML = `<div class="pfi-top">${f ? `<span class="pnum">${num}</span><span class="sw" style="background:${f.color}"></span>` : ''}<strong>${f ? esc(f.water ? "Cours d'eau ou plan d'eau" : f.rocks.length ? cap(f.rocks.map(r => r.name).join(', ')) : 'Formation') : BLK.geo.any ? 'Zone non cartographiée' : 'Carte détaillée non chargée ici'}</strong>${f && f.code ? `<span class="pfi-code">${esc(f.code)}</span>` : ''}</div>
     <div class="pfi-mid"><span class="pfi-age">${f && f.age ? esc(f.age.range) : f ? '<em>âge non précisé par la carte</em>' : ''}</span><span class="pfi-pos">${nf(alt, 0)} m · ${lat.toFixed(4)}, ${lon.toFixed(4)}</span></div><div class="pfi-descr">${f ? esc(f.descr) : ''}</div>`;
   resultEl.querySelectorAll('.bklegend li[data-bk]').forEach(li => li.classList.toggle('hl', f && +li.dataset.bk === f.k));
-  if (map) { if (!blkCursor) blkCursor = L.circleMarker([lat, lon], { radius: 7, color: '#c2552d', weight: 3, fillColor: '#fff', fillOpacity: 1 }).addTo(map); else blkCursor.setLatLng([lat, lon]); }
+  if (map) { if (!blkCursor) blkCursor = L.circleMarker([lat, lon], { radius: 7, color: '#c2552d', weight: 3, fillColor: '#fff', fillOpacity: 1, interactive: false }).addTo(map); else blkCursor.setLatLng([lat, lon]); }
 }
+// Survol de la carte 2D : le point survolé dans la zone apparaît sur le bloc 3D, avec la roche qui affleure
+let blkFromMap = false;
+function blkHover(lat, lon) {
+  const mp = document.getElementById('map'), on = !!(BLK && BLK.R && BLK.mesh && !blkMode && !profMode && document.getElementById('bkcv'));
+  const [[s, w], [n, e]] = on ? BLK.b : [[0, 0], [0, 0]], inside = on && lat >= s && lat <= n && lon >= w && lon <= e;
+  if (mp) mp.classList.toggle('bk-hover', inside);
+  if (!inside) { if (blkFromMap) { blkFromMap = false; if (BLK && BLK.R) { BLK.mk = null; blkInfo(null); blkCursorOff(); blkReq(); } } return; }
+  const u = (lon - w) / (e - w), v = (n - lat) / (n - s), fi = u * (BLK.nx - 1), fj = v * (BLK.ny - 1), i = Math.min(BLK.nx - 2, Math.floor(fi)), j = Math.min(BLK.ny - 2, Math.floor(fj)), a = fi - i, b = fj - j;
+  const z = blkH(i, j) * (1 - a) * (1 - b) + blkH(i + 1, j) * a * (1 - b) + blkH(i, j + 1) * (1 - a) * b + blkH(i + 1, j + 1) * a * b;
+  BLK.mk = [(u - .5) * BLK.w, (z - BLK.zmin) / 1000 * BLK.mesh.ex, (v - .5) * BLK.h]; blkFromMap = true; blkInfo({ u, v }); blkReq();
+}
+if (map) { map.on('mousemove', e => blkHover(e.latlng.lat, e.latlng.lng)); map.on('mouseout', () => blkHover(NaN, NaN)); }
 let blkResizeOn = false;
 function blkRender() {
   if (BLK.R) { const lose = BLK.R.gl.getExtension('WEBGL_lose_context'); if (lose) lose.loseContext(); BLK.R = null; }
@@ -1601,8 +1681,8 @@ function blkRender() {
     if (!pts.has(ev.pointerId)) { if (ev.pointerType === 'mouse') read(ev); return; }
     const p0 = pts.get(ev.pointerId), dx = ev.clientX - p0[0], dy = ev.clientY - p0[1]; pts.set(ev.pointerId, [ev.clientX, ev.clientY]);
     if (pts.size === 2 && pinch0) { const [a, b] = [...pts.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]); BLK.dist = Math.max(Math.max(BLK.w, BLK.h) * .35, Math.min(Math.max(BLK.w, BLK.h) * 4, pinch0.dist * pinch0.d / Math.max(d, 1))); moved = true; blkReq(); return; }
-    if (Math.abs(dx) + Math.abs(dy) > 0) { if (Math.hypot(dx, dy) > 2) moved = true; BLK.yaw -= dx * .008; BLK.pitch = Math.max(.12, Math.min(1.5, BLK.pitch + dy * .006)); blkReq(); } });
-  const up = ev => { if (pts.has(ev.pointerId)) { pts.delete(ev.pointerId); if (!moved && pts.size === 0) read(ev); } if (pts.size < 2) pinch0 = null; };
+    if (Math.abs(dx) + Math.abs(dy) > 0) { if (Math.hypot(dx, dy) > 2) { moved = true; cv.classList.add('turning'); } BLK.yaw -= dx * .008; BLK.pitch = Math.max(.12, Math.min(1.5, BLK.pitch + dy * .006)); blkReq(); } });
+  const up = ev => { cv.classList.remove('turning'); if (pts.has(ev.pointerId)) { pts.delete(ev.pointerId); if (!moved && pts.size === 0) read(ev); } if (pts.size < 2) pinch0 = null; };
   cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
   cv.addEventListener('pointerleave', ev => { if (ev.pointerType === 'mouse' && !pts.size) { BLK.mk = null; blkInfo(null); blkCursorOff(); blkReq(); } });
   cv.addEventListener('wheel', ev => { ev.preventDefault(); const s = Math.max(BLK.w, BLK.h); BLK.dist = Math.max(s * .35, Math.min(s * 4, (BLK.dist || s * 1.4) * Math.exp(ev.deltaY * .0012))); blkReq(); }, { passive: false });
@@ -1612,7 +1692,7 @@ function blkRender() {
 }
 // Affiche le bloc à côté de la carte : la carte cadre la zone ; sur téléphone, elle reste en haut et le panneau défile jusqu'au bloc
 function blkShow(keepScroll, back) {
-  document.getElementById('view-lieu').classList.add('profiling'); setMap(true);
+  document.getElementById('view-lieu').classList.add('profiling', 'bk3d'); setMap(true);
   if (back && map) { blkClear(); blkLayer = L.layerGroup().addTo(map); blkDraw({ b: BLK.b, w: BLK.w, h: BLK.h, clamped: false, small: false }); }
   const aside = document.querySelector('#view-lieu aside'), top0 = aside ? aside.scrollTop : 0;
   blkRender();
@@ -1622,13 +1702,14 @@ function blkShow(keepScroll, back) {
     if (info) aside.scrollTop += info.getBoundingClientRect().top - (small ? bar.getBoundingClientRect().bottom : aside.getBoundingClientRect().top + bar.offsetHeight) - 8; });
 }
 
+function blkWide(on) { const v = document.getElementById('view-lieu'); if (v.classList.contains('bk3d') === on) return; v.classList.toggle('bk3d', on); if (map) setTimeout(() => map.invalidateSize(), 0); }
 // Changement de mode (position, lieu touché, profil, bloc 3D) : on efface tout ce que le mode précédent avait laissé
 function resetView(keepPanel) {
   if (profMode) { profMode = 0; profUI(); } if (blkMode) { blkMode = 0; blkUI(); }
   profClear(); blkClear(); profCursorOff(); if (marker) { marker.remove(); marker = null; }
   if (BLK && BLK.R) { const lose = BLK.R.gl.getExtension('WEBGL_lose_context'); if (lose) lose.loseContext(); }
   PROF = null; BLK = null;
-  const v = document.getElementById('view-lieu'); v.classList.remove('profiling');
+  const v = document.getElementById('view-lieu'); v.classList.remove('profiling'); blkWide(false);
   if (!keepPanel) { resultEl.innerHTML = ''; v.classList.remove('has-result'); setMap(true); }
 }
 // Interface : état et import des données détaillées
@@ -1910,13 +1991,13 @@ const keyPhotoRock = (c, node) => c.r ? RESULTS[c.r][1] : node === 'detr' && c.t
 const comFile = rock => encodeURIComponent(rock.img.replace(/ /g, '_'));
 function keyPhoto(c, node) {
   const rock = ROCKS[keyPhotoRock(c, node)]; if (!rock || !rock.img) return '';
-  return `<span class="cph"><img loading="lazy" alt="Photo : ${esc(rock.fr)}" src="https://commons.wikimedia.org/wiki/Special:FilePath/${comFile(rock)}?width=${rock.zoom ? 640 : 320}"${rock.zoom ? ` style="transform:scale(${rock.zoom})"` : ''} onerror="this.parentNode.remove()"><em>${c.r ? '' : 'ex. : '}${esc(rock.fr)}</em></span>`;
+  return `<span class="cph" data-photo="${esc(rock.img)}"><img loading="lazy" alt="Photo : ${esc(rock.fr)}" src="https://commons.wikimedia.org/wiki/Special:FilePath/${comFile(rock)}?width=${rock.zoom ? 640 : 320}"${rock.zoom ? ` style="transform:scale(${rock.zoom})"` : ''} onerror="this.parentNode.remove()"><em>${c.r ? '' : 'ex. : '}${esc(rock.fr)}</em></span>`;
 }
 function keyCredits(n, node) {
   const seen = new Set(), links = [];
   for (const c of n.c) { const rock = ROCKS[keyPhotoRock(c, node)]; if (!rock || !rock.img || seen.has(rock.img)) continue; seen.add(rock.img);
-    links.push(`<a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/File:${comFile(rock)}">${esc(rock.fr)}</a>`); }
-  return links.length ? `<p class="note kcred">Les photos montrent un exemple de roche, pas le seul possible : fiez-vous d'abord au critère décrit et au schéma. Photos Wikimedia Commons — auteurs et licences : ${links.join(', ')}.</p>` : '';
+    links.push(`<span data-cred="${esc(rock.img)}" data-cred-label="${esc(cap(rock.fr))}">${esc(cap(rock.fr))}</span>`); }
+  return links.length ? `<p class="note kcred">Les photos montrent un exemple de roche, pas le seul possible : fiez-vous d'abord au critère décrit et au schéma.<br>Photos Wikimedia Commons : ${links.join(' · ')}.</p>` : '';
 }
 function keyRender() {
   const el = document.getElementById('key');
@@ -2894,7 +2975,11 @@ document.querySelectorAll('[data-famphoto]').forEach(el => { el.outerHTML = thum
 document.querySelectorAll('#diag-menu [data-diag]').forEach(b => b.onclick = () => showDiag(b.dataset.diag));
 
 /* ---------- Menu et navigation entre les trois parties ---------- */
-const VIEWS = ['lieu', 'identifier', 'diagrammes'];
+const VIEWS = ['lieu', 'identifier', 'diagrammes', 'infos'];
+// liste complète des photos de l'application, avec auteur et licence
+function photoList() { const ul = document.getElementById('phlist'); if (!ul || ul.dataset.done) return; ul.dataset.done = '1';
+  const seen = new Map(); for (const k in ROCKS) { const r = ROCKS[k]; if (r.img && !seen.has(r.img)) seen.set(r.img, cap(r.fr)); }
+  ul.innerHTML = [...seen].sort((a, b) => a[1].localeCompare(b[1], 'fr')).map(([f, n]) => `<li data-cred="${esc(f)}" data-cred-label="${esc(n)}">${esc(n)}</li>`).join(''); photoApply(ul); }
 function showView(v) {
   if (!VIEWS.includes(v)) v = 'lieu';
   for (const k of VIEWS) {
@@ -2903,9 +2988,11 @@ function showView(v) {
   }
   if (v === 'lieu' && map) setTimeout(() => map.invalidateSize(), 0);
   if (v === 'identifier') keyRender();   // la fiche tient compte du dernier lieu consulté
+  if (v === 'infos') photoList();
   try { if (location.hash !== '#' + v) history.replaceState(null, '', '#' + v); } catch (e) {}
 }
 document.querySelectorAll('nav.top [data-view]').forEach(b => b.onclick = () => showView(b.dataset.view));
+document.querySelectorAll('[data-view-go]').forEach(b => b.onclick = () => showView(b.dataset.viewGo));
 window.addEventListener('hashchange', () => showView(location.hash.slice(1)));
 keyRender();
 showView(location.hash.slice(1) || 'lieu');
