@@ -320,7 +320,12 @@
   }
   @media (max-width: 760px) { .bar .lg { display: none; } .bar .sm { display: inline; } .bar button { padding: 9px 4px; font-size: 13px; white-space: nowrap; flex: 1 1 0; min-width: 0; } .bar { gap: 6px; }
     .pfinfo { height: 116px; } .pfi-top strong { font-size: 15px; }
-    .pflegend li { grid-template-columns: 22px 14px 1fr; } .pflegend button.link { grid-column: 3; justify-self: start; } #pfsvg .t { font-size: 14px; } }
+    .pflegend li { grid-template-columns: 22px 14px 1fr; } .pflegend button.link { grid-column: 3; justify-self: start; } #pfsvg .t { font-size: 14px; }
+    /* bloc 3D sur téléphone : carte un peu plus basse pour voir en même temps l'encart et le bloc entier */
+    #view-lieu.bk3d #map { flex-basis: clamp(140px, calc(100vh - 505px), 34vh); height: clamp(140px, calc(100vh - 505px), 34vh); }
+    @supports (height: 100dvh) { #view-lieu.bk3d #map { flex-basis: clamp(140px, calc(100dvh - 505px), 34dvh); height: clamp(140px, calc(100dvh - 505px), 34dvh); } }
+    #bkinfo { height: 90px; padding: 7px 10px; margin-bottom: 6px; } #bkinfo .pfi-descr { height: 1.35em; -webkit-line-clamp: 1; }
+    .bkwrap canvas { min-height: 220px; } }
   .phcred { font-size: 11px; color: #c5d3cb; margin: 4px 0 0; } .phcred a { color: inherit; }
   .kcred span[data-cred] a { color: inherit; } .phlist li { font-size: 14px; padding: 3px 0; } .phlist li a { color: var(--accent); }
   nav.top .navinfo { margin-left: auto; padding: 8px 10px; } .legal .card h2 { font-family: var(--serif); text-transform: none; letter-spacing: 0; font-size: 20px; color: var(--ink); }
