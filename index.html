@@ -319,6 +319,15 @@
     .bkwrap canvas { max-height: calc(100vh - 230px); }
   }
   .bar .ic { font-style: normal; }
+  .welcome h1 { margin-bottom: 4px; } .welcome .wl-amb { font-size: 15px; line-height: 1.5; margin: 10px 0 14px; color: var(--ink); }
+  .wl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; margin: 0 0 12px; }
+  .wl { text-align: left; display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; border-radius: 12px; border: 1px solid #e2d8c6; background: #fffdf8; color: var(--ink); box-shadow: none; width: auto; cursor: pointer; }
+  .wl b { font-size: 15px; } .wl span { font-size: 13px; color: #6d655a; font-weight: 400; } .wl:hover { border-color: var(--accent); background: #fff8ec; }
+  .wl-try { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 0 0 8px; font-size: 14px; } .wl-try > span { color: #6d655a; margin-right: 2px; }
+  .trychip { width: auto; height: auto; margin: 0; padding: 5px 10px; border-radius: 999px; font-size: 13px; font-weight: 500; background: #f4ecdd; color: var(--ink); border: 1px solid #e2d8c6; box-shadow: none; cursor: pointer; }
+  .trychip:hover { border-color: var(--accent); }
+  @media (max-width: 760px) { .wl-grid { grid-template-columns: 1fr 1fr; gap: 6px; } .wl { padding: 8px 9px; } .wl span { font-size: 12px; } .welcome .wl-amb { font-size: 14px; } }
+  nav.top .brand { cursor: pointer; } .legal .h1b { margin-top: 34px; }
   .leaflet-layer.shade { mix-blend-mode: multiply; }
   @media (max-width: 760px) { .bar .lg, .bar .ic { display: none; } .bar .sm { display: inline; } .bar button { padding: 9px 4px; font-size: 13px; white-space: nowrap; flex: 1 1 0; min-width: 0; } .bar { gap: 6px; }
     .pfinfo { height: 116px; } .pfi-top strong { font-size: 15px; }
@@ -355,7 +364,7 @@
   <button data-view="lieu"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-6.2-6.5-11.2a6.5 6.5 0 0 1 13 0C18.5 14.8 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></svg><span class="lg">Les roches selon un lieu</span><span class="sm">Lieu</span></button>
   <button data-view="identifier"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/></svg><span class="lg">Identifier une roche</span><span class="sm">Identifier</span></button>
   <button data-view="diagrammes"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5L21 19.5H3z"/><circle cx="12.5" cy="14" r="1.6" fill="currentColor"/></svg><span class="lg">Faire parler la roche</span><span class="sm">Faire parler</span></button>
-  <button data-view="infos" class="navinfo" title="Mentions légales et crédits" aria-label="Mentions légales et crédits"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.1"/></svg></button>
+  <button data-view="infos" class="navinfo" title="À propos, mentions légales et crédits" aria-label="À propos, mentions légales et crédits"><svg class="ni" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.1"/></svg></button>
 </nav>
 <section class="view" id="view-lieu">
 <div id="map"></div>
@@ -367,9 +376,25 @@
     <button id="blockeu" class="ghost" title="Bloc 3D Europe : carte géologique européenne au 1/1 000 000 (EGDI) et relief mondial (environ 30 m). Moins détaillé (contours à environ 1 km près, légendes simplifiées) ; zone de 100 km de côté au maximum. Suisse et une partie de l'Europe de l'Est non couvertes."><i class="ic">🌍</i> <span class="lg">Bloc 3D Europe</span><span class="sm">3D EU</span></button>
     <button id="maptoggle" class="ghost" aria-controls="map" aria-expanded="true"><span class="lg">Masquer la carte</span><span class="sm">Carte ✕</span></button>
   </div>
-  <div class="intro">
-    <h1>Les roches selon un lieu</h1>
-    <p class="sub">Quelle roche se trouve sous vos pieds ? Utilisez votre position ou touchez la carte (France métropolitaine). Pour voir les roches traversées d'un point à un autre, tracez un profil.</p>
+  <div class="intro welcome">
+    <h1>Faites parler les pierres</h1>
+    <p class="sub">Touchez la carte : la roche sous vos pieds vous raconte d'où elle vient, quel âge elle a et quel paysage elle a connu.</p>
+    <p class="wl-amb"><strong>La géologie pour le plaisir, et pour tout le monde.</strong> Pas besoin d'être spécialiste : une promenade, une falaise, un caillou ramassé suffisent pour commencer.
+      <strong>Et des outils qui n'existaient pas</strong> — coupes et blocs 3D tirés des cartes officielles, en quelques secondes — pour aider à faire progresser la connaissance.</p>
+    <div class="wl-grid">
+      <button class="wl" data-wl="lieu"><b>📍 Un lieu</b><span>Touchez la carte ou utilisez votre position</span></button>
+      <button class="wl" data-wl="profil"><b>✏️ Un profil</b><span>Les roches traversées d'un point à un autre</span></button>
+      <button class="wl" data-wl="fr"><b>🧊 Bloc 3D France</b><span>Relief et carte au 1/50&nbsp;000, jusqu'à 20&nbsp;km</span></button>
+      <button class="wl" data-wl="eu"><b>🌍 Bloc 3D Europe</b><span>Carte européenne au 1/1&nbsp;000&nbsp;000, jusqu'à 100&nbsp;km</span></button>
+      <button class="wl" data-wl="identifier"><b>🔍 Identifier une roche</b><span>Une clé pas à pas, à partir de ce que vous voyez</span></button>
+      <button class="wl" data-wl="diagrammes"><b>📐 Faire parler</b><span>Les diagrammes des géologues, à manipuler</span></button>
+    </div>
+    <p class="wl-try"><span>Essayez :</span>
+      <button class="trychip" data-try="45.5762,2.8468">les volcans du Mont-Dore</button>
+      <button class="trychip" data-try="48.8306,-3.4895">le granite rose de Ploumanac'h</button>
+      <button class="trychip" data-try="49.7065,0.1985">la craie d'Étretat</button>
+      <button class="trychip" data-try="43.2073,5.5012">les calanques de Cassis</button></p>
+    <p class="note wl-more">France métropolitaine en détail, Europe au 1/1&nbsp;000&nbsp;000. <button class="link" data-view-go="infos">À propos du projet</button></p>
   </div>
   <div id="status">Touchez la carte pour commencer.</div>
   <div id="result"></div>
@@ -386,14 +411,40 @@
     <summary>ⓘ Sources et crédits</summary>
     <p class="note">Données : © BRGM (Bureau de recherches géologiques et minières) — carte lithologique simplifiée et carte géologique au 1/1 000 000 ; carte au 1/50 000 : BD Charm-50 (Licence Ouverte).
     Fond de carte et altitudes des profils © IGN (Institut national de l'information géographique et forestière ; Plan IGN et RGE ALTI®). Carte du monde : GPlates Web Service, modèle de plaques de Merdith et al. (2021). Âges : bornes de la charte chronostratigraphique internationale (ICS, Commission internationale de stratigraphie).
-    Photos : Wikimedia Commons, sous licences libres. <button class="link" data-view-go="infos">Mentions légales et crédits complets</button></p>
+    Photos : Wikimedia Commons, sous licences libres. <button class="link" data-view-go="infos">À propos, mentions légales et crédits complets</button></p>
   </details>
 </div></aside>
 </section>
 <section class="view page" id="view-infos">
   <div class="inner legal">
-    <h1>Mentions légales et crédits</h1>
-    <p class="sub">Pierre qui parle — ce que racontent les roches de France. Application pédagogique libre.</p>
+    <h1>À propos</h1>
+    <p class="sub">Pierre qui parle — ce que racontent les roches de France et d'Europe. Une application libre et gratuite.</p>
+    <div class="card"><h2>Deux ambitions</h2>
+      <p><strong>Se faire plaisir avec la géologie, pour le plus grand nombre.</strong> Chaque roche est le témoin d'une histoire de plusieurs millions d'années : une mer chaude, un volcan, une chaîne de montagnes disparue. Pierre qui parle veut rendre cette histoire accessible à tous — promeneurs, curieux, familles, élèves, enseignants — à partir d'un geste simple : toucher la carte, là où l'on se trouve.</p>
+      <p><strong>Mettre à disposition des outils qui n'existaient pas, pour faire progresser la science.</strong> Les cartes géologiques officielles sont riches mais difficiles à lire. L'application les interroge directement et en tire, en quelques secondes, ce qui demandait jusqu'ici des heures de travail : une fiche lisible pour un lieu, une coupe le long d'un trajet, un bloc 3D d'un paysage, une clé d'identification, des diagrammes à manipuler. Ces outils sont ouverts, gratuits et soumis à la relecture de géologues : chacun peut les utiliser, les vérifier et les améliorer.</p></div>
+    <div class="card"><h2>Ce que vous pouvez faire</h2>
+      <ul class="plain">
+        <li><strong>Un lieu</strong> : la roche sous vos pieds, son âge, le milieu où elle s'est formée et la carte du monde à son époque.</li>
+        <li><strong>Un profil</strong> : les roches traversées d'un point à un autre, avec le relief.</li>
+        <li><strong>Un bloc 3D</strong> : le relief drapé de la carte géologique, en France (1/50&nbsp;000, jusqu'à 20&nbsp;km) ou en Europe (1/1&nbsp;000&nbsp;000, jusqu'à 100&nbsp;km).</li>
+        <li><strong>Identifier une roche</strong> : une clé pas à pas, à partir de ce que l'on observe.</li>
+        <li><strong>Faire parler</strong> : les diagrammes de la pétrographie et de la sédimentologie, pour comprendre comment les géologues raisonnent.</li>
+      </ul></div>
+    <div class="card"><h2>La démarche</h2>
+      <p>On part d'une <strong>observation</strong> (une roche, un paysage), on la confronte à la <strong>carte</strong> qui en donne la nature et l'âge, on en tire une <strong>hypothèse</strong> sur son histoire, et on la <strong>vérifie</strong> sur le terrain ou par d'autres indices. L'application ne remplace ni le terrain ni le géologue : elle aide à poser les bonnes questions.</p></div>
+    <div class="card"><h2>D'où viennent les informations</h2>
+      <p>Les roches et les âges sont lus automatiquement dans les cartes du BRGM (France) et de EuroGeoSurveys (Europe), le relief vient de l'IGN et de données mondiales ouvertes. L'application interprète les légendes (noms de roches, étages géologiques) et les relie à ses propres fiches : ces correspondances sont soumises à la relecture de géologues, et les erreurs signalées sont corrigées au fil des versions.</p></div>
+    <div class="card"><h2>Les limites connues</h2>
+      <ul class="plain">
+        <li>Une carte géologique est une interprétation : les contours sont approximatifs, surtout au 1/1&nbsp;000&nbsp;000.</li>
+        <li>Certaines légendes ne précisent pas l'âge ou la roche ; l'application l'indique au lieu de deviner.</li>
+        <li>Les coupes et blocs 3D montrent la surface : ce qui se passe en profondeur reste à interpréter.</li>
+        <li>Europe : la Suisse, la Croatie, la Roumanie, la Bulgarie, les pays baltes et les Balkans ne sont pas couverts.</li>
+      </ul></div>
+    <div class="card"><h2>Contribuer</h2>
+      <p>Vous avez repéré une erreur, une roche mal reconnue, une idée d'outil ? Écrivez sur les <a target="_blank" rel="noopener" href="https://github.com/bionhan/pierre-qui-parle/issues">tickets du dépôt GitHub</a>. Le code et les données préparées sont publics : les géologues, enseignants et développeurs peuvent les relire et proposer des améliorations.</p>
+      <p><button class="link" data-home>← Revenir à la carte</button></p></div>
+    <h1 class="h1b">Mentions légales et crédits</h1>
     <div class="card"><h2>Éditeur et hébergement</h2>
       <p><strong>Éditeur</strong> : Nhan LE - Bionhan, à titre personnel et non commercial. Contact : par les tickets du <a target="_blank" rel="noopener" href="https://github.com/bionhan/pierre-qui-parle/issues">dépôt GitHub du projet</a>.</p>
       <p><strong>Hébergeur</strong> : GitHub, Inc. (service GitHub Pages), 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.</p>
@@ -3153,8 +3204,22 @@ function showView(v) {
   if (v === 'infos') photoList();
   try { if (location.hash !== '#' + v) history.replaceState(null, '', '#' + v); } catch (e) {}
 }
-document.querySelectorAll('nav.top [data-view]').forEach(b => b.onclick = () => showView(b.dataset.view));
+// toucher à nouveau « Lieu » quand on y est déjà ramène à l'accueil (comme le nom du site, masqué sur téléphone)
+document.querySelectorAll('nav.top [data-view]').forEach(b => b.onclick = () => {
+  if (b.dataset.view === 'lieu' && document.getElementById('view-lieu').classList.contains('on') && document.getElementById('view-lieu').classList.contains('has-result')) { resetView(); setStatus('Touchez la carte pour commencer.'); return; }
+  showView(b.dataset.view); });
 document.querySelectorAll('[data-view-go]').forEach(b => b.onclick = () => showView(b.dataset.viewGo));
+// Accueil : entrées vers chaque outil, exemples à essayer, retour par le nom du site
+document.querySelectorAll('[data-wl]').forEach(b => b.onclick = () => { const k = b.dataset.wl;
+  if (k === 'identifier' || k === 'diagrammes') return showView(k);
+  if (k === 'profil') return document.getElementById('profile').click();
+  if (k === 'fr' || k === 'eu') return document.getElementById(k === 'fr' ? 'block' : 'blockeu').click();
+  setMap(true); setStatus('Touchez un point de la carte, ou utilisez « Ma position ».'); });
+document.querySelectorAll('[data-try]').forEach(b => b.onclick = () => { const [la, lo] = b.dataset.try.split(',').map(Number);
+  if (map) map.setView([la, lo], 11); lookup(la, lo); });
+const brandEl = document.querySelector('nav.top .brand');
+document.querySelectorAll('[data-home]').forEach(b => b.onclick = () => { showView('lieu'); resetView(); setStatus('Touchez la carte pour commencer.'); });
+if (brandEl) { brandEl.title = "Revenir à l'accueil"; brandEl.onclick = () => { showView('lieu'); resetView(); setStatus('Touchez la carte pour commencer.'); }; }
 window.addEventListener('hashchange', () => showView(location.hash.slice(1)));
 keyRender();
 showView(location.hash.slice(1) || 'lieu');
