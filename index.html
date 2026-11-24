@@ -319,6 +319,7 @@
     .bkwrap canvas { max-height: calc(100vh - 230px); }
   }
   .bar .ic { font-style: normal; }
+  .leaflet-layer.shade { mix-blend-mode: multiply; }
   @media (max-width: 760px) { .bar .lg, .bar .ic { display: none; } .bar .sm { display: inline; } .bar button { padding: 9px 4px; font-size: 13px; white-space: nowrap; flex: 1 1 0; min-width: 0; } .bar { gap: 6px; }
     .pfinfo { height: 116px; } .pfi-top strong { font-size: 15px; }
     .pflegend li { grid-template-columns: 22px 14px 1fr; } .pflegend button.link { grid-column: 3; justify-self: start; } #pfsvg .t { font-size: 14px; }
@@ -403,15 +404,15 @@
       <ul class="plain">
         <li>Aucun compte, aucun cookie, aucune mesure d'audience, aucune publicité.</li>
         <li><strong>Position</strong> : elle n'est demandée que si vous touchez « Ma position », et votre navigateur vous demande d'abord votre accord. Elle n'est pas conservée par l'application.</li>
-        <li><strong>Services consultés</strong> : quand vous choisissez un lieu, un profil ou un bloc 3D, les coordonnées correspondantes sont envoyées aux services publics qui fournissent les réponses : BRGM (cartes géologiques), IGN (fond de carte et altitudes), GPlates (carte du monde ancien) ; pour le bloc 3D Europe, OpenStreetMap (fond de carte) et Amazon Web Services (tuiles de relief Terrain Tiles). Les photos sont chargées depuis Wikimedia Commons. Comme pour toute page web, ces services reçoivent l'adresse IP de votre appareil.</li>
+        <li><strong>Services consultés</strong> : quand vous choisissez un lieu, un profil ou un bloc 3D, les coordonnées correspondantes sont envoyées aux services publics qui fournissent les réponses : BRGM (cartes géologiques), IGN (fond de carte et altitudes), GPlates (carte du monde ancien) ; pour le bloc 3D Europe, OpenTopoMap ou Tracestrack (fond de carte topographique) et Amazon Web Services (tuiles de relief Terrain Tiles). Les photos sont chargées depuis Wikimedia Commons. Comme pour toute page web, ces services reçoivent l'adresse IP de votre appareil.</li>
         <li><strong>Cartes importées</strong> : si vous importez des cartes au 1/50 000, elles restent dans la mémoire de votre navigateur ; vous pouvez les effacer en vidant les données du site.</li>
       </ul></div>
     <div class="card"><h2>Licences</h2>
       <ul class="plain">
         <li><strong>Application</strong> (code, textes, schémas) : <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr">CC BY-NC-SA 4.0</a>.</li>
         <li><strong>Cartes géologiques</strong> : © BRGM — carte lithologique simplifiée et carte géologique au 1/1 000 000 ; cartes au 1/50 000 issues de la BD Charm-50 (édition 2019), Licence Ouverte, simplifiées pour l'application.</li>
-        <li><strong>Fond de carte et altitudes</strong> : © IGN — Plan IGN et RGE ALTI®, Licence Ouverte Etalab 2.0.</li>
-        <li><strong>Bloc 3D Europe</strong> : carte géologique pan-européenne au 1/1 000 000, © EGDI / EuroGeoSurveys et services géologiques nationaux, licence <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by/4.0/deed.fr">CC BY 4.0</a>, simplifiée pour l'application ; relief : Terrain Tiles (Mapzen, Registry of Open Data on AWS), issues de données ouvertes (SRTM, EU-DEM, ETOPO…) ; fond de carte © contributeurs <a target="_blank" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> (ODbL), ou © CARTO quand la page est ouverte comme simple fichier.</li>
+        <li><strong>Fond de carte et altitudes</strong> : © IGN — Plan IGN, estompage du relief et RGE ALTI®, Licence Ouverte Etalab 2.0.</li>
+        <li><strong>Bloc 3D Europe</strong> : carte géologique pan-européenne au 1/1 000 000, © EGDI / EuroGeoSurveys et services géologiques nationaux, licence <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by/4.0/deed.fr">CC BY 4.0</a>, simplifiée pour l'application ; relief : Terrain Tiles (Mapzen, Registry of Open Data on AWS), issues de données ouvertes (SRTM, EU-DEM, ETOPO…) ; fond de carte © contributeurs <a target="_blank" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> (ODbL)), carte topographique <a target="_blank" rel="noopener" href="https://opentopomap.org/about">OpenTopoMap</a> (CC BY-SA) ou Tracestrack Topo.</li>
         <li><strong>Carte du monde à l'époque</strong> : GPlates Web Service, modèle de Merdith et al. (2021).</li>
         <li><strong>Affichage de la carte</strong> : bibliothèque Leaflet (licence BSD).</li>
         <li><strong>Âges</strong> : charte chronostratigraphique internationale (ICS).</li>
@@ -1547,13 +1548,19 @@ async function euRelief(b, nx, ny) { const [[s, w], [n, e]] = b, lat = (s + n) /
   return { z: out, zoom: z, res: 156543 * Math.cos(lat * Math.PI / 180) / 2 ** z };
 }
 // Fond de carte : Plan IGN pour la France, OpenStreetMap pour l'Europe
-let baseOSM = null, baseIsEU = false;
-function setBase(eu) { if (!map || eu === baseIsEU) return; baseIsEU = eu;
-  // OpenStreetMap refuse les pages sans adresse web (fichier ouvert par double-clic) : on prend alors le fond CARTO, issu des mêmes données
-  if (eu) { if (!baseOSM) baseOSM = location.protocol === 'file:'
-      ? L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', { maxZoom: 18, subdomains: 'abcd', attribution: '© contributeurs OpenStreetMap, © CARTO' })
-      : L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© contributeurs OpenStreetMap' }); if (baseIGN) baseIGN.remove(); baseOSM.addTo(map); }
-  else { if (baseOSM) baseOSM.remove(); if (baseIGN) baseIGN.addTo(map); } }
+// Fonds de carte : 'plan' (Plan IGN), 'fr3d' (Plan IGN + estompage du relief IGN), 'eu' (carte topographique avec relief)
+// Tracestrack Topo demande une clé gratuite (https://console.tracestrack.com) ; sans clé, on utilise OpenTopoMap, sans clé et aussi en relief
+const TRACESTRACK_KEY = '846780ee26ab8e0cd50bbf6a78013d04';
+let baseShade = null, baseTopo = null, baseMode = 'plan';
+function setBase(mode) { if (mode === true) mode = 'eu'; if (mode === false || !mode) mode = 'plan'; if (!map || mode === baseMode) return; baseMode = mode;
+  if (!baseShade) baseShade = L.tileLayer('https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=ELEVATION.ELEVATIONGRIDCOVERAGE.SHADOW&STYLE=estompage_grayscale' +
+    '&FORMAT=image/png&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}', { maxZoom: 18, opacity: .45, className: 'shade', attribution: '© IGN (estompage)' });
+  if (!baseTopo) baseTopo = TRACESTRACK_KEY
+    // tuiles de 512 pixels : affichées à leur taille pour garder des noms lisibles
+    ? L.tileLayer('https://tile.tracestrack.com/topo__/{z}/{x}/{y}.png?key=' + TRACESTRACK_KEY, { maxZoom: 19, tileSize: 512, zoomOffset: -1, attribution: '© Tracestrack, © contributeurs OpenStreetMap' })
+    : L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', { maxZoom: 17, subdomains: 'abc', attribution: '© OpenTopoMap (CC BY-SA), © contributeurs OpenStreetMap, SRTM' });
+  for (const l of [baseIGN, baseShade, baseTopo]) if (l) l.remove();
+  if (mode === 'eu') baseTopo.addTo(map); else { if (baseIGN) baseIGN.addTo(map); if (mode === 'fr3d') baseShade.addTo(map); } }
 
 /* ---------- Bloc 3D : relief (IGN) drapé de la carte géologique au 1/50 000, dans un rectangle choisi sur la carte ---------- */
 let blkScope = 'fr';   // 'fr' : 1/50 000 + IGN, côtés de 20 km au plus ; 'eu' : 1/1 000 000 + Terrain Tiles, 100 km
@@ -1581,7 +1588,7 @@ function blkCursorOff() { if (blkCursor) { blkCursor.remove(); blkCursor = null;
 function blkCancel(msg) { resetView(); if (msg) setStatus(msg); }
 function blkStart(sc) {
   if (blkMode && blkScope === sc) { blkCancel('Bloc 3D annulé. Touchez la carte pour consulter un lieu.'); return; }
-  resetView(); blkScope = sc; setBase(sc === 'eu'); blkMode = 1; blkUI(); setMap(true);
+  resetView(); blkScope = sc; setBase(sc === 'eu' ? 'eu' : 'fr3d'); blkMode = 1; blkUI(); setMap(true);
   if (sc === 'eu' && map && map.getZoom && map.getZoom() > 9) map.setZoom(9);
   setStatus(sc === 'eu' ? `Bloc 3D Europe (carte au 1/1 000 000) : touchez un premier coin de la zone (de ${blkMin()} à ${blkMax()} km de côté).`
     : `Bloc 3D France (cartes au 1/50 000) : touchez un premier coin de la zone (de ${blkMin()} à ${blkMax()} km de côté).`);
@@ -1692,9 +1699,10 @@ const V = { sub: (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]], add: (a, b) 
   dot: (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2], cross: (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]], norm: a => { const l = Math.hypot(...a) || 1; return [a[0] / l, a[1] / l, a[2] / l]; } };
 const BLK_VS = `attribute vec3 p;attribute vec3 nm;attribute vec2 uv;attribute float sd;uniform mat4 m;varying vec3 vn;varying vec2 vuv;varying float vs;varying vec3 vp;
 void main(){vn=nm;vuv=uv;vs=sd;vp=p;gl_Position=m*vec4(p,1.0);}`;
-const BLK_FS = `precision mediump float;uniform sampler2D t;uniform vec3 L;uniform float hs;uniform vec3 mk;uniform float mr;varying vec3 vn;varying vec2 vuv;varying float vs;varying vec3 vp;
+const BLK_FS = `#extension GL_OES_standard_derivatives : enable
+precision mediump float;uniform sampler2D t;uniform vec3 L;uniform float hs;uniform vec3 mk;uniform float mr;varying vec3 vn;varying vec2 vuv;varying float vs;varying vec3 vp;
 void main(){vec3 N=normalize(vn);float d=max(dot(N,normalize(L)),0.0);
-if(vs>0.5){float h=fract((vp.x+vp.z+vp.y)/hs);vec3 c=h<0.22?vec3(0.80,0.76,0.68):vec3(0.95,0.93,0.88);gl_FragColor=vec4(c*(0.8+0.2*d),1.0);}
+if(vs>0.5){float q=(vp.x+vp.z+vp.y)/hs,h=fract(q),aa=max(fwidth(q),0.001);float k=smoothstep(0.22-aa,0.22+aa,h)*(1.0-smoothstep(1.0-aa,1.0,h));vec3 c=mix(vec3(0.80,0.76,0.68),vec3(0.95,0.93,0.88),k);gl_FragColor=vec4(c*(0.8+0.2*d),1.0);}
 else{vec3 c=texture2D(t,vuv).rgb*(0.5+0.62*d);float r=length(vp.xz-mk.xz);if(mr>0.0&&r<mr)c=vec3(0.76,0.33,0.18);else if(mr>0.0&&r<mr*1.6)c=mix(c,vec3(1.0),0.9);else if(mr>0.0&&r<mr*1.9)c=mix(c,vec3(0.12,0.14,0.13),0.8);gl_FragColor=vec4(c,1.0);}}`;
 function blkExag() { if (BLK.real) return 1; const relief = (BLK.zmax - BLK.zmin) / 1000, size = Math.max(BLK.w, BLK.h); if (relief <= 0) return 1;
   return Math.max(1, Math.min(6, Math.round(2 * Math.max(1, .22 * size / relief)) / 2)); }
@@ -1716,12 +1724,18 @@ function blkMesh() {
 function blkGL(cv) {
   const gl = cv.getContext('webgl', { antialias: true, preserveDrawingBuffer: true }); if (!gl) return null;
   const sh = (t, src) => { const s = gl.createShader(t); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; };
-  const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, BLK_VS)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, BLK_FS)); gl.linkProgram(pr); gl.useProgram(pr);
+  // hachures adoucies si la carte graphique sait mesurer la largeur d'un trait à l'écran, sinon hachures simples
+  const FS = gl.getExtension('OES_standard_derivatives') ? BLK_FS : BLK_FS.replace(/^#extension.*\n/, '').replace('aa=max(fwidth(q),0.001)', 'aa=0.02');
+  const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, BLK_VS)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FS)); gl.linkProgram(pr); gl.useProgram(pr);
   const R = { gl, pr, buf: {}, tex: gl.createTexture() };
   gl.bindTexture(gl.TEXTURE_2D, R.tex); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, BLK.geo.tex);
+  const src = BLK.geo.tex, P2 = v => 2 ** Math.ceil(Math.log2(v)), pot = document.createElement('canvas'); pot.width = P2(src.width); pot.height = P2(src.height);
+  const pg = pot.getContext('2d'); pg.imageSmoothingQuality = 'high'; pg.drawImage(src, 0, 0, pot.width, pot.height);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, pot); gl.generateMipmap(gl.TEXTURE_2D);
   for (const p of [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T]) gl.texParameteri(gl.TEXTURE_2D, p, gl.CLAMP_TO_EDGE);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  const an = gl.getExtension('EXT_texture_filter_anisotropic') || gl.getExtension('WEBKIT_EXT_texture_filter_anisotropic');
+  if (an) gl.texParameterf(gl.TEXTURE_2D, an.TEXTURE_MAX_ANISOTROPY_EXT, Math.min(8, gl.getParameter(an.MAX_TEXTURE_MAX_ANISOTROPY_EXT)));
   gl.enable(gl.DEPTH_TEST); return R;
 }
 function blkUpload(R) { const { gl, pr } = R, M = BLK.mesh = blkMesh();
@@ -1730,7 +1744,9 @@ function blkUpload(R) { const { gl, pr } = R, M = BLK.mesh = blkMesh();
   R.ib = R.ib || gl.createBuffer(); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, R.ib); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, M.I, gl.STATIC_DRAW); R.n = M.I.length; }
 function blkCam() { const size = Math.max(BLK.w, BLK.h), M = BLK.mesh, tgt = [0, (BLK.zmax - BLK.zmin) / 1000 * M.ex * .12 + M.base * .5, 0], d = BLK.dist || size * 1.4, cp = Math.cos(BLK.pitch);
   const eye = V.add(tgt, [d * cp * Math.sin(BLK.yaw), d * Math.sin(BLK.pitch), d * cp * Math.cos(BLK.yaw)]); return { eye, tgt, fov: .8, near: size * .02, far: size * 8 }; }
-function blkDrawGL() { if (!BLK || !BLK.R) return; const R = BLK.R; const { gl, pr } = R, cv = gl.canvas, dpr = Math.min(2, window.devicePixelRatio || 1);
+function blkDrawGL() { if (!BLK || !BLK.R) return; const R = BLK.R; const { gl, pr } = R, cv = gl.canvas;
+  let dpr = Math.min(3, (window.devicePixelRatio || 1) * 1.5); const lim = Math.min(gl.getParameter(gl.MAX_RENDERBUFFER_SIZE) || 4096, 4096);
+  dpr = Math.min(dpr, lim / Math.max(1, cv.clientWidth), lim / Math.max(1, cv.clientHeight), Math.sqrt(4.5e6 / Math.max(1, cv.clientWidth * cv.clientHeight)));
   const W = Math.round(cv.clientWidth * dpr), H = Math.round(cv.clientHeight * dpr); if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; }
   gl.viewport(0, 0, W, H); gl.clearColor(.97, .95, .9, 1); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   const c = blkCam(), m = M4.mul(M4.persp(c.fov, W / H, c.near, c.far), M4.look(c.eye, c.tgt, [0, 1, 0])); BLK.cam = Object.assign(c, { m, W, H });
@@ -1854,7 +1870,7 @@ function resetView(keepPanel) {
   if (profMode) { profMode = 0; profUI(); } if (blkMode) { blkMode = 0; blkUI(); }
   profClear(); blkClear(); profCursorOff(); if (marker) { marker.remove(); marker = null; }
   if (BLK && BLK.R) { const lose = BLK.R.gl.getExtension('WEBGL_lose_context'); if (lose) lose.loseContext(); }
-  PROF = null; BLK = null; setBase(false);
+  PROF = null; BLK = null; setBase('plan');
   const v = document.getElementById('view-lieu'); v.classList.remove('profiling'); blkWide(false);
   if (!keepPanel) { resultEl.innerHTML = ''; v.classList.remove('has-result'); setMap(true); }
 }
