@@ -318,7 +318,8 @@
     #view-lieu.on.bk3d:not(.nomap) { grid-template-columns: minmax(260px, 33%) 1fr; } #view-lieu.bk3d .panel { max-width: 1100px; }
     .bkwrap canvas { max-height: calc(100vh - 230px); }
   }
-  @media (max-width: 760px) { .bar .lg { display: none; } .bar .sm { display: inline; } .bar button { padding: 9px 4px; font-size: 13px; white-space: nowrap; flex: 1 1 0; min-width: 0; } .bar { gap: 6px; }
+  .bar .ic { font-style: normal; }
+  @media (max-width: 760px) { .bar .lg, .bar .ic { display: none; } .bar .sm { display: inline; } .bar button { padding: 9px 4px; font-size: 13px; white-space: nowrap; flex: 1 1 0; min-width: 0; } .bar { gap: 6px; }
     .pfinfo { height: 116px; } .pfi-top strong { font-size: 15px; }
     .pflegend li { grid-template-columns: 22px 14px 1fr; } .pflegend button.link { grid-column: 3; justify-self: start; } #pfsvg .t { font-size: 14px; }
     /* bloc 3D sur téléphone : carte un peu plus basse pour voir en même temps l'encart et le bloc entier */
@@ -359,9 +360,10 @@
 <div id="map"></div>
 <aside><div class="panel">
   <div class="bar">
-    <button id="locate">📍 <span class="lg">Ma position</span><span class="sm">Position</span></button>
-    <button id="profile" class="ghost">✏️ <span class="lg">Tracer un profil</span><span class="sm">Profil</span></button>
-    <button id="block" class="ghost">🧊 <span class="lg">Bloc 3D</span><span class="sm">3D</span></button>
+    <button id="locate"><i class="ic">📍</i> <span class="lg">Ma position</span><span class="sm">Position</span></button>
+    <button id="profile" class="ghost"><i class="ic">✏️</i> <span class="lg">Tracer un profil</span><span class="sm">Profil</span></button>
+    <button id="block" class="ghost" title="Bloc 3D France : cartes géologiques du BRGM au 1/50 000 et relief IGN au pas de 5 m. Très détaillé ; zone de 20 km de côté au maximum."><i class="ic">🧊</i> <span class="lg">Bloc 3D France</span><span class="sm">3D FR</span></button>
+    <button id="blockeu" class="ghost" title="Bloc 3D Europe : carte géologique européenne au 1/1 000 000 (EGDI) et relief mondial (environ 30 m). Moins détaillé (contours à environ 1 km près, légendes simplifiées) ; zone de 100 km de côté au maximum. Suisse et une partie de l'Europe de l'Est non couvertes."><i class="ic">🌍</i> <span class="lg">Bloc 3D Europe</span><span class="sm">3D EU</span></button>
     <button id="maptoggle" class="ghost" aria-controls="map" aria-expanded="true"><span class="lg">Masquer la carte</span><span class="sm">Carte ✕</span></button>
   </div>
   <div class="intro">
@@ -401,7 +403,7 @@
       <ul class="plain">
         <li>Aucun compte, aucun cookie, aucune mesure d'audience, aucune publicité.</li>
         <li><strong>Position</strong> : elle n'est demandée que si vous touchez « Ma position », et votre navigateur vous demande d'abord votre accord. Elle n'est pas conservée par l'application.</li>
-        <li><strong>Services consultés</strong> : quand vous choisissez un lieu, un profil ou un bloc 3D, les coordonnées correspondantes sont envoyées aux services publics qui fournissent les réponses : BRGM (cartes géologiques), IGN (fond de carte et altitudes), GPlates (carte du monde ancien). Les photos sont chargées depuis Wikimedia Commons. Comme pour toute page web, ces services reçoivent l'adresse IP de votre appareil.</li>
+        <li><strong>Services consultés</strong> : quand vous choisissez un lieu, un profil ou un bloc 3D, les coordonnées correspondantes sont envoyées aux services publics qui fournissent les réponses : BRGM (cartes géologiques), IGN (fond de carte et altitudes), GPlates (carte du monde ancien) ; pour le bloc 3D Europe, OpenStreetMap (fond de carte) et Amazon Web Services (tuiles de relief Terrain Tiles). Les photos sont chargées depuis Wikimedia Commons. Comme pour toute page web, ces services reçoivent l'adresse IP de votre appareil.</li>
         <li><strong>Cartes importées</strong> : si vous importez des cartes au 1/50 000, elles restent dans la mémoire de votre navigateur ; vous pouvez les effacer en vidant les données du site.</li>
       </ul></div>
     <div class="card"><h2>Licences</h2>
@@ -409,6 +411,7 @@
         <li><strong>Application</strong> (code, textes, schémas) : <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr">CC BY-NC-SA 4.0</a>.</li>
         <li><strong>Cartes géologiques</strong> : © BRGM — carte lithologique simplifiée et carte géologique au 1/1 000 000 ; cartes au 1/50 000 issues de la BD Charm-50 (édition 2019), Licence Ouverte, simplifiées pour l'application.</li>
         <li><strong>Fond de carte et altitudes</strong> : © IGN — Plan IGN et RGE ALTI®, Licence Ouverte Etalab 2.0.</li>
+        <li><strong>Bloc 3D Europe</strong> : carte géologique pan-européenne au 1/1 000 000, © EGDI / EuroGeoSurveys et services géologiques nationaux, licence <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by/4.0/deed.fr">CC BY 4.0</a>, simplifiée pour l'application ; relief : Terrain Tiles (Mapzen, Registry of Open Data on AWS), issues de données ouvertes (SRTM, EU-DEM, ETOPO…) ; fond de carte © contributeurs <a target="_blank" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> (ODbL), ou © CARTO quand la page est ouverte comme simple fichier.</li>
         <li><strong>Carte du monde à l'époque</strong> : GPlates Web Service, modèle de Merdith et al. (2021).</li>
         <li><strong>Affichage de la carte</strong> : bibliothèque Leaflet (licence BSD).</li>
         <li><strong>Âges</strong> : charte chronostratigraphique internationale (ICS).</li>
@@ -917,9 +920,9 @@ async function showWorld(el, mid, lon, lat) {
 }
 
 /* ---------- Carte ---------- */
-let map = null;
+let map = null, baseIGN = null;
 if (window.L) { map = L.map('map').setView([46.6, 2.4], 6);
-L.tileLayer('https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2' +
+baseIGN = L.tileLayer('https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2' +
   '&STYLE=normal&FORMAT=image/png&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}',
   { maxZoom: 18, attribution: '© IGN' }).addTo(map); }
 else document.getElementById('map').innerHTML = '<p style="padding:20px">Carte indisponible (pas de connexion ?).</p>';
@@ -1285,7 +1288,7 @@ const niceStep = (span, n) => { const raw = span / n, p = 10 ** Math.floor(Math.
 let profRubber = null;
 function profUI() { const mp = document.getElementById('map'); mp.classList.toggle('pf-a', profMode === 1); mp.classList.toggle('pf-b', profMode === 2);
   if (!profBtn) return; profBtn.classList.toggle('on', profMode > 0);
-  profBtn.innerHTML = profMode ? '✕ <span class="lg">Annuler le profil</span><span class="sm">Annuler</span>' : '✏️ <span class="lg">Tracer un profil</span><span class="sm">Profil</span>'; }
+  profBtn.innerHTML = profMode ? '✕ <span class="lg">Annuler le profil</span><span class="sm">Annuler</span>' : '<i class="ic">✏️</i> <span class="lg">Tracer un profil</span><span class="sm">Profil</span>'; }
 function profClear() { profRubber = null; if (profLayer) { profLayer.remove(); profLayer = null; } if (profCursor) { profCursor.remove(); profCursor = null; } }
 const profDot = (ll, t) => L.circleMarker(ll, { radius: 6, color: '#1f3a34', weight: 3, fillColor: '#fff', fillOpacity: 1 }).bindTooltip(t, { permanent: true, direction: 'top', className: 'proftip' });
 function profClick(lat, lon) {
@@ -1424,47 +1427,181 @@ function profShow() {
 }
 function profCursorOff() { if (profCursor) { profCursor.remove(); profCursor = null; } }
 
+/* ---------- Europe : carte géologique au 1/1 000 000 (EGDI, EuroGeoSurveys, CC BY 4.0) et relief mondial (Terrain Tiles) ---------- */
+const EU_DIR = 'geol1m-eu/';
+// Codes INSPIRE de lithologie -> [nom en français, roche du référentiel]
+const EU_LITH = {
+  limestone:['calcaire','limestone'], impureLimestone:['calcaire impur (argileux ou gréseux)','limestone'], carbonateSedimentaryRock:['roche carbonatée','limestone'],
+  impureCarbonateSedimentaryRock:['roche carbonatée impure (calcaire argileux, marne)','marl'], impureCarbonateSediment:['sédiment carbonaté impur (marne)','marl'],
+  chalk:['craie','chalk'], travertine:['travertin','limestone'], dolomite:['dolomie','dolomite'], impureDolomite:['dolomie impure','dolomite'], dolomiticOrMagnesianSedimentaryRock:['roche dolomitique','dolomite'],
+  carbonateMud:['boue carbonatée','mud'], carbonateOoze:['boue carbonatée','mud'], gypsumOrAnhydrite:['gypse ou anhydrite','gypsum'],
+  sandstone:['grès','sandstone'], clasticSandstone:['grès','sandstone'], arenite:['arénite (grès)','sandstone'], wacke:['grauwacke','wacke'],
+  conglomerate:['conglomérat','conglomerate'], breccia:['brèche','breccia'], brecciaGougeSeries:['brèche de faille','breccia'],
+  shale:['argile litée (shale)','mudstone'], claystone:['argilite','mudstone'], mudstone:['argilite','mudstone'], siltstone:['siltite','mudstone'], organicBearingMudstone:['argilite noire riche en matière organique','mudstone'],
+  clasticSedimentaryRock:['roche sédimentaire détritique','sedimentary'], sedimentaryRock:['roche sédimentaire','sedimentary'],
+  biogenicSilicaSedimentaryRock:['roche siliceuse biogène','radiolarite'], nonClasticSiliceousSedimentaryRock:['roche siliceuse (chert, silex)','chert'],
+  gravel:['graviers et galets','gravel'], sand:['sables','sand'], silt:['silts (limons)','sedimentary'], clay:['argiles','clay'], mud:['vases, boues','mud'], silicateMud:['vases','mud'],
+  diamicton:['dépôts glaciaires (till, moraines)','moraine'], diamictite:['diamictite (ancien dépôt glaciaire)','moraine'],
+  clasticSediment:['sédiments détritiques meubles','sedimentary'], clasticSedimentaryMaterial:['matériaux détritiques meubles','sedimentary'], sedimentaryMaterial:['sédiments meubles','sedimentary'], sediment:['sédiments meubles','sedimentary'],
+  peat:['tourbe','peat'], organicRichSediment:['sédiments organiques (tourbe, vase organique)','peat'], organicRichSedimentaryMaterial:['matériaux organiques','peat'],
+  residualMaterial:['altérites (roche décomposée sur place)','alterite'], waste:['dépôts artificiels (remblais, déblais)',null],
+  granite:['granite','granite'], granitoid:['granitoïde','granite'], monzogranite:['monzogranite','granite'], syenogranite:['syénogranite','granite'], acidicIgneousRock:['roche magmatique acide','igneous'],
+  granodiorite:['granodiorite','granodiorite'], tonalite:['tonalite','tonalite'], diorite:['diorite','diorite'], dioriticRock:['roche dioritique','diorite'], quartzDiorite:['diorite quartzique','diorite'],
+  gabbro:['gabbro','gabbro'], gabbroid:['roche gabbroïque','gabbro'], gabbroicRock:['roche gabbroïque','gabbro'], anorthositicRock:['anorthosite','gabbro'], doleriticRock:['dolérite','dolerite'],
+  syenite:['syénite','igneous'], syeniticRock:['syénite','igneous'], monzonite:['monzonite','igneous'], foidSyenitoid:['syénite à feldspathoïdes','igneous'], foidBearingSyenite:['syénite à feldspathoïdes','igneous'],
+  carbonatite:['carbonatite','igneous'], porphyry:['porphyre','igneous'], phaneriticIgneousRock:['roche magmatique grenue','igneous'], exoticCompositionIgneousRock:['roche magmatique de composition rare','igneous'],
+  ultramaficIgneousRock:['roche ultrabasique','peridotite'], peridotite:['péridotite','peridotite'], pyroxenite:['pyroxénite','peridotite'], komatiiticRock:['komatiite','peridotite'],
+  basicIgneousRock:['roche magmatique basique','igneous'], igneousRock:['roche magmatique','igneous'], igneousMaterial:['roche magmatique','igneous'], fineGrainedIgneousRock:['roche volcanique (grain fin)','igneous'],
+  basalt:['basalte','basalt'], alkaliOlivineBasalt:['basalte alcalin à olivine','basalt'], tholeiiticBasalt:['basalte tholéiitique','basalt'], spilite:['spilite (basalte sous-marin altéré)','basalt'],
+  basanite:['basanite','basanite'], tephrite:['téphrite','tephrite'], andesite:['andésite','andesite'], dacite:['dacite','dacite'], rhyolite:['rhyolite','rhyolite'], rhyolitoid:['roche rhyolitique','rhyolite'],
+  trachyte:['trachyte','trachyte'], trachytoid:['roche trachytique','trachyte'], trachyticRock:['roche trachytique','trachyte'], phonolite:['phonolite','phonolite'],
+  pyroclasticRock:['roche pyroclastique','pyroclastic'], pyroclasticMaterial:['matériaux pyroclastiques','pyroclastic'], fragmentalIgneousMaterial:['matériaux volcaniques fragmentés','pyroclastic'],
+  ashBrecciaBombOrBlockTephra:['téphras (cendres, bombes, blocs)','pyroclastic'], ashTuffLapillistoneAndLapilliTuff:['tuf volcanique','pyroclastic'], tuffBrecciaAgglomerateOrPyroclasticBreccia:['brèche pyroclastique','pyroclastic'],
+  gneiss:['gneiss','gneiss'], orthogneiss:['orthogneiss','orthogneiss'], paragneiss:['paragneiss','paragneiss'], granulite:['granulite','gneiss'], migmatite:['migmatite','migmatite'],
+  schist:['schiste','schist'], micaSchist:['micaschiste','micaschist'], phyllite:['phyllade','schist'], phyllonite:['phyllonite','schist'], foliatedMetamorphicRock:['roche métamorphique foliée','schist'],
+  chloriteActinoliteEpidoteMetamorphicRock:['roche verte (faciès schiste vert)','schist'], glaucophaneLawsoniteEpidoteMetamorphicRock:['schiste bleu','blueschist'],
+  slate:['ardoise','slate'], quartzite:['quartzite','quartzite'], marble:['marbre','marble'], amphibolite:['amphibolite','amphibolite'], eclogite:['éclogite','eclogite'],
+  serpentinite:['serpentinite','serpentinite'], hornfels:['cornéenne','hornfels'], skarn:['skarn','skarn'], metasomaticRock:['roche métasomatique','skarn'],
+  myloniticRock:['mylonite (roche broyée et étirée par une faille)','metamorphic'], metamorphicRock:['roche métamorphique','metamorphic'], impactGeneratedMaterial:['impactite','impactite'], rock:['roche non précisée',null]
+};
+// Codes INSPIRE des âges -> [début, fin] en millions d'années (charte ICS 2023) et nom français
+const EU_AGE = {
+  holocene:[0.0117,0,'Holocène'], upperPleistocene:[0.129,0.0117,'Pléistocène supérieur'], ionian:[0.774,0.129,'Pléistocène moyen'], calabrian:[1.8,0.774,'Calabrien'], gelasian:[2.58,1.8,'Gélasien'],
+  pleistocene:[2.58,0.0117,'Pléistocène'], quaternary:[2.58,0,'Quaternaire'], piacenzian:[3.6,2.58,'Plaisancien'], zanclean:[5.333,3.6,'Zancléen'], pliocene:[5.333,2.58,'Pliocène'],
+  messinian:[7.246,5.333,'Messinien'], tortonian:[11.63,7.246,'Tortonien'], serravallian:[13.82,11.63,'Serravallien'], langhian:[15.98,13.82,'Langhien'], burdigalian:[20.44,15.98,'Burdigalien'], aquitanian:[23.03,20.44,'Aquitanien'],
+  miocene:[23.03,5.333,'Miocène'], neogene:[23.03,2.58,'Néogène'], chattian:[27.82,23.03,'Chattien'], rupelian:[33.9,27.82,'Rupélien'], oligocene:[33.9,23.03,'Oligocène'],
+  priabonian:[37.71,33.9,'Priabonien'], bartonian:[41.2,37.71,'Bartonien'], lutetian:[47.8,41.2,'Lutétien'], ypresian:[56,47.8,'Yprésien'], eocene:[56,33.9,'Éocène'],
+  thanetian:[59.2,56,'Thanétien'], danian:[66,61.6,'Danien'], paleocene:[66,56,'Paléocène'], paleogene:[66,23.03,'Paléogène'], cenozoic:[66,0,'Cénozoïque'],
+  maastrichtian:[72.1,66,'Maastrichtien'], campanian:[83.6,72.1,'Campanien'], santonian:[86.3,83.6,'Santonien'], coniacian:[89.8,86.3,'Coniacien'], turonian:[93.9,89.8,'Turonien'], cenomanian:[100.5,93.9,'Cénomanien'],
+  upperCretaceous:[100.5,66,'Crétacé supérieur'], lateCretaceous:[100.5,66,'Crétacé supérieur'], albian:[113,100.5,'Albien'], aptian:[121.4,113,'Aptien'], barremian:[125.77,121.4,'Barrémien'],
+  hauterivian:[132.6,125.77,'Hauterivien'], valanginian:[139.8,132.6,'Valanginien'], berriasian:[145,139.8,'Berriasien'], lowerCretaceous:[145,100.5,'Crétacé inférieur'], earlyOrLowerCretaceous:[145,100.5,'Crétacé inférieur'],
+  cretaceous:[145,66,'Crétacé'], tithonian:[149.2,145,'Tithonien'], oxfordian:[161.5,154.8,'Oxfordien'], upperJurassic:[161.5,145,'Jurassique supérieur'], lateJurassic:[161.5,145,'Jurassique supérieur'],
+  callovian:[165.3,161.5,'Callovien'], bathonian:[168.2,165.3,'Bathonien'], aalenian:[174.7,170.9,'Aalénien'], middleJurassic:[174.7,161.5,'Jurassique moyen'],
+  toarcian:[184.2,174.7,'Toarcien'], pliensbachian:[192.9,184.2,'Pliensbachien'], hettangian:[201.4,199.5,'Hettangien'], lowerJurassic:[201.4,174.7,'Jurassique inférieur'], earlyJurassic:[201.4,174.7,'Jurassique inférieur'],
+  jurassic:[201.4,145,'Jurassique'], rhaetian:[208.5,201.4,'Rhétien'], norian:[227,208.5,'Norien'], carnian:[237,227,'Carnien'], upperTriassic:[237,201.4,'Trias supérieur'], lateTriassic:[237,201.4,'Trias supérieur'],
+  ladinian:[242,237,'Ladinien'], anisian:[247.2,242,'Anisien'], middleTriassic:[247.2,237,'Trias moyen'], induan:[251.9,251.2,'Indusien'], lowerTriassic:[251.9,247.2,'Trias inférieur'], earlyTriassic:[251.9,247.2,'Trias inférieur'],
+  triassic:[251.9,201.4,'Trias'], mesozoic:[251.9,66,'Mésozoïque'], lopingian:[259.51,251.9,'Lopingien (Permien supérieur)'], guadalupian:[273.01,259.51,'Guadalupien (Permien moyen)'], cisuralian:[298.9,273.01,'Cisuralien (Permien inférieur)'],
+  permian:[298.9,251.9,'Permien'], gzhelian:[303.7,298.9,'Gzhélien'], kasimovian:[307,303.7,'Kasimovien'], upperPennsylvanian:[307,298.9,'Pennsylvanien supérieur'], moscovian:[315.2,307,'Moscovien'], bashkirian:[323.2,315.2,'Bashkirien'],
+  pennsylvanian:[323.2,298.9,'Pennsylvanien (Carbonifère supérieur)'], serpukhovian:[330.9,323.2,'Serpukhovien'], visean:[346.7,330.9,'Viséen'], tournaisian:[358.9,346.7,'Tournaisien'],
+  mississippian:[358.9,323.2,'Mississippien (Carbonifère inférieur)'], carboniferous:[358.9,298.9,'Carbonifère'], famennian:[372.2,358.9,'Famennien'], frasnian:[382.7,372.2,'Frasnien'],
+  upperDevonian:[382.7,358.9,'Dévonien supérieur'], lateDevonian:[382.7,358.9,'Dévonien supérieur'], givetian:[387.7,382.7,'Givétien'], eifelian:[393.3,387.7,'Eifélien'], middleDevonian:[393.3,382.7,'Dévonien moyen'],
+  emsian:[407.6,393.3,'Emsien'], pragian:[410.8,407.6,'Praguien'], lochkovian:[419.2,410.8,'Lochkovien'], lowerDevonian:[419.2,393.3,'Dévonien inférieur'], earlyDevonian:[419.2,393.3,'Dévonien inférieur'],
+  devonian:[419.2,358.9,'Dévonien'], pridoli:[423,419.2,'Pridoli'], ludlow:[427.4,423,'Ludlow'], wenlock:[433.4,427.4,'Wenlock'], telychian:[438.5,433.4,'Télychien'], rhuddanian:[443.8,440.8,'Rhuddanien'],
+  llandovery:[443.8,433.4,'Llandovery'], silurian:[443.8,419.2,'Silurien'], hirnantian:[445.2,443.8,'Hirnantien'], katian:[453,445.2,'Katien'], upperOrdovician:[458.4,443.8,'Ordovicien supérieur'],
+  darriwilian:[467.3,458.4,'Darriwilien'], middleOrdovician:[470,458.4,'Ordovicien moyen'], floian:[477.7,470,'Floien'], tremadocian:[485.4,477.7,'Trémadocien'], lowerOrdovician:[485.4,470,'Ordovicien inférieur'],
+  ordovician:[485.4,443.8,'Ordovicien'], stage10:[489.5,485.4,'Cambrien terminal'], furongian:[497,485.4,'Furongien (Cambrien supérieur)'], drumian:[504.5,500.5,'Drumien'], stage5:[509,504.5,'Wuliuen'],
+  series3:[509,497,'Miaolingien (Cambrien moyen)'], stage4:[514,509,'Cambrien, étage 4'], cambrianStage4:[514,509,'Cambrien, étage 4'], cambrianStage3:[521,514,'Cambrien, étage 3'], series2:[521,509,'Cambrien, série 2'],
+  stage2:[529,521,'Cambrien, étage 2'], cambrianStage2:[529,521,'Cambrien, étage 2'], terreneuvian:[538.8,521,'Terreneuvien (Cambrien inférieur)'], cambrian:[538.8,485.4,'Cambrien'],
+  paleozoic:[538.8,251.9,'Paléozoïque'], phanerozoic:[538.8,0,'Phanérozoïque'], ediacaran:[635,538.8,'Édiacarien'], cryogenian:[720,635,'Cryogénien'], tonian:[1000,720,'Tonien'],
+  neoproterozoic:[1000,538.8,'Néoprotérozoïque'], stenian:[1200,1000,'Sténien'], ectasian:[1400,1200,'Ectasien'], calymmian:[1600,1400,'Calymmien'], mesoproterozoic:[1600,1000,'Mésoprotérozoïque'],
+  statherian:[1800,1600,'Stathérien'], orosirian:[2050,1800,'Orosirien'], rhyacian:[2300,2050,'Rhyacien'], siderian:[2500,2300,'Sidérien'], paleoproterozoic:[2500,1600,'Paléoprotérozoïque'],
+  proterozoic:[2500,538.8,'Protérozoïque'], neoarchean:[2800,2500,'Néoarchéen'], mesoarchean:[3200,2800,'Mésoarchéen'], archean:[4000,2500,'Archéen'], precambrian:[4567,538.8,'Précambrien']
+};
+const euAgeOf = c => c ? EU_AGE[c] || EU_AGE[c.replace(/\d+$/, '')] || null : null;   // « orosirian3 » : subdivision régionale -> période
+const EU_COUNTRY = { GB:'Royaume-Uni', FI:'Finlande', FR:'France', DE:'Allemagne', NO:'Norvège', ES:'Espagne', SE:'Suède', IT:'Italie', CZ:'Tchéquie', PL:'Pologne', SK:'Slovaquie', GR:'Grèce',
+  IR:'Irlande', IS:'Islande', PT:'Portugal', SI:'Slovénie', DK:'Danemark', HU:'Hongrie', AT:'Autriche', MT:'Malte', BE:'Belgique', LU:'Luxembourg', NL:'Pays-Bas' };
+// Âge d'une unité : âges numériques s'ils sont donnés, sinon intervalle entre l'âge le plus ancien et le plus récent, sinon âge représentatif
+function euAge(L) { const [, rep, old, young, nOld, nYoung] = L; let from, to, label;
+  if (nOld != null && nYoung != null) { from = Math.max(nOld, nYoung); to = Math.min(nOld, nYoung); }
+  else { const a = euAgeOf(old), b = euAgeOf(young), r = euAgeOf(rep);
+    if (a && b) { from = a[0]; to = b[1]; label = a[2] === b[2] ? a[2] : `${a[2]} à ${b[2]}`; } else if (r) { [from, to, label] = r; } else return null; }
+  if (!label) { const r = euAgeOf(rep); label = r ? r[2] : ''; }
+  const mid = (from + to) / 2, approx = mid < 1 ? `il y a environ ${nf(Math.round(mid * 1e6 / 1000) * 1000, 0)} ans` : `il y a environ ${nf(mid, mid < 10 ? 1 : 0)} millions d'années`;
+  return { range: rangeMa(from, to), approx, mid, label }; }
+// Couleurs : âge selon la charte internationale, roches magmatiques en teintes propres (comme sur les cartes d'Europe)
+const EU_TINT = [[0.0117,'#fef2e0'],[2.58,'#fff2ae'],[5.333,'#ffff99'],[23.03,'#ffee44'],[33.9,'#fec07a'],[56,'#fdb46c'],[66,'#fda75f'],[100.5,'#a6d84a'],[145,'#8ccd57'],[161.5,'#b3e3ee'],[174.7,'#80cfd8'],[201.4,'#42aed0'],
+  [237,'#bd8cc3'],[247.2,'#b168b1'],[251.9,'#983999'],[298.9,'#f0816e'],[323.2,'#99c2b5'],[358.9,'#678f66'],[382.7,'#f1e19d'],[393.3,'#f1c868'],[419.2,'#e5ac4d'],[443.8,'#b3e1b6'],[485.4,'#4db47e'],[538.8,'#8cb06c'],
+  [1000,'#feb342'],[1600,'#fdb462'],[2500,'#f74370'],[1e9,'#f0047f']];
+const EU_PLUTON = /granit|granodior|tonalit|diorit|gabbr|syenit|monzon|anorthos|porphyr|carbonatit|phaneritic|acidicIgneous/i, EU_VOLC = /basalt|basanit|tephrit|andesit|dacit|rhyolit|trachyt|phonolit|spilit|pyroclast|tuff|tephra|fragmentalIgneous|fineGrainedIgneous|doleritic/i,
+  EU_ULTRA = /ultramafic|peridot|pyroxen|komatii|serpentin/i;
+function euColor(L, age) { const l = L[0] || '';
+  if (EU_ULTRA.test(l)) return '#3e7a5e'; if (EU_PLUTON.test(l)) return /gabbr|anorthos|diorit/i.test(l) ? '#c8506e' : '#f07d8a'; if (EU_VOLC.test(l)) return /rhyolit|dacit|trachyt|phonolit/i.test(l) ? '#d58ad9' : '#a45ea8';
+  if (!age) return '#d9d4c7'; const m = age.mid; for (const [lim, c] of EU_TINT) if (m <= lim) return c; return '#d9d4c7'; }
+// Une unité de la carte européenne mise au format des formations du bloc
+function euForm(L) { const li = EU_LITH[L[0]], age = euAge(L), c = (L[7] || '').toUpperCase();
+  const name = li ? li[0] : (L[0] ? L[0].replace(/([A-Z])/g, ' $1').toLowerCase() : 'roche non précisée');
+  const descr = cap(name) + (age && age.label ? ' — ' + age.label : '') + (L[6] ? ' · ' + L[6] : '') + (EU_COUNTRY[c] ? ` (carte nationale : ${EU_COUNTRY[c]})` : '');
+  return { descr, color: euColor(L, age), code: '', age, rocks: li && li[1] ? [{ id: li[1], name, rock: ROCKS[li[1]] }] : [], eu: true }; }
+let euIndex = null; const euMem = new Map();
+async function euTiles(b) { const [[s, w], [n, e]] = b;
+  if (!euIndex) euIndex = fetch(EU_DIR + 'index.json').then(r => r.ok ? r.json() : []).catch(() => []);
+  return (await euIndex).filter(t => t.bbox[0] < e && t.bbox[2] > w && t.bbox[1] < n && t.bbox[3] > s).map(t => t.name); }
+async function euTile(name) { if (euMem.has(name)) { const d = euMem.get(name); euMem.delete(name); euMem.set(name, d); return d; }
+  const r = await fetch(EU_DIR + name + '.json'); if (!r.ok) throw new Error('HTTP ' + r.status); const d = decodeDept(name, await r.json());
+  euMem.set(name, d); while (euMem.size > 24) euMem.delete(euMem.keys().next().value); return d; }
+// Relief : tuiles « Terrarium » (Mapzen / AWS Open Data) ; altitude = R × 256 + G + B / 256 − 32768
+const TERRAIN = 'https://s3.amazonaws.com/elevation-tiles-prod/terrarium/';
+async function euRelief(b, nx, ny) { const [[s, w], [n, e]] = b, lat = (s + n) / 2, span = Math.max((e - w) * kmLon(lat), (n - s) * KM_LAT) * 1000;
+  let z = Math.min(13, Math.max(4, Math.ceil(Math.log2(156543 * Math.cos(lat * Math.PI / 180) * Math.max(nx, ny) / span)) + 1));
+  const X = (lo, zz) => (lo + 180) / 360 * 256 * 2 ** zz, Y = (la, zz) => { const r = la * Math.PI / 180; return (1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2 * 256 * 2 ** zz; };
+  while (z > 4 && (Math.floor(X(e, z) / 256) - Math.floor(X(w, z) / 256) + 1) * (Math.floor(Y(s, z) / 256) - Math.floor(Y(n, z) / 256) + 1) > 25) z--;
+  const tx0 = Math.floor(X(w, z) / 256), tx1 = Math.floor(X(e, z) / 256), ty0 = Math.floor(Y(n, z) / 256), ty1 = Math.floor(Y(s, z) / 256), TWt = (tx1 - tx0 + 1) * 256, THt = (ty1 - ty0 + 1) * 256;
+  const cv = document.createElement('canvas'); cv.width = TWt; cv.height = THt; const g = cv.getContext('2d', { willReadFrequently: true });
+  await Promise.all([...Array(tx1 - tx0 + 1).keys()].flatMap(i => [...Array(ty1 - ty0 + 1).keys()].map(j => new Promise((res, rej) => { const im = new Image(); im.crossOrigin = 'anonymous';
+    im.onload = () => { g.drawImage(im, i * 256, j * 256); res(); }; im.onerror = () => rej(new Error('tuile')); im.src = `${TERRAIN}${z}/${tx0 + i}/${ty0 + j}.png`; }))));
+  const px = g.getImageData(0, 0, TWt, THt).data, h = (x, y) => { x = Math.max(0, Math.min(TWt - 1, x)); y = Math.max(0, Math.min(THt - 1, y)); const k = (y * TWt + x) * 4; return px[k] * 256 + px[k + 1] + px[k + 2] / 256 - 32768; };
+  const out = new Float32Array(nx * ny);
+  for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) { const la = n - j / (ny - 1) * (n - s), lo = w + i / (nx - 1) * (e - w), fx = X(lo, z) - tx0 * 256 - .5, fy = Y(la, z) - ty0 * 256 - .5, x0 = Math.floor(fx), y0 = Math.floor(fy), a = fx - x0, c = fy - y0;
+    const v = h(x0, y0) * (1 - a) * (1 - c) + h(x0 + 1, y0) * a * (1 - c) + h(x0, y0 + 1) * (1 - a) * c + h(x0 + 1, y0 + 1) * a * c;
+    out[j * nx + i] = Math.max(v, -10); }   // fonds marins aplanis : la carte géologique ne décrit que les terres
+  return { z: out, zoom: z, res: 156543 * Math.cos(lat * Math.PI / 180) / 2 ** z };
+}
+// Fond de carte : Plan IGN pour la France, OpenStreetMap pour l'Europe
+let baseOSM = null, baseIsEU = false;
+function setBase(eu) { if (!map || eu === baseIsEU) return; baseIsEU = eu;
+  // OpenStreetMap refuse les pages sans adresse web (fichier ouvert par double-clic) : on prend alors le fond CARTO, issu des mêmes données
+  if (eu) { if (!baseOSM) baseOSM = location.protocol === 'file:'
+      ? L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', { maxZoom: 18, subdomains: 'abcd', attribution: '© contributeurs OpenStreetMap, © CARTO' })
+      : L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© contributeurs OpenStreetMap' }); if (baseIGN) baseIGN.remove(); baseOSM.addTo(map); }
+  else { if (baseOSM) baseOSM.remove(); if (baseIGN) baseIGN.addTo(map); } }
+
 /* ---------- Bloc 3D : relief (IGN) drapé de la carte géologique au 1/50 000, dans un rectangle choisi sur la carte ---------- */
-const BLK_MAX = 20, BLK_MIN = 1;   // côtés en km
+let blkScope = 'fr';   // 'fr' : 1/50 000 + IGN, côtés de 20 km au plus ; 'eu' : 1/1 000 000 + Terrain Tiles, 100 km
+const blkMax = () => blkScope === 'eu' ? 100 : 20, blkMin = () => blkScope === 'eu' ? 2 : 1;
 const ALTI_WMS = 'https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ELEVATION.ELEVATIONGRIDCOVERAGE.HIGHRES&STYLES=&CRS=EPSG:4326&FORMAT=image/x-bil;bits=32';
 let blkMode = 0, blkC1 = null, blkLayer = null, blkRect = null, BLK = null, blkCursor = null, blkDims = null;
-const blkBtn = document.getElementById('block');
+const blkBtn = document.getElementById('block'), blkBtnEU = document.getElementById('blockeu');
 const kmLon = lat => 111.32 * Math.cos(lat * Math.PI / 180), KM_LAT = 110.57;
-// Rectangle bridé : chaque côté ramené à BLK_MAX km au plus
+// Rectangle bridé : chaque côté ramené à blkMax() km au plus
 function blkClamp(c1, c2) {
-  let dx = (c2[1] - c1[1]) * kmLon(c1[0]), dy = (c2[0] - c1[0]) * KM_LAT; const clamped = Math.abs(dx) > BLK_MAX || Math.abs(dy) > BLK_MAX;
-  dx = Math.sign(dx || 1) * Math.min(Math.abs(dx), BLK_MAX); dy = Math.sign(dy || 1) * Math.min(Math.abs(dy), BLK_MAX);
+  let dx = (c2[1] - c1[1]) * kmLon(c1[0]), dy = (c2[0] - c1[0]) * KM_LAT; const clamped = Math.abs(dx) > blkMax() || Math.abs(dy) > blkMax();
+  dx = Math.sign(dx || 1) * Math.min(Math.abs(dx), blkMax()); dy = Math.sign(dy || 1) * Math.min(Math.abs(dy), blkMax());
   const c = [c1[0] + dy / KM_LAT, c1[1] + dx / kmLon(c1[0])];
   const rx = Math.abs((c2[1] - c1[1]) * kmLon(c1[0])), ry = Math.abs((c2[0] - c1[0]) * KM_LAT);
-  return { b: [[Math.min(c1[0], c[0]), Math.min(c1[1], c[1])], [Math.max(c1[0], c[0]), Math.max(c1[1], c[1])]], w: Math.abs(dx), h: Math.abs(dy), clamped, small: Math.abs(dx) < BLK_MIN || Math.abs(dy) < BLK_MIN,
-    cx: rx > BLK_MAX, cy: ry > BLK_MAX, sx: Math.abs(dx) < BLK_MIN, sy: Math.abs(dy) < BLK_MIN };
+  return { b: [[Math.min(c1[0], c[0]), Math.min(c1[1], c[1])], [Math.max(c1[0], c[0]), Math.max(c1[1], c[1])]], w: Math.abs(dx), h: Math.abs(dy), clamped, small: Math.abs(dx) < blkMin() || Math.abs(dy) < blkMin(),
+    cx: rx > blkMax(), cy: ry > blkMax(), sx: Math.abs(dx) < blkMin(), sy: Math.abs(dy) < blkMin() };
 }
 const kmTxt = v => nf(v, v < 10 ? 1 : 0);
 function blkUI() { const mp = document.getElementById('map'); mp.classList.toggle('pf-a', blkMode === 1); mp.classList.toggle('pf-b', blkMode === 2);
-  if (!blkBtn) return; blkBtn.classList.toggle('on', blkMode > 0);
-  blkBtn.innerHTML = blkMode ? '✕ <span class="lg">Annuler le bloc 3D</span><span class="sm">Annuler</span>' : '🧊 <span class="lg">Bloc 3D</span><span class="sm">3D</span>'; }
+  const lab = { fr: ['🧊', 'Bloc 3D France', '3D FR'], eu: ['🌍', 'Bloc 3D Europe', '3D EU'] };
+  for (const [b, sc] of [[blkBtn, 'fr'], [blkBtnEU, 'eu']]) { if (!b) continue; const on = blkMode > 0 && blkScope === sc; b.classList.toggle('on', on);
+    b.innerHTML = on ? '✕ <span class="lg">Annuler le bloc 3D</span><span class="sm">Annuler</span>' : `<i class="ic">${lab[sc][0]}</i> <span class="lg">${lab[sc][1]}</span><span class="sm">${lab[sc][2]}</span>`; } }
 function blkClear() { blkRect = null; blkDims = null; if (blkLayer) { blkLayer.remove(); blkLayer = null; } blkCursorOff(); }
 function blkCursorOff() { if (blkCursor) { blkCursor.remove(); blkCursor = null; } }
 function blkCancel(msg) { resetView(); if (msg) setStatus(msg); }
-if (blkBtn && !map) blkBtn.hidden = true;
-if (blkBtn) blkBtn.onclick = () => {
-  if (blkMode) { blkCancel('Bloc 3D annulé. Touchez la carte pour consulter un lieu.'); return; }
-  resetView(); blkMode = 1; blkUI(); setMap(true);
-  setStatus(`Bloc 3D : touchez un premier coin de la zone (de ${BLK_MIN} à ${BLK_MAX} km de côté).`);
-};
+function blkStart(sc) {
+  if (blkMode && blkScope === sc) { blkCancel('Bloc 3D annulé. Touchez la carte pour consulter un lieu.'); return; }
+  resetView(); blkScope = sc; setBase(sc === 'eu'); blkMode = 1; blkUI(); setMap(true);
+  if (sc === 'eu' && map && map.getZoom && map.getZoom() > 9) map.setZoom(9);
+  setStatus(sc === 'eu' ? `Bloc 3D Europe (carte au 1/1 000 000) : touchez un premier coin de la zone (de ${blkMin()} à ${blkMax()} km de côté).`
+    : `Bloc 3D France (cartes au 1/50 000) : touchez un premier coin de la zone (de ${blkMin()} à ${blkMax()} km de côté).`);
+}
+for (const b of [blkBtn, blkBtnEU]) if (b && !map) b.hidden = true;
+if (blkBtn) blkBtn.onclick = () => blkStart('fr');
+if (blkBtnEU) blkBtnEU.onclick = () => blkStart('eu');
 function blkDraw(r) { const style = { color: r.small ? '#a12a2a' : '#c2552d', weight: 2, dashArray: r.clamped ? '6 5' : null, fillOpacity: .1 };
   if (!blkRect) blkRect = L.rectangle(r.b, style).addTo(blkLayer); else { blkRect.setBounds(r.b); if (blkRect.setStyle) blkRect.setStyle(style); }
   // cotes : x (est-ouest) au milieu du bord sud, y (nord-sud) au milieu du bord est, avec la jauge jusqu'à 20 km
-  const [[s, w], [n, e]] = r.b, lab = (axis, v, max, small) => `<span class="bkd ${max ? 'max' : small ? 'small' : ''}">${axis} ${kmTxt(v)} km<i style="width:${Math.min(100, v / BLK_MAX * 100).toFixed(0)}%"></i></span>`;
+  const [[s, w], [n, e]] = r.b, lab = (axis, v, max, small) => `<span class="bkd ${max ? 'max' : small ? 'small' : ''}">${axis} ${kmTxt(v)} km<i style="width:${Math.min(100, v / blkMax() * 100).toFixed(0)}%"></i></span>`;
   const items = [[[s, (w + e) / 2], lab('↔', r.w, r.cx, r.sx), 'bkdim bkdim-x'], [[(s + n) / 2, e], lab('↕', r.h, r.cy, r.sy), 'bkdim bkdim-y']];
   if (!L.divIcon) return;
   if (!blkDims) blkDims = items.map(([ll, html, cls]) => L.marker(ll, { icon: L.divIcon({ className: cls, html, iconSize: null }), interactive: false, keyboard: false }).addTo(blkLayer));
   else items.forEach(([ll, html], k) => { const m = blkDims[k]; m.setLatLng(ll); const el = m.getElement && m.getElement(); if (el) el.innerHTML = html; else m._html = html; });
 }
-const blkSizeMsg = r => `Zone de ${kmTxt(r.w)} km (est-ouest) × ${kmTxt(r.h)} km (nord-sud)` + (r.clamped ? ` — limitée à ${BLK_MAX} km de côté` : '') + (r.small ? ` — trop petite (au moins ${BLK_MIN} km de côté)` : '');
+const blkSizeMsg = r => `Zone de ${kmTxt(r.w)} km (est-ouest) × ${kmTxt(r.h)} km (nord-sud)` + (r.clamped ? ` — limitée à ${blkMax()} km de côté` : '') + (r.small ? ` — trop petite (au moins ${blkMin()} km de côté)` : '');
 function blkClick(lat, lon) {
   if (blkMode === 1) { blkC1 = [lat, lon]; blkLayer = L.layerGroup().addTo(map); profDot(blkC1, '').addTo(blkLayer); blkMode = 2; blkUI();
-    setStatus(matchMedia('(hover: hover)').matches ? `Déplacez la souris puis cliquez le coin opposé (${BLK_MAX} km de côté au maximum).` : `Touchez le coin opposé (${BLK_MAX} km de côté au maximum).`); return; }
+    setStatus(matchMedia('(hover: hover)').matches ? `Déplacez la souris puis cliquez le coin opposé (${blkMax()} km de côté au maximum).` : `Touchez le coin opposé (${blkMax()} km de côté au maximum).`); return; }
   const r = blkClamp(blkC1, [lat, lon]); blkDraw(r);
   if (r.small) { setStatus(`${blkSizeMsg(r)}. Touchez un autre coin opposé.`, true); return; }
   blkMode = 0; blkUI(); blkBuild(r);
@@ -1494,9 +1631,11 @@ async function blkBuild(r) {
   const [[s, w], [n, e]] = r.b, longest = Math.max(r.w, r.h), small = matchMedia('(max-width: 760px)').matches, N = small ? 150 : 210;
   const nx = Math.max(24, Math.round(N * r.w / longest)), ny = Math.max(24, Math.round(N * r.h / longest));
   document.getElementById('view-lieu').classList.add('has-result'); resultEl.innerHTML = '';
-  setStatus('Chargement du relief (IGN)…');
-  let z;
-  try { const res = await fetch(`${ALTI_WMS}&BBOX=${s},${w},${n},${e}&WIDTH=${nx}&HEIGHT=${ny}`); if (!res.ok) throw new Error('HTTP ' + res.status);
+  const eu = blkScope === 'eu'; let z, relRes = null;
+  setStatus(eu ? 'Chargement du relief (Terrain Tiles)…' : 'Chargement du relief (IGN)…');
+  if (eu) try { const rr = await euRelief(r.b, nx, ny); z = rr.z; relRes = rr.res; }
+    catch (err) { setStatus("Le relief mondial (Terrain Tiles) ne répond pas. Réessayez dans un instant.", true); return; }
+  else try { const res = await fetch(`${ALTI_WMS}&BBOX=${s},${w},${n},${e}&WIDTH=${nx}&HEIGHT=${ny}`); if (!res.ok) throw new Error('HTTP ' + res.status);
     const buf = await res.arrayBuffer(); if (buf.byteLength !== nx * ny * 4) throw new Error('taille'); z = new Float32Array(buf); }
   catch (err) { setStatus("Le service d'altitude de l'IGN ne répond pas. Réessayez dans un instant.", true); return; }
   let zmin = Infinity, zmax = -Infinity; for (let i = 0; i < z.length; i++) { if (z[i] < -1000) continue; if (z[i] < zmin) zmin = z[i]; if (z[i] > zmax) zmax = z[i]; }
@@ -1504,24 +1643,26 @@ async function blkBuild(r) {
   const stairs = blkDestair(z, nx, ny);
   setStatus('Lecture de la carte géologique…');
   const TW = Math.round((small ? 768 : 1024) * r.w / longest), TH = Math.round((small ? 768 : 1024) * r.h / longest);
-  const geo = await blkPaint(r.b, TW, TH);
-  BLK = { b: r.b, w: r.w, h: r.h, clamped: r.clamped, nx, ny, z, zmin, zmax, TW, TH, geo, real: false, yaw: 0, pitch: 0.62, dist: null, stairs };
+  const geo = await blkPaint(r.b, TW, TH, eu);
+  BLK = { b: r.b, w: r.w, h: r.h, clamped: r.clamped, nx, ny, z, zmin, zmax, TW, TH, geo, real: false, yaw: 0, pitch: 0.62, dist: null, stairs, eu, relRes };
   setStatus('Construction du bloc…');
   blkShow();
-  setStatus(`Bloc de ${kmTxt(r.w)} × ${kmTxt(r.h)} km, de ${nf(zmin, 0)} à ${nf(zmax, 0)} m d'altitude.` + (r.clamped ? ` Zone limitée à ${BLK_MAX} km de côté.` : ''));
+  setStatus(`Bloc ${eu ? 'Europe' : 'France'} de ${kmTxt(r.w)} × ${kmTxt(r.h)} km, de ${nf(zmin, 0)} à ${nf(zmax, 0)} m d'altitude.` + (r.clamped ? ` Zone limitée à ${blkMax()} km de côté.` : ''));
 }
 // Peint les polygones au 1/50 000 dans deux images : couleurs de la carte, et identifiants pour la lecture et la légende
-async function blkPaint(b, TW, TH) {
+async function blkPaint(b, TW, TH, eu) {
   const [[s, w], [n, e]] = b, tex = document.createElement('canvas'), ids = document.createElement('canvas'); tex.width = ids.width = TW; tex.height = ids.height = TH;
   const g = tex.getContext('2d'), gi = ids.getContext('2d', { willReadFrequently: true }); g.fillStyle = '#e9e4d8'; g.fillRect(0, 0, TW, TH);
-  await indexReady;
-  const names = Object.keys(deptIndex).filter(k => { const bb = deptIndex[k].bbox; return bb[0] <= e && bb[2] >= w && bb[1] <= n && bb[3] >= s; });
-  const forms = [], key = {}; let any = false;
-  for (const name of names) { let d; try { d = await getDept(name); } catch (err) { continue; } any = true;
+  let names;
+  if (eu) names = await euTiles(b);
+  else { await indexReady; names = Object.keys(deptIndex).filter(k => { const bb = deptIndex[k].bbox; return bb[0] <= e && bb[2] >= w && bb[1] <= n && bb[3] >= s; }); }
+  const forms = [], key = {}, euKey = {}; let any = false;
+  for (const name of names) { let d; try { d = eu ? await euTile(name) : await getDept(name); } catch (err) { continue; } any = true;
     const q = d.q, X = x => (x / q - w) / (e - w) * TW, Y = y => (n - y / q) / (n - s) * TH;
     for (const [li, bb, rings] of d.polys) { if (bb[2] / q < w || bb[0] / q > e || bb[3] / q < s || bb[1] / q > n) continue;
-      const k = name + '|' + li; if (!(k in key)) { key[k] = forms.length; const L0 = d.legend[li];
-        forms.push({ descr: L0[1], color: L0[2] || '#ccc', code: /^[\x20-\x7E]+$/.test(L0[0] || '') ? L0[0] : '', n: 0, sx: 0, sy: 0 }); }
+      const k = name + '|' + li; if (!(k in key)) { const L0 = d.legend[li];
+        if (eu) { const sig = JSON.stringify(L0); if (sig in euKey) key[k] = euKey[sig]; else { key[k] = euKey[sig] = forms.length; forms.push(Object.assign(euForm(L0), { n: 0, sx: 0, sy: 0 })); } }
+        else { key[k] = forms.length; forms.push({ descr: L0[1], color: L0[2] || '#ccc', code: /^[\x20-\x7E]+$/.test(L0[0] || '') ? L0[0] : '', n: 0, sx: 0, sy: 0 }); } }
       const id = key[k] + 1, path = new Path2D();
       for (const r of rings) { for (let i = 0; i < r.length; i += 2) (i ? path.lineTo : path.moveTo).call(path, X(r[i]), Y(r[i + 1])); path.closePath(); }
       g.fillStyle = forms[id - 1].color; g.fill(path, 'evenodd');
@@ -1530,7 +1671,7 @@ async function blkPaint(b, TW, TH) {
   const px = gi.getImageData(0, 0, TW, TH).data, idAt = new Int32Array(TW * TH).fill(-1); let tot = 0, painted = 0;
   for (let p = 0, i = 0; p < px.length; p += 4, i++) { if (px[p + 3] > 0) painted++; if (px[p + 2] !== 255 || px[p + 3] !== 255) continue; const id = (px[p] << 8 | px[p + 1]) - 1; if (id < 0 || id >= forms.length) continue;
     idAt[i] = id; const f = forms[id]; f.n++; f.sx += i % TW; f.sy += (i / TW) | 0; tot++; }
-  forms.forEach((f, k) => { f.k = k; f.water = /^reseau hydrographique/.test(norm(f.descr)); f.rocks = rocksFromText(f.descr); f.age = ageFromText(f.descr); f.pct = tot ? f.n / (TW * TH) : 0;
+  forms.forEach((f, k) => { f.k = k; if (!f.eu) { f.water = /^reseau hydrographique/.test(norm(f.descr)); f.rocks = rocksFromText(f.descr); f.age = ageFromText(f.descr); } f.pct = tot ? f.n / (TW * TH) : 0;
     if (f.n) { const cx = f.sx / f.n, cy = f.sy / f.n; let best = -1, bd = Infinity; for (let i = 0; i < idAt.length; i++) if (idAt[i] === k) { const d2 = (i % TW - cx) ** 2 + ((i / TW | 0) - cy) ** 2; if (d2 < bd) { bd = d2; best = i; } }
       f.at = [n - ((best / TW | 0) + .5) / TH * (n - s), w + (best % TW + .5) / TW * (e - w)]; } });
   return { tex, idAt, forms, any, cover: painted / (TW * TH) };
@@ -1632,7 +1773,7 @@ function blkInfo(hit) { const info = document.getElementById('bkinfo'); if (!inf
   if (!hit) { info.innerHTML = '<div class="pfi-empty">👆 Survolez ou touchez le relief : la roche qui affleure s\'affiche ici, et le point correspondant sur la carte. Faites glisser pour tourner, molette ou deux doigts pour zoomer.</div>'; return; }
   const [[s, w], [n, e]] = BLK.b, lat = n - hit.v * (n - s), lon = w + hit.u * (e - w), f = blkFormAt(hit.u, hit.v), i = Math.round(hit.u * (BLK.nx - 1)), j = Math.round(hit.v * (BLK.ny - 1)), alt = blkH(i, j);
   const num = f ? BLK.order.indexOf(f.k) + 1 : 0;
-  info.innerHTML = `<div class="pfi-top">${f ? `<span class="pnum">${num}</span><span class="sw" style="background:${f.color}"></span>` : ''}<strong>${f ? esc(f.water ? "Cours d'eau ou plan d'eau" : f.rocks.length ? cap(f.rocks.map(r => r.name).join(', ')) : 'Formation') : BLK.geo.any ? 'Zone non cartographiée' : 'Carte détaillée non chargée ici'}</strong>${f && f.code ? `<span class="pfi-code">${esc(f.code)}</span>` : ''}</div>
+  info.innerHTML = `<div class="pfi-top">${f ? `<span class="pnum">${num}</span><span class="sw" style="background:${f.color}"></span>` : ''}<strong>${f ? esc(f.water ? "Cours d'eau ou plan d'eau" : f.rocks.length ? cap(f.rocks.map(r => r.name).join(', ')) : f.eu ? cap(f.descr.split(' — ')[0]) : 'Formation') : BLK.eu ? 'Mer ou zone non couverte' : BLK.geo.any ? 'Zone non cartographiée' : 'Carte détaillée non chargée ici'}</strong>${f && f.code ? `<span class="pfi-code">${esc(f.code)}</span>` : ''}</div>
     <div class="pfi-mid"><span class="pfi-age">${f && f.age ? esc(f.age.range) : f ? '<em>âge non précisé par la carte</em>' : ''}</span><span class="pfi-pos">${nf(alt, 0)} m · ${lat.toFixed(4)}, ${lon.toFixed(4)}</span></div><div class="pfi-descr">${f ? esc(f.descr) : ''}</div>`;
   resultEl.querySelectorAll('.bklegend li[data-bk]').forEach(li => li.classList.toggle('hl', f && +li.dataset.bk === f.k));
   if (map) { if (!blkCursor) blkCursor = L.circleMarker([lat, lon], { radius: 7, color: '#c2552d', weight: 3, fillColor: '#fff', fillOpacity: 1, interactive: false }).addTo(map); else blkCursor.setLatLng([lat, lon]); }
@@ -1653,24 +1794,24 @@ let blkResizeOn = false;
 function blkRender() {
   if (BLK.R) { const lose = BLK.R.gl.getExtension('WEBGL_lose_context'); if (lose) lose.loseContext(); BLK.R = null; }
   const G = BLK.geo, ex = blkExag(), forms = G.forms.filter(f => f.n > 0).sort((a, b) => b.n - a.n); BLK.order = forms.map(f => f.k);
-  const item = (f, i) => `<li data-bk="${f.k}"><span class="pnum">${i + 1}</span><span class="sw" style="background:${f.color}"></span><div><strong>${f.code ? esc(f.code) + ' · ' : ''}${esc(f.water ? "Cours d'eau ou plan d'eau" : f.rocks.length ? cap(f.rocks.map(r => r.name).join(', ')) : 'Formation')}</strong><small>${esc(f.descr.length > 170 ? f.descr.slice(0, 167) + '…' : f.descr)}</small>${f.age ? `<small class="pfage">${esc(f.age.range)}</small>` : ''}<small>${nf(f.pct * 100, f.pct < .1 ? 1 : 0)} % de la surface</small></div>${f.water ? '' : `<button class="link" data-bkgo="${f.k}">Voir la fiche</button>`}</li>`;
+  const item = (f, i) => `<li data-bk="${f.k}"><span class="pnum">${i + 1}</span><span class="sw" style="background:${f.color}"></span><div><strong>${f.code ? esc(f.code) + ' · ' : ''}${esc(f.water ? "Cours d'eau ou plan d'eau" : f.rocks.length ? cap(f.rocks.map(r => r.name).join(', ')) : 'Formation')}</strong><small>${esc(f.descr.length > 170 ? f.descr.slice(0, 167) + '…' : f.descr)}</small>${f.age ? `<small class="pfage">${esc(f.age.range)}</small>` : ''}<small>${nf(f.pct * 100, f.pct < .1 ? 1 : 0)} % de la surface</small></div>${f.water || f.eu ? '' : `<button class="link" data-bkgo="${f.k}">Voir la fiche</button>`}</li>`;
   const major = forms.filter(f => f.pct >= .02 || forms.length <= 8), minor = forms.filter(f => !major.includes(f));
   const legend = major.map(f => item(f, forms.indexOf(f))).join('') + (minor.length ? `<li class="pfmore"><details><summary>${minor.length} autre${minor.length > 1 ? 's' : ''} formation${minor.length > 1 ? 's' : ''} sur moins de 2 % de la surface</summary><ol class="pflegend bklegend">${minor.map(f => item(f, forms.indexOf(f))).join('')}</ol></details></li>` : '');
   const top = forms.find(f => !f.water);
-  resultEl.innerHTML = `<div class="card prof blk"><div class="profhead"><h2>Bloc 3D</h2><div class="tabs"><button data-bkx="0" class="${BLK.real ? '' : 'on'}">Relief accentué${BLK.real ? '' : ` ×${nf(ex, ex % 1 ? 1 : 0)}`}</button><button data-bkx="1" class="${BLK.real ? 'on' : ''}">Échelle réelle</button></div></div>
+  resultEl.innerHTML = `<div class="card prof blk"><div class="profhead"><h2>Bloc 3D ${BLK.eu ? 'Europe' : 'France'}</h2><div class="tabs"><button data-bkx="0" class="${BLK.real ? '' : 'on'}">Relief accentué${BLK.real ? '' : ` ×${nf(ex, ex % 1 ? 1 : 0)}`}</button><button data-bkx="1" class="${BLK.real ? 'on' : ''}">Échelle réelle</button></div></div>
     <div id="bkinfo" class="pfinfo" aria-live="polite"></div>
     <div class="bkwrap"><canvas id="bkcv" aria-label="Bloc 3D du relief et de la géologie"></canvas><div id="bkcomp" class="bkcomp" title="Nord">N</div>
       <div class="bkscale" id="bkscale" title="Échelle au centre du bloc"><div class="bks-v"><i></i><span></span></div><div class="bks-h"><span></span><i></i></div></div>
       <div class="bktools"><button class="ghost" data-bkreset title="Revenir à la vue de départ">↺ Vue</button><button class="ghost" data-bkpng title="Enregistrer l'image">📷 Image</button></div></div>
     <p class="legend"><span class="sw pfh"></span> côtés du bloc : sous-sol non représenté, la carte ne décrit que ce qui affleure.</p>
     ${BLK.real ? `<p class="note">À l'échelle réelle, le relief paraît souvent plat : les pentes réelles sont bien plus douces qu'on ne l'imagine.</p>` : `<p class="note">Hauteurs exagérées ×${nf(ex, ex % 1 ? 1 : 0)} par rapport aux distances, pour rendre le relief lisible.</p>`}
-    ${!G.any ? `<p class="match no">⚠ Pas de carte au 1/50 000 dans cette zone (ou carte non importée sur un fichier ouvert depuis l'ordinateur) : seul le relief est affiché.</p>` : G.cover < .9 ? `<p class="match no">⚠ Une partie de la zone n'est pas couverte par les cartes détaillées (mer, hors de France ou carte non chargée).</p>` : ''}
+    ${BLK.eu ? `<p class="note">Carte européenne au 1/1 000 000 : contours à environ 1 km près, une lithologie et un âge par unité. ${G.cover < .9 && G.any ? 'Une partie de la zone n\'est pas couverte (mer, Suisse, pays absents de la carte européenne).' : ''}${!G.any ? (location.protocol === 'file:' ? '<strong>Carte géologique européenne illisible sur un fichier ouvert par double-clic</strong> : le navigateur interdit de lire le dossier geol1m-eu. Ouvrez la page par un petit serveur local (par exemple l\'extension « Live Server » de VS Code) ou sur le site en ligne.' : '<strong>Pas de carte géologique européenne dans cette zone</strong> : seul le relief est affiché.') : ''}</p>` : !G.any ? `<p class="match no">⚠ Pas de carte au 1/50 000 dans cette zone (ou carte non importée sur un fichier ouvert depuis l'ordinateur) : seul le relief est affiché.</p>` : G.cover < .9 ? `<p class="match no">⚠ Une partie de la zone n'est pas couverte par les cartes détaillées (mer, hors de France ou carte non chargée).</p>` : ''}
     <ol class="pflegend bklegend">${legend}</ol></div>
     ${top ? `<div class="story"><h2>🕰 À retenir</h2><p>La formation la plus étendue de ce bloc (${nf(top.pct * 100, 0)} % de la surface) : <strong>${esc(top.rocks.length ? top.rocks.map(r => r.name).join(', ') : top.descr.slice(0, 60))}</strong>${top.age ? `, ${esc(top.age.approx)}` : ''}. Tournez le bloc pour voir sur quels versants, crêtes ou fonds de vallée chaque roche affleure.</p></div>` : ''}
-    <p class="note">Relief : IGN (RGE ALTI®). Formations : BRGM, BD Charm-50. <button class="link" data-bknew>Choisir une autre zone</button></p>`;
+    <p class="note">${BLK.eu ? `Relief : Terrain Tiles (Mapzen / AWS Open Data), pas d'environ ${nf(BLK.relRes || 0, 0)} m. Géologie : EGDI, carte pan-européenne au 1/1 000 000 (EuroGeoSurveys et services géologiques nationaux, CC BY 4.0).` : 'Relief : IGN (RGE ALTI®). Formations : BRGM, BD Charm-50.'} <button class="link" data-bknew>Choisir une autre zone</button></p>`;
   blkInfo(null);
   resultEl.querySelectorAll('[data-bkx]').forEach(b => b.onclick = () => { BLK.real = b.dataset.bkx === '1'; blkShow(true); });
-  resultEl.querySelector('[data-bknew]').onclick = () => blkBtn.click();
+  resultEl.querySelector('[data-bknew]').onclick = () => blkStart(BLK.eu ? 'eu' : 'fr');
   resultEl.querySelectorAll('[data-bkgo]').forEach(b => b.onclick = () => { const f = G.forms[+b.dataset.bkgo]; blkCursorOff(); lookup(f.at[0], f.at[1], { label: '← Revenir au bloc 3D', fn: () => blkShow(false, true) }); });
   const cv = document.getElementById('bkcv');
   try { BLK.R = blkGL(cv); } catch (err) { BLK.R = null; }
@@ -1713,7 +1854,7 @@ function resetView(keepPanel) {
   if (profMode) { profMode = 0; profUI(); } if (blkMode) { blkMode = 0; blkUI(); }
   profClear(); blkClear(); profCursorOff(); if (marker) { marker.remove(); marker = null; }
   if (BLK && BLK.R) { const lose = BLK.R.gl.getExtension('WEBGL_lose_context'); if (lose) lose.loseContext(); }
-  PROF = null; BLK = null;
+  PROF = null; BLK = null; setBase(false);
   const v = document.getElementById('view-lieu'); v.classList.remove('profiling'); blkWide(false);
   if (!keepPanel) { resultEl.innerHTML = ''; v.classList.remove('has-result'); setMap(true); }
 }

@@ -10,8 +10,13 @@
 | GPlates Web Service, modèle de Merdith et al. (2021) | Carte du monde à l'époque de la roche | CC BY 4.0 |
 | Wikimedia Commons | Photos des roches (chaque photo renvoie à sa page : auteur et licence) | Licences libres, variables selon la photo |
 | Leaflet 1.9.4 | Affichage de la carte | BSD 2-Clause |
+| EGDI — carte géologique pan-européenne au 1/1 000 000 (EuroGeoSurveys et services géologiques nationaux, GeologicUnitView.gpkg, version du 21/03/2024) | Bloc 3D Europe — dossier `geol1m-eu/` : géométries simplifiées (tolérance 120 m), lithologie et âge INSPIRE | CC BY 4.0 — source : EGDI / EuroGeoSurveys |
+| Terrain Tiles (Mapzen, Registry of Open Data on AWS) | Relief du bloc 3D Europe | Données ouvertes, attribution demandée (sources : SRTM, EU-DEM, ETOPO…) |
+| OpenStreetMap | Fond de carte du bloc 3D Europe | © contributeurs OpenStreetMap, ODbL |
 
 Les fichiers de `geol50k/` sont une œuvre dérivée de la BD Charm-50 : ils restent sous Licence Ouverte, avec mention de la source BRGM.
+
+Les fichiers de `geol1m-eu/` sont une œuvre dérivée de la carte EGDI au 1/1 000 000 : ils restent sous licence CC BY 4.0, avec mention de la source. Ils sont produits par `outils/convert_egdi.py` à partir du fichier `GeologicUnitView.gpkg` (https://egeologija.si/download/GeologicUnitView.gpkg), à placer dans `outils/sources/` (dossier exclu du dépôt). Couverture : 23 pays ; Suisse, Croatie, Roumanie, Bulgarie, pays baltes et Balkans absents. Correspondance des codes INSPIRE de lithologie et d'âge avec les roches de l'application : tables `EU_LITH` et `EU_AGE` dans `index.html`, à faire relire.
 
 ## Références scientifiques
 
