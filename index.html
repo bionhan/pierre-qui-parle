@@ -19,8 +19,8 @@
   nav.top button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; }
   .ni { width: 18px; height: 18px; flex: 0 0 auto; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
   .view { display: none; flex: 1 1 auto; min-height: 0; }
-  #view-lieu.on { display: grid; grid-template-columns: minmax(260px, 40%) 1fr; grid-template-rows: 100%; }
-  #view-lieu.nomap { grid-template-columns: 1fr; }
+  #view-lieu.on { display: grid; grid-template-columns: var(--mapw, minmax(260px, 40%)) 12px 1fr; grid-template-rows: 100%; }
+  #view-lieu.nomap { grid-template-columns: 1fr; } #view-lieu.nomap #split { display: none; }
   #view-lieu.nomap #map { display: none; }
   .panel { max-width: 720px; margin: 0 auto; }
   .bar { display: flex; gap: 8px; position: sticky; top: -20px; z-index: 500; background: #fff; padding: 10px 0; margin: -10px 0 6px; }
@@ -178,8 +178,8 @@
   @media (max-width: 560px) { button.choice { flex-direction: row; align-items: center; } button.choice svg { flex: 0 0 116px; width: 116px; } h2.q { font-size: 19px; } }
   @media (max-width: 760px) {
     #view-lieu.on { display: flex; flex-direction: column; }
-    #view-lieu #map { flex: 0 0 42vh; height: 42vh; min-height: 0; }
-    #view-lieu.profiling #map { flex-basis: 36vh; height: 36vh; }
+    #view-lieu #map { flex: 0 0 var(--maph, 42vh); height: var(--maph, 42vh); min-height: 0; }
+    #view-lieu.profiling #map { flex-basis: var(--maph, 36vh); height: var(--maph, 36vh); }
     aside { flex: 1 1 auto; min-height: 0; border-left: 0; border-top: 1px solid var(--line); padding: 14px; }
     .bar { top: -14px; }
     nav.top { padding: 4px 6px; } nav.top .brand { display: none; }
@@ -315,10 +315,17 @@
     .bar { gap: 6px; padding: 6px 0; margin: -6px 0 4px; flex-wrap: wrap; top: -20px; }
     .bar button { flex: 0 1 auto; width: auto; padding: 5px 12px; font-size: 13.5px; font-weight: 600; white-space: nowrap; box-shadow: 0 1px 0 #8c3b2a; }
     .bar button.ghost { box-shadow: none; }
-    #view-lieu.on.bk3d:not(.nomap) { grid-template-columns: minmax(260px, 33%) 1fr; } #view-lieu.bk3d .panel { max-width: 1100px; }
+    #view-lieu.on.bk3d:not(.nomap) { grid-template-columns: var(--mapw, minmax(260px, 33%)) 12px 1fr; } #view-lieu.bk3d .panel { max-width: 1100px; }
     .bkwrap canvas { max-height: calc(100vh - 230px); }
   }
   .bar .ic { font-style: normal; }
+  /* poignée entre la carte et le panneau des roches */
+  #split { position: relative; z-index: 650; cursor: col-resize; touch-action: none; background: var(--bg); display: flex; align-items: center; justify-content: center; outline: none; }
+  #split::before { content: ""; width: 4px; height: 44px; border-radius: 4px; background: #cdbfa6; transition: background .15s; }
+  #split:hover::before, #split:focus-visible::before, #split.drag::before { background: var(--accent); }
+  #view-lieu.splitting, #view-lieu.splitting * { cursor: col-resize !important; user-select: none; }
+  @media (max-width: 760px) { #split { flex: 0 0 16px; height: 16px; cursor: row-resize; margin-bottom: -1px; } #split::before { width: 44px; height: 4px; }
+    #view-lieu.splitting, #view-lieu.splitting * { cursor: row-resize !important; } }
   .welcome h1 { margin-bottom: 4px; } .welcome .wl-amb { font-size: 15px; line-height: 1.5; margin: 10px 0 14px; color: var(--ink); }
   .wl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; margin: 0 0 12px; }
   .wl { text-align: left; display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; border-radius: 12px; border: 1px solid #e2d8c6; background: #fffdf8; color: var(--ink); box-shadow: none; width: auto; cursor: pointer; }
@@ -333,8 +340,8 @@
     .pfinfo { height: 116px; } .pfi-top strong { font-size: 15px; }
     .pflegend li { grid-template-columns: 22px 14px 1fr; } .pflegend button.link { grid-column: 3; justify-self: start; } #pfsvg .t { font-size: 14px; }
     /* bloc 3D sur téléphone : carte un peu plus basse pour voir en même temps l'encart et le bloc entier */
-    #view-lieu.bk3d #map { flex-basis: clamp(140px, calc(100vh - 505px), 34vh); height: clamp(140px, calc(100vh - 505px), 34vh); }
-    @supports (height: 100dvh) { #view-lieu.bk3d #map { flex-basis: clamp(140px, calc(100dvh - 505px), 34dvh); height: clamp(140px, calc(100dvh - 505px), 34dvh); } }
+    #view-lieu.bk3d #map { flex-basis: var(--maph, clamp(140px, calc(100vh - 505px), 34vh)); height: var(--maph, clamp(140px, calc(100vh - 505px), 34vh)); }
+    @supports (height: 100dvh) { #view-lieu.bk3d #map { flex-basis: var(--maph, clamp(140px, calc(100dvh - 505px), 34dvh)); height: var(--maph, clamp(140px, calc(100dvh - 505px), 34dvh)); } }
     #bkinfo { height: 90px; padding: 7px 10px; margin-bottom: 6px; } #bkinfo .pfi-descr { height: 1.35em; -webkit-line-clamp: 1; }
     .bkwrap canvas { min-height: 220px; } }
   .phcred { font-size: 11px; color: #c5d3cb; margin: 4px 0 0; } .phcred a { color: inherit; }
@@ -368,6 +375,7 @@
 </nav>
 <section class="view" id="view-lieu">
 <div id="map"></div>
+<div id="split" role="separator" tabindex="0" aria-label="Taille de la carte" title="Glissez pour agrandir la carte ou le panneau des roches (double-clic : taille d'origine)"></div>
 <aside><div class="panel">
   <div class="bar">
     <button id="locate"><i class="ic">📍</i> <span class="lg">Ma position</span><span class="sm">Position</span></button>
@@ -1116,6 +1124,28 @@ function setMap(show) {
   if (show && map) setTimeout(() => map.invalidateSize(), 0);
 }
 document.getElementById('maptoggle').onclick = () => setMap(document.getElementById('view-lieu').classList.contains('nomap'));
+// Poignée : on règle la largeur de la carte (ordinateur) ou sa hauteur (téléphone) ; le réglage est gardé pour la visite suivante
+(function () {
+  const sp = document.getElementById('split'), view = document.getElementById('view-lieu'); if (!sp) return;
+  const mobile = () => matchMedia('(max-width: 760px)').matches, KEY = () => mobile() ? 'pqp-maph' : 'pqp-mapw', VAR = () => mobile() ? '--maph' : '--mapw';
+  const store = { get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} } };
+  let raf = 0; const relayout = () => { if (raf) return; raf = requestAnimationFrame(() => { raf = 0; window.dispatchEvent(new Event('resize')); if (map) map.invalidateSize(); }); };
+  const limits = () => { const r = view.getBoundingClientRect(); if (!r.width || !r.height) return [110, 1e5];   // page pas encore affichée : on bornera au premier glissé
+    return mobile() ? [110, Math.max(140, r.height - 180)] : [220, Math.max(260, r.width - 340)]; };
+  const apply = (px, save) => { const [lo, hi] = limits(); px = Math.round(Math.max(lo, Math.min(hi, px))); view.style.setProperty(VAR(), px + 'px');
+    sp.setAttribute('aria-valuenow', px); if (save) store.set(KEY(), px); relayout(); };
+  const restore = () => { view.style.removeProperty('--mapw'); view.style.removeProperty('--maph'); const v = +store.get(KEY()); if (v) apply(v, false); };
+  restore(); matchMedia('(max-width: 760px)').addEventListener('change', restore);
+  let start = null;
+  sp.addEventListener('pointerdown', e => { e.preventDefault(); sp.setPointerCapture(e.pointerId); const m = document.getElementById('map').getBoundingClientRect();
+    start = { x: e.clientX, y: e.clientY, size: mobile() ? m.height : m.width }; sp.classList.add('drag'); view.classList.add('splitting'); });
+  sp.addEventListener('pointermove', e => { if (!start) return; apply(start.size + (mobile() ? e.clientY - start.y : e.clientX - start.x), false); });
+  const end = e => { if (!start) return; start = null; sp.classList.remove('drag'); view.classList.remove('splitting'); const v = parseFloat(view.style.getPropertyValue(VAR())); if (v) store.set(KEY(), v); };
+  sp.addEventListener('pointerup', end); sp.addEventListener('pointercancel', end);
+  sp.addEventListener('dblclick', () => { view.style.removeProperty(VAR()); store.set(KEY(), null); relayout(); });
+  sp.addEventListener('keydown', e => { const k = { ArrowLeft: -40, ArrowUp: -40, ArrowRight: 40, ArrowDown: 40 }[e.key]; if (!k) return; e.preventDefault();
+    const m = document.getElementById('map').getBoundingClientRect(); apply((mobile() ? m.height : m.width) + k, true); });
+})();
 
 async function lookup(lat, lon, back) {
   profCursorOff(); blkCursorOff(); blkWide(false); document.getElementById('view-lieu').classList.remove('profiling');
@@ -1473,9 +1503,9 @@ function profRender() {
 function profShow() {
   document.getElementById('view-lieu').classList.add('profiling'); setMap(true); profRender();
   if (map && map.fitBounds) setTimeout(() => { map.invalidateSize(); map.fitBounds([PROF.a, PROF.b], { padding: [28, 28], maxZoom: 15 }); }, 0);
-  if (!matchMedia('(max-width: 760px)').matches) return;
-  requestAnimationFrame(() => { const aside = document.querySelector('#view-lieu aside'), bar = aside.querySelector('.bar'), info = document.getElementById('pfinfo');
-    if (!aside || !info) return; aside.scrollTop += info.getBoundingClientRect().top - bar.getBoundingClientRect().bottom - 8; });
+  // comme pour le bloc 3D : l'encart de la roche vient se placer juste sous la barre de boutons, sur ordinateur comme sur téléphone
+  requestAnimationFrame(() => { const aside = document.querySelector('#view-lieu aside'), bar = aside && aside.querySelector('.bar'), info = document.getElementById('pfinfo'), small = matchMedia('(max-width: 760px)').matches;
+    if (!aside || !info) return; aside.scrollTop += info.getBoundingClientRect().top - (small ? bar.getBoundingClientRect().bottom : aside.getBoundingClientRect().top + bar.offsetHeight) - 8; });
 }
 function profCursorOff() { if (profCursor) { profCursor.remove(); profCursor = null; } }
 
@@ -1754,7 +1784,11 @@ const BLK_FS = `#extension GL_OES_standard_derivatives : enable
 precision mediump float;uniform sampler2D t;uniform vec3 L;uniform float hs;uniform vec3 mk;uniform float mr;varying vec3 vn;varying vec2 vuv;varying float vs;varying vec3 vp;
 void main(){vec3 N=normalize(vn);float d=max(dot(N,normalize(L)),0.0);
 if(vs>0.5){float q=(vp.x+vp.z+vp.y)/hs,h=fract(q),aa=max(fwidth(q),0.001);float k=smoothstep(0.22-aa,0.22+aa,h)*(1.0-smoothstep(1.0-aa,1.0,h));vec3 c=mix(vec3(0.80,0.76,0.68),vec3(0.95,0.93,0.88),k);gl_FragColor=vec4(c*(0.8+0.2*d),1.0);}
-else{vec3 c=texture2D(t,vuv).rgb*(0.5+0.62*d);float r=length(vp.xz-mk.xz);if(mr>0.0&&r<mr)c=vec3(0.76,0.33,0.18);else if(mr>0.0&&r<mr*1.6)c=mix(c,vec3(1.0),0.9);else if(mr>0.0&&r<mr*1.9)c=mix(c,vec3(0.12,0.14,0.13),0.8);gl_FragColor=vec4(c,1.0);}}`;
+else{vec3 c=texture2D(t,vuv).rgb*(0.5+0.62*d);if(mr>0.0){vec2 o=vp.xz-mk.xz;float r=length(o),aw=max(fwidth(r),mr*0.012);
+float ring=1.0-smoothstep(0.0,aw,abs(r-mr*0.72)-mr*0.045),halo=1.0-smoothstep(0.0,aw,abs(r-mr*0.72)-mr*0.13),cd=1.0-smoothstep(mr*0.07-aw,mr*0.07+aw,r);
+float inX=step(mr*0.9,abs(o.x))*step(abs(o.x),mr*1.45),inZ=step(mr*0.9,abs(o.y))*step(abs(o.y),mr*1.45);
+float tk=max((1.0-smoothstep(0.0,aw,abs(o.y)-mr*0.03))*inX,(1.0-smoothstep(0.0,aw,abs(o.x)-mr*0.03))*inZ),th=max((1.0-smoothstep(0.0,aw,abs(o.y)-mr*0.1))*inX,(1.0-smoothstep(0.0,aw,abs(o.x)-mr*0.1))*inZ);
+c=mix(c,vec3(1.0),max(halo,max(th,1.0-smoothstep(mr*0.16-aw,mr*0.16+aw,r)))*0.85);c=mix(c,vec3(0.76,0.30,0.14),max(max(ring,cd),tk));}gl_FragColor=vec4(c,1.0);}}`;
 function blkExag() { if (BLK.real) return 1; const relief = (BLK.zmax - BLK.zmin) / 1000, size = Math.max(BLK.w, BLK.h); if (relief <= 0) return 1;
   return Math.max(1, Math.min(6, Math.round(2 * Math.max(1, .22 * size / relief)) / 2)); }
 const blkH = (i, j) => BLK.z[Math.min(BLK.ny - 1, Math.max(0, j)) * BLK.nx + Math.min(BLK.nx - 1, Math.max(0, i))];
@@ -1776,7 +1810,7 @@ function blkGL(cv) {
   const gl = cv.getContext('webgl', { antialias: true, preserveDrawingBuffer: true }); if (!gl) return null;
   const sh = (t, src) => { const s = gl.createShader(t); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; };
   // hachures adoucies si la carte graphique sait mesurer la largeur d'un trait à l'écran, sinon hachures simples
-  const FS = gl.getExtension('OES_standard_derivatives') ? BLK_FS : BLK_FS.replace(/^#extension.*\n/, '').replace('aa=max(fwidth(q),0.001)', 'aa=0.02');
+  const FS = gl.getExtension('OES_standard_derivatives') ? BLK_FS : BLK_FS.replace(/^#extension.*\n/, '').replace('aa=max(fwidth(q),0.001)', 'aa=0.02').replace('max(fwidth(r),mr*0.012)', 'mr*0.02');
   const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, BLK_VS)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FS)); gl.linkProgram(pr); gl.useProgram(pr);
   const R = { gl, pr, buf: {}, tex: gl.createTexture() };
   gl.bindTexture(gl.TEXTURE_2D, R.tex); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
@@ -1803,7 +1837,7 @@ function blkDrawGL() { if (!BLK || !BLK.R) return; const R = BLK.R; const { gl, 
   const c = blkCam(), m = M4.mul(M4.persp(c.fov, W / H, c.near, c.far), M4.look(c.eye, c.tgt, [0, 1, 0])); BLK.cam = Object.assign(c, { m, W, H });
   gl.uniformMatrix4fv(gl.getUniformLocation(pr, 'm'), false, new Float32Array(m)); gl.uniform3fv(gl.getUniformLocation(pr, 'L'), [-.5, .85, .35]);
   gl.uniform1f(gl.getUniformLocation(pr, 'hs'), Math.max(BLK.w, BLK.h) / 45);
-  gl.uniform3fv(gl.getUniformLocation(pr, 'mk'), BLK.mk ? BLK.mk : [0, 0, 0]); gl.uniform1f(gl.getUniformLocation(pr, 'mr'), BLK.mk ? Math.max(BLK.w, BLK.h) / 85 : 0);
+  gl.uniform3fv(gl.getUniformLocation(pr, 'mk'), BLK.mk ? BLK.mk : [0, 0, 0]); gl.uniform1f(gl.getUniformLocation(pr, 'mr'), BLK.mk ? Math.max(BLK.w, BLK.h) / 55 : 0);   // viseur : rayon du cercle ≈ 1,3 % du côté du bloc
   gl.drawElements(gl.TRIANGLES, R.n, gl.UNSIGNED_SHORT, 0);
   // boussole : direction du nord à l'écran
   const pj = p => { const v = [p[0], p[1], p[2], 1], o = [0, 1, 3].map(r => v[0] * m[r] + v[1] * m[4 + r] + v[2] * m[8 + r] + v[3] * m[12 + r]); return [o[0] / o[2], o[1] / o[2]]; };
